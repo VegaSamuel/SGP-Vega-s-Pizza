@@ -5,6 +5,7 @@ package dominio;
  * @author Samuel Vega
  */
 public class Cliente {
+
     private int id;
     private String nombres;
     private String apellidoPaterno;
@@ -13,10 +14,12 @@ public class Cliente {
     private String telefono;
 
     // Constructor vacío
-    public Cliente() { }
+    public Cliente() {
+    }
 
     /**
      * Constructor sin ID
+     *
      * @param nombres Nombres del cliente
      * @param apellidoPaterno Apellido paterno del cliente
      * @param apellidoMaterno Apellido materno del cliente
@@ -31,6 +34,7 @@ public class Cliente {
 
     /**
      * Constructor del cliente
+     *
      * @param id ID del cliente
      * @param nombres Nombres del cliente
      * @param apellidoPaterno Apellido paterno del cliente
@@ -110,6 +114,7 @@ public class Cliente {
 
     /**
      * Manda la información del objeto.
+     *
      * @return Información del objeto.
      */
     @Override
