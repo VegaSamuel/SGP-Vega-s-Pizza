@@ -19,5 +19,5 @@ public interface IClienteDAO {
     
     public void eliminarCliente(Long id);
     
-    public List<Cliente> verClientes();
+    public List<Cliente> obtenerClientes();
 }

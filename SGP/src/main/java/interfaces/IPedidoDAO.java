@@ -17,5 +17,5 @@ public interface IPedidoDAO {
     
     public void eliminarPedido(Long id);
     
-    public List<Pedido> verPedidos();
+    public List<Pedido> obtenerPedidos();
 }

@@ -181,7 +181,18 @@ public class Pedido implements Serializable {
      */
     @Override
     public String toString() {
-        return "Pedido{" + "id=" + id + ", descripcion=" + descripcion + ", estado=" + estado + ", costo=" + costo + ", fecha=" + fecha + ", tipoPago=" + tipoPago + '}';
+        return String.format(
+        "<html>%s<br>%s(%s)<br>%s - %s, %s, %d, %d<br>$ %.2f</html>",
+            String.valueOf(this.id),
+            this.descripcion,
+            this.estado.name().toLowerCase(),
+            this.cliente.getNombres(),
+            this.cliente.getDireccion().getCalle(),
+            this.cliente.getDireccion().getColonia(),
+            Integer.parseInt(cliente.getDireccion().getNumero()),
+            this.cliente.getDireccion().getCodigoPostal(),
+            this.costo
+        );
     }
 
 }

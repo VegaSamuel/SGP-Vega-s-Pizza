@@ -96,7 +96,7 @@ public class PedidoDAO implements IPedidoDAO {
     }
 
     @Override
-    public List<Pedido> verPedidos() {
+    public List<Pedido> obtenerPedidos() {
         List<Pedido> pedidos = null;
         
         try {

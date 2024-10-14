@@ -118,7 +118,7 @@ public class ClienteDAO implements IClienteDAO {
     }
 
     @Override
-    public List<Cliente> verClientes() {
+    public List<Cliente> obtenerClientes() {
         List<Cliente> clientes = null;
         
         try {

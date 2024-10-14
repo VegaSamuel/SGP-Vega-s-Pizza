@@ -167,7 +167,7 @@ public class Direccion implements Serializable {
      */
     @Override
     public String toString() {
-        return "Direccion{" + "id=" + id + ", calle=" + calle + ", colonia=" + colonia + ", numero=" + numero + ", codigoPostal=" + codigoPostal + ", ciudad=" + ciudad + ", estado=" + estado + '}';
+        return calle + ", " + colonia + ", " + numero + ", " + codigoPostal;
     }
 
 }
