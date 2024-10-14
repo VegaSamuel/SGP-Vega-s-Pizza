@@ -1,6 +1,7 @@
 package interfaces;
 
 import dominio.Pedido;
+import excepciones.DAOException;
 import java.util.List;
 
 /**
@@ -9,13 +10,13 @@ import java.util.List;
  */
 public interface IPedidoDAO {
     
-    public Pedido obten(Long id);
+    public Pedido obten(Long id) throws DAOException;
     
-    public void agregarPedido(Pedido pedido);
+    public void agregarPedido(Pedido pedido) throws DAOException;
     
-    public void modificarPedido(Pedido pedido);
+    public void modificarPedido(Pedido pedido) throws DAOException;
     
-    public void eliminarPedido(Long id);
+    public void eliminarPedido(Long id) throws DAOException;
     
-    public List<Pedido> obtenerPedidos();
+    public List<Pedido> obtenerPedidos() throws DAOException;
 }

@@ -1,6 +1,8 @@
 package vista;
 
 import control.Control;
+import java.awt.Dimension;
+import java.awt.Toolkit;
 import javax.swing.ListModel;
 
 /**
@@ -12,11 +14,33 @@ public class FrmPrincipal extends javax.swing.JFrame {
     
     /**
      * Creates new form FrmPrincipal
+     */
+    public FrmPrincipal() {
+        initComponents();
+        centraVentana();
+    }
+    
+    private void centraVentana(){
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        
+        Dimension frameSize = getSize();
+        
+        if(frameSize.height > screenSize.height){
+            frameSize.height = screenSize.height;
+        }
+        
+        if(frameSize.width > screenSize.width){
+            frameSize.width = screenSize.width;
+        }
+        
+        setLocation((screenSize.width - frameSize.width)/2, (screenSize.height - frameSize.height)/2);
+    }
+    
+    /**
+     * Agrega los pedidos actuales a la lista de pedidos.
      * @param pedidos Lista de pedidos actuales.
      */
-    public FrmPrincipal(ListModel<String> pedidos) {
-        initComponents();
-        
+    public void setListPedidos(ListModel<String> pedidos)  {
         this.listPedidos.setModel(pedidos);
     }
 
@@ -158,6 +182,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_exitMenuItemActionPerformed
 
     private void btnRealizarPedidoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRealizarPedidoActionPerformed
+        dispose();
         c.realizarPedido();
     }//GEN-LAST:event_btnRealizarPedidoActionPerformed
 

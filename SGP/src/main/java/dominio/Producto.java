@@ -33,7 +33,8 @@ public class Producto implements Serializable {
     @Column(name = "precio", nullable = false)
     private Float precio;
     
-    
+    //@OneToMany
+    //@JoinColumn(name = "ingredientes", nullable = false)
     private List<Ingrediente> ingredientes;
 
     //Constructor vacío

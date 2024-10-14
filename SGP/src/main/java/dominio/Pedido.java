@@ -43,6 +43,9 @@ public class Pedido implements Serializable {
     @Column(name = "costo", nullable = false)
     private Float costo;
     
+    //@Column(name = "envio", nullable = false)
+    //private Float envio;
+    
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_cliente", nullable = false)
     private Cliente cliente;
@@ -182,7 +185,7 @@ public class Pedido implements Serializable {
     @Override
     public String toString() {
         return String.format(
-        "<html>%s<br>%s(%s)<br>%s - %s, %s, %d, %d<br>$ %.2f</html>",
+        "<html>%s<br>%s (%s)<br>%s - %s, %s, %d, %d<br>$ %.2f</html>",
             String.valueOf(this.id),
             this.descripcion,
             this.estado.name().toLowerCase(),

@@ -1,6 +1,7 @@
 package dao;
 
 import dominio.Cliente;
+import excepciones.DAOException;
 import interfaces.IClienteDAO;
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -19,13 +20,13 @@ public class ClienteDAO implements IClienteDAO {
     private final EntityManager em = new DBConector().getEM();
     
     @Override
-    public Cliente obten(Long id) {
+    public Cliente obten(Long id) throws DAOException {
         Cliente cliente = null;
         
         try {
             cliente = em.find(Cliente.class, id);
-        }catch (Exception e){
-            System.out.println(e.getMessage());
+        }catch (DAOException e){
+            System.out.println("No se pudo obtener el cliente: " + id);
         }finally {
             em.close();
         }
@@ -34,7 +35,7 @@ public class ClienteDAO implements IClienteDAO {
     }
 
     @Override
-    public Cliente obten(String telefono) {
+    public Cliente obten(String telefono) throws DAOException {
         Cliente cliente = null;
         
         try {
@@ -56,12 +57,12 @@ public class ClienteDAO implements IClienteDAO {
     }
 
     @Override
-    public void agregarCliente(Cliente cliente) {
+    public void agregarCliente(Cliente cliente) throws DAOException {
         try {
             em.getTransaction().begin();
             em.persist(cliente);
             em.getTransaction().commit();
-        }catch(Exception e) {
+        }catch(DAOException e) {
             if(em.getTransaction().isActive()) {
                 em.getTransaction().rollback();
             }
@@ -72,7 +73,7 @@ public class ClienteDAO implements IClienteDAO {
     }
 
     @Override
-    public void modificarCliente(Cliente cliente) {
+    public void modificarCliente(Cliente cliente) throws DAOException {
         try {
             em.getTransaction().begin();
             
@@ -86,7 +87,7 @@ public class ClienteDAO implements IClienteDAO {
             }else {
                 System.out.println("No se encontró el cliente que se quiere modificar");
             }
-        }catch(Exception e) {
+        }catch(DAOException e) {
             if(em.getTransaction().isActive()) {
                 em.getTransaction().rollback();
             }
@@ -97,7 +98,7 @@ public class ClienteDAO implements IClienteDAO {
     }
 
     @Override
-    public void eliminarCliente(Long id) {
+    public void eliminarCliente(Long id) throws DAOException {
         try {
             em.getTransaction().begin();
             
@@ -107,7 +108,7 @@ public class ClienteDAO implements IClienteDAO {
             }else {
                 System.out.println("No se encontró el cliente mencionado");
             }
-        }catch(Exception e) {
+        }catch(DAOException e) {
             if(em.getTransaction().isActive()) {
                 em.getTransaction().rollback();
             }
@@ -118,7 +119,7 @@ public class ClienteDAO implements IClienteDAO {
     }
 
     @Override
-    public List<Cliente> obtenerClientes() {
+    public List<Cliente> obtenerClientes() throws DAOException {
         List<Cliente> clientes = null;
         
         try {

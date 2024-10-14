@@ -1,8 +1,9 @@
 package dao;
 
 import dominio.Pedido;
+import dominio.Producto;
 import excepciones.DAOException;
-import interfaces.IPedidoDAO;
+import interfaces.IProductoDAO;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
@@ -15,105 +16,102 @@ import util.DBConector;
  *
  * @author Samuel Vega
  */
-public class PedidoDAO implements IPedidoDAO {
+public class ProductoDAO implements IProductoDAO {
     private final EntityManager em = new DBConector().getEM();
-    
+
     @Override
-    public Pedido obten(Long id) throws DAOException {
-        Pedido cliente = null;
+    public Producto obten(Long id) throws DAOException {
+        Producto producto = null;
         
         try {
-            cliente = em.find(Pedido.class, id);
+            producto = em.find(Producto.class, id);
         }catch (DAOException e){
             System.out.println(e.getMessage());
         }finally {
             em.close();
         }
         
-        return cliente;
+        return producto;
     }
 
     @Override
-    public void agregarPedido(Pedido pedido) throws DAOException {
+    public void agregarProducto(Producto producto) throws DAOException {
         try {
             em.getTransaction().begin();
-            em.persist(pedido);
+            em.persist(producto);
             em.getTransaction().commit();
         }catch(DAOException e) {
             if(em.getTransaction().isActive()) {
                 em.getTransaction().rollback();
             }
-            System.out.println("No se pudo registrar el pedido");
+            System.out.println("No se pudo registrar el producto");
         }finally {
             em.close();
         }
     }
 
     @Override
-    public void modificarPedido(Pedido pedido) throws DAOException {
+    public void modificarProducto(Producto producto) throws DAOException {
         try {
             em.getTransaction().begin();
             
-            Pedido EPedido = em.find(Pedido.class, pedido.getId());
-            if(EPedido != null) {
-                EPedido.setDescripcion(pedido.getDescripcion());
-                EPedido.setEstado(pedido.getEstado());
-                EPedido.setCosto(pedido.getCosto());
-                EPedido.setCliente(pedido.getCliente());
-                EPedido.setFecha(pedido.getFecha());
-                EPedido.setTipoPago(pedido.getTipoPago());
+            Producto EProducto = em.find(Producto.class, producto.getId());
+            if(EProducto != null) {
+                EProducto.setNombre(producto.getNombre());
+                EProducto.setPrecio(producto.getPrecio());
+                EProducto.setIngredientes(producto.getIngredientes());
             }else {
-                System.out.println("No se encontró el pedido que se quiere modificar");
+                System.out.println("No se encontró el producto que se quiere modificar");
             }
         }catch(DAOException e) {
             if(em.getTransaction().isActive()) {
                 em.getTransaction().rollback();
             }
-            System.out.println("No se pudo modificar el pedido");
+            System.out.println("No se pudo modificar el producto");
         }finally {
             em.close();
         }
     }
 
     @Override
-    public void eliminarPedido(Long id) throws DAOException {
+    public void eliminarProducto(Long id) throws DAOException {
         try {
             em.getTransaction().begin();
             
-            Pedido EPedido = em.find(Pedido.class, id);
-            if(EPedido != null) {
-                em.remove(EPedido);
+            Producto EProducto = em.find(Producto.class, id);
+            if(EProducto != null) {
+                em.remove(EProducto);
             }else {
-                System.out.println("No se encontró el pedido mencionado");
+                System.out.println("No se encontró el producto mencionado");
             }
         }catch(DAOException e) {
             if(em.getTransaction().isActive()) {
                 em.getTransaction().rollback();
             }
-            System.out.println("No se pudo eliminar el pedido");
+            System.out.println("No se pudo eliminar el producto");
         }finally {
             em.close();
         }
     }
 
     @Override
-    public List<Pedido> obtenerPedidos() throws DAOException {
-        List<Pedido> pedidos = null;
+    public List<Producto> obtenerProductos() throws DAOException {
+        List<Producto> productos = null;
         
         try {
             CriteriaBuilder cb = em.getCriteriaBuilder();
-            CriteriaQuery<Pedido> cq = cb.createQuery(Pedido.class);
-            Root<Pedido> c = cq.from(Pedido.class);
+            CriteriaQuery<Producto> cq = cb.createQuery(Producto.class);
+            Root<Producto> c = cq.from(Producto.class);
             
             cq.select(c);
-            pedidos = em.createQuery(cq).getResultList();
+            productos = em.createQuery(cq).getResultList();
         }catch(NoResultException nre) {
-            System.out.println("No se encontrarón pedidos.");
+            System.out.println("No se encontrarón productos.");
         }finally {
             em.close();
         }
         
-        return pedidos;
+        return productos;
     }
     
 }

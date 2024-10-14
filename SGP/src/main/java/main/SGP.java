@@ -9,7 +9,6 @@ import control.Control;
 public class SGP {
 
     public static void main(String[] args) {
-        
         Control c = new Control();
         c.mostrarVentanaPrincipal();
     }
