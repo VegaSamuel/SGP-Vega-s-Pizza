@@ -1,19 +1,26 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package dominio;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 
 /**
  *
  * @author Juan Sánchez
  */
-public class Promocion extends Producto {
+@Entity
+@Table(name = "promociones")
+public class Promocion extends Producto implements Serializable {
+    private static final long serialVersionUID = 1L;
 
+    @Column(name = "descripcion", nullable = false)
     private String descripcion;
+
+    // Constructor vacío
+    public Promocion() {}
 
     /**
      * Constructor con ID, sin descripción.
@@ -23,7 +30,7 @@ public class Promocion extends Producto {
      * @param precio Precio de la promoción.
      * @param ingredientes Lista de Ingrediente para la promoción.
      */
-    public Promocion(int id, String nombre, float precio, List<Ingrediente> ingredientes) {
+    public Promocion(Long id, String nombre, float precio, List<Ingrediente> ingredientes) {
         super(id, nombre, precio, ingredientes);
     }
 
@@ -36,7 +43,7 @@ public class Promocion extends Producto {
      * @param precio Precio de la promoción.
      * @param ingredientes Lista de Ingrediente para la promoción.
      */
-    public Promocion(String descripcion, int id, String nombre, float precio, List<Ingrediente> ingredientes) {
+    public Promocion(String descripcion, Long id, String nombre, float precio, List<Ingrediente> ingredientes) {
         super(id, nombre, precio, ingredientes);
         this.descripcion = descripcion;
     }
@@ -52,8 +59,8 @@ public class Promocion extends Producto {
 
     @Override
     public int hashCode() {
-        int hash = 7;
-        hash = 83 * hash + Objects.hashCode(this.descripcion);
+        int hash = 3;
+        hash = 41 * hash + Objects.hashCode(this.descripcion);
         return hash;
     }
 

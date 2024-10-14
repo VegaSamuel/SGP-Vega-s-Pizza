@@ -1,19 +1,40 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package dominio;
+
+import java.io.Serializable;
+import java.util.Objects;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
 /**
  *
  * @author Juan Sánchez
  */
-public class IngredientesPorProducto {
-
-    private int id;
-    private int objetoProducto;
-    private int objetoIngrediente;
-    private int cantidadPorProducto;
+@Entity
+@Table(name = "ingredientes_por_producto")
+public class IngredientesPorProducto implements Serializable {
+    private static final long serialVersionUID = 1L;
+    
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", nullable = false)
+    private Long id;
+    
+    @ManyToOne(fetch = FetchType.LAZY)
+    @Column(name = "id_producto", nullable = false)
+    private Producto objetoProducto;
+    
+    @ManyToOne(fetch = FetchType.LAZY)
+    @Column(name = "id_ingrediente", nullable = false)
+    private Ingrediente objetoIngrediente;
+    
+    @Column(name = "cantidad_por_producto", nullable = false)
+    private Integer cantidadPorProducto;
 
     //Constructor vacío
     public IngredientesPorProducto() {
@@ -26,7 +47,7 @@ public class IngredientesPorProducto {
      * @param objetoIngrediente ID del Ingrediente
      * @param cantidadPorProducto Cantidad de ingredientes usados en el Producto
      */
-    public IngredientesPorProducto(int objetoProducto, int objetoIngrediente, int cantidadPorProducto) {
+    public IngredientesPorProducto(Producto objetoProducto, Ingrediente objetoIngrediente, Integer cantidadPorProducto) {
         this.objetoProducto = objetoProducto;
         this.objetoIngrediente = objetoIngrediente;
         this.cantidadPorProducto = cantidadPorProducto;
@@ -40,7 +61,7 @@ public class IngredientesPorProducto {
      * @param objetoIngrediente ID del Ingrediente
      * @param cantidadPorProducto Cantidad de ingredientes usados en el Producto
      */
-    public IngredientesPorProducto(int id, int objetoProducto, int objetoIngrediente, int cantidadPorProducto) {
+    public IngredientesPorProducto(Long id, Producto objetoProducto, Ingrediente objetoIngrediente, Integer cantidadPorProducto) {
         this.id = id;
         this.objetoProducto = objetoProducto;
         this.objetoIngrediente = objetoIngrediente;
@@ -48,45 +69,42 @@ public class IngredientesPorProducto {
     }
 
     // Getters & Setters
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
-    public int getObjetoProducto() {
+    public Producto getObjetoProducto() {
         return objetoProducto;
     }
 
-    public void setObjetoProducto(int objetoProducto) {
+    public void setObjetoProducto(Producto objetoProducto) {
         this.objetoProducto = objetoProducto;
     }
 
-    public int getObjetoIngrediente() {
+    public Ingrediente getObjetoIngrediente() {
         return objetoIngrediente;
     }
 
-    public void setObjetoIngrediente(int objetoIngrediente) {
+    public void setObjetoIngrediente(Ingrediente objetoIngrediente) {
         this.objetoIngrediente = objetoIngrediente;
     }
 
-    public int getCantidadPorProducto() {
+    public Integer getCantidadPorProducto() {
         return cantidadPorProducto;
     }
 
-    public void setCantidadPorProducto(int cantidadPorProducto) {
+    public void setCantidadPorProducto(Integer cantidadPorProducto) {
         this.cantidadPorProducto = cantidadPorProducto;
     }
 
     @Override
     public int hashCode() {
-        int hash = 3;
-        hash = 79 * hash + this.id;
-        hash = 79 * hash + this.objetoProducto;
-        hash = 79 * hash + this.objetoIngrediente;
-        hash = 79 * hash + this.cantidadPorProducto;
+        int hash = 5;
+        hash = 17 * hash + Objects.hashCode(this.id);
         return hash;
     }
 
@@ -102,16 +120,7 @@ public class IngredientesPorProducto {
             return false;
         }
         final IngredientesPorProducto other = (IngredientesPorProducto) obj;
-        if (this.id != other.id) {
-            return false;
-        }
-        if (this.objetoProducto != other.objetoProducto) {
-            return false;
-        }
-        if (this.objetoIngrediente != other.objetoIngrediente) {
-            return false;
-        }
-        return this.cantidadPorProducto == other.cantidadPorProducto;
+        return Objects.equals(this.id, other.id);
     }
 
     /**

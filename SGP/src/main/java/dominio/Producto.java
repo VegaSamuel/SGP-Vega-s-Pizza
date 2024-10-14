@@ -1,21 +1,39 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package dominio;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
+import javax.persistence.Table;
 
 /**
  *
  * @author Juan Sánchez
  */
-public class Producto {
-
-    private int id;
+@Entity
+@Table(name = "productos")
+@Inheritance(strategy = InheritanceType.JOINED)
+public class Producto implements Serializable {
+    private static final long serialVersionUID = 1L;
+    
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", nullable = false)
+    private Long id;
+    
+    @Column(name = "nombre", nullable = false, length = 100)
     private String nombre;
-    private float precio;
+    
+    @Column(name = "precio", nullable = false)
+    private Float precio;
+    
+    
     private List<Ingrediente> ingredientes;
 
     //Constructor vacío
@@ -29,7 +47,7 @@ public class Producto {
      * @param precio Precio del Producto.
      * @param ingredientes Lista de Ingrediente para el Producto
      */
-    public Producto(String nombre, float precio, List<Ingrediente> ingredientes) {
+    public Producto(String nombre, Float precio, List<Ingrediente> ingredientes) {
         this.nombre = nombre;
         this.precio = precio;
         this.ingredientes = ingredientes;
@@ -43,7 +61,7 @@ public class Producto {
      * @param precio Precio del Producto.
      * @param ingredientes Lista de Ingrediente para el Producto.
      */
-    public Producto(int id, String nombre, float precio, List<Ingrediente> ingredientes) {
+    public Producto(Long id, String nombre, Float precio, List<Ingrediente> ingredientes) {
         this.id = id;
         this.nombre = nombre;
         this.precio = precio;
@@ -51,11 +69,11 @@ public class Producto {
     }
 
     // Getters & Setters
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -67,11 +85,11 @@ public class Producto {
         this.nombre = nombre;
     }
 
-    public float getPrecio() {
+    public Float getPrecio() {
         return precio;
     }
 
-    public void setPrecio(float precio) {
+    public void setPrecio(Float precio) {
         this.precio = precio;
     }
 
@@ -85,11 +103,8 @@ public class Producto {
 
     @Override
     public int hashCode() {
-        int hash = 5;
-        hash = 23 * hash + this.id;
-        hash = 23 * hash + Objects.hashCode(this.nombre);
-        hash = 23 * hash + Float.floatToIntBits(this.precio);
-        hash = 23 * hash + Objects.hashCode(this.ingredientes);
+        int hash = 7;
+        hash = 53 * hash + Objects.hashCode(this.id);
         return hash;
     }
 
@@ -105,16 +120,7 @@ public class Producto {
             return false;
         }
         final Producto other = (Producto) obj;
-        if (this.id != other.id) {
-            return false;
-        }
-        if (Float.floatToIntBits(this.precio) != Float.floatToIntBits(other.precio)) {
-            return false;
-        }
-        if (!Objects.equals(this.nombre, other.nombre)) {
-            return false;
-        }
-        return Objects.equals(this.ingredientes, other.ingredientes);
+        return Objects.equals(this.id, other.id);
     }
 
     /**

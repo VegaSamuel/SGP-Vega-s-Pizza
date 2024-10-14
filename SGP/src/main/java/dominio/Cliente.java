@@ -1,16 +1,41 @@
 package dominio;
 
+import java.io.Serializable;
+import java.util.Objects;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
 /**
  *
  * @author Samuel Vega
  */
-public class Cliente {
-
-    private int id;
+@Entity
+@Table(name = "clientes")
+public class Cliente implements Serializable {
+    private static final long serialVersionUID = 1L;
+    
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", nullable = false)
+    private Long id;
+    
+    @Column(name = "nombres", nullable = false, length = 100)
     private String nombres;
+    
+    @Column(name = "apellido_paterno", nullable = false, length = 50)
     private String apellidoPaterno;
+    
+    @Column(name = "apellido_materno", nullable = false, length = 50)
     private String apellidoMaterno;
-    //private Direccion direccion;
+    
+    @Column(name = "direccion", nullable = false)
+    private Direccion direccion;
+    
+    @Column(name = "telefono", unique = true, nullable = false, length = 15)
     private String telefono;
 
     // Constructor vacío
@@ -23,12 +48,14 @@ public class Cliente {
      * @param nombres Nombres del cliente
      * @param apellidoPaterno Apellido paterno del cliente
      * @param apellidoMaterno Apellido materno del cliente
+     * @param direccion Dirección del cliente
      * @param telefono Número de teléfono del cliente
      */
-    public Cliente(String nombres, String apellidoPaterno, String apellidoMaterno, String telefono) {
+    public Cliente(String nombres, String apellidoPaterno, String apellidoMaterno, Direccion direccion, String telefono) {
         this.nombres = nombres;
         this.apellidoPaterno = apellidoPaterno;
         this.apellidoMaterno = apellidoMaterno;
+        this.direccion = direccion;
         this.telefono = telefono;
     }
 
@@ -39,22 +66,24 @@ public class Cliente {
      * @param nombres Nombres del cliente
      * @param apellidoPaterno Apellido paterno del cliente
      * @param apellidoMaterno Apellido materno del cliente
+     * @param direccion Dirección del cliente
      * @param telefono Número de teléfono del cliente
      */
-    public Cliente(int id, String nombres, String apellidoPaterno, String apellidoMaterno, String telefono) {
+    public Cliente(Long id, String nombres, String apellidoPaterno, String apellidoMaterno, Direccion direccion, String telefono) {
         this.id = id;
         this.nombres = nombres;
         this.apellidoPaterno = apellidoPaterno;
         this.apellidoMaterno = apellidoMaterno;
+        this.direccion = direccion;
         this.telefono = telefono;
     }
 
     // Getters & Setters
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -82,6 +111,14 @@ public class Cliente {
         this.apellidoMaterno = apellidoMaterno;
     }
 
+    public Direccion getDireccion() {
+        return direccion;
+    }
+
+    public void setDireccion(Direccion direccion) {
+        this.direccion = direccion;
+    }
+
     public String getTelefono() {
         return telefono;
     }
@@ -92,8 +129,8 @@ public class Cliente {
 
     @Override
     public int hashCode() {
-        int hash = 5;
-        hash = 73 * hash + this.id;
+        int hash = 3;
+        hash = 71 * hash + Objects.hashCode(this.id);
         return hash;
     }
 
@@ -109,7 +146,7 @@ public class Cliente {
             return false;
         }
         final Cliente other = (Cliente) obj;
-        return this.id == other.id;
+        return Objects.equals(this.id, other.id);
     }
 
     /**

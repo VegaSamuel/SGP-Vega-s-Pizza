@@ -1,18 +1,39 @@
-
 package dominio;
 
+import java.io.Serializable;
 import java.util.Objects;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import util.UnidadMedida;
 
 /**
  *
  * @author Juan Sánchez
  */
-public class Ingrediente {
-
-    private int id;
+@Entity
+@Table(name = "ingredientes")
+public class Ingrediente implements Serializable {
+    private static final long serialVersionUID = 1L;
+    
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", nullable = false)
+    private Long id;
+    
+    @Column(name = "nombre", nullable = false, length = 100)
     private String nombre;
-    private int cantidad;
+    
+    @Column(name = "cantidad", nullable = false)
+    private Integer cantidad;
+    
+    @Enumerated(EnumType.STRING)
+    @Column(name = "unidad_medida", nullable = false)
     private UnidadMedida unidadMedida;
 
     //Constructor vacío
@@ -26,7 +47,7 @@ public class Ingrediente {
      * @param cantidad Cantidad del ingrediente.
      * @param unidadMedida Unidad de medida del ingrediente.
      */
-    public Ingrediente(String nombre, int cantidad, UnidadMedida unidadMedida) {
+    public Ingrediente(String nombre, Integer cantidad, UnidadMedida unidadMedida) {
         this.nombre = nombre;
         this.cantidad = cantidad;
         this.unidadMedida = unidadMedida;
@@ -40,7 +61,7 @@ public class Ingrediente {
      * @param cantidad Cantidad del ingrediente.
      * @param unidadMedida Unidad de medida del ingrediente.
      */
-    public Ingrediente(int id, String nombre, int cantidad, UnidadMedida unidadMedida) {
+    public Ingrediente(Long id, String nombre, Integer cantidad, UnidadMedida unidadMedida) {
         this.id = id;
         this.nombre = nombre;
         this.cantidad = cantidad;
@@ -48,11 +69,11 @@ public class Ingrediente {
     }
 
     // Getters & Setters
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -64,11 +85,11 @@ public class Ingrediente {
         this.nombre = nombre;
     }
 
-    public int getCantidad() {
+    public Integer getCantidad() {
         return cantidad;
     }
 
-    public void setCantidad(int cantidad) {
+    public void setCantidad(Integer cantidad) {
         this.cantidad = cantidad;
     }
 
@@ -82,11 +103,9 @@ public class Ingrediente {
 
     @Override
     public int hashCode() {
-        int hash = 5;
-        hash = 79 * hash + this.id;
-        hash = 79 * hash + Objects.hashCode(this.nombre);
-        hash = 79 * hash + this.cantidad;
-        hash = 79 * hash + Objects.hashCode(this.unidadMedida);
+        int hash = 7;
+        hash = 67 * hash + Objects.hashCode(this.id);
+        hash = 67 * hash + Objects.hashCode(this.cantidad);
         return hash;
     }
 
@@ -102,17 +121,12 @@ public class Ingrediente {
             return false;
         }
         final Ingrediente other = (Ingrediente) obj;
-        if (this.id != other.id) {
+        if (!Objects.equals(this.id, other.id)) {
             return false;
         }
-        if (this.cantidad != other.cantidad) {
-            return false;
-        }
-        if (!Objects.equals(this.nombre, other.nombre)) {
-            return false;
-        }
-        return this.unidadMedida == other.unidadMedida;
+        return Objects.equals(this.cantidad, other.cantidad);
     }
+
 
     /**
      * Manda la información del objeto.

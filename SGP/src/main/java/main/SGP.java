@@ -1,16 +1,15 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- */
-
 package main;
+
+import control.Control;
 
 /**
  *
- * @author atrap
+ * @author Samuel Vega
  */
 public class SGP {
 
     public static void main(String[] args) {
-        System.out.println("Hello World!");
+        Control c = new Control();
+        c.mostrarVentanaPrincipal();
     }
 }

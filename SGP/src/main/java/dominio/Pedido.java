@@ -1,6 +1,21 @@
 package dominio;
 
-import java.util.Date;
+import java.io.Serializable;
+import java.util.Calendar;
+import java.util.Objects;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import util.EstadoPedidos;
 import util.TipoPago;
 
@@ -8,13 +23,36 @@ import util.TipoPago;
  *
  * @author Samuel Vega
  */
-public class Pedido {
-    private int id;
+@Entity
+@Table(name = "pedidos")
+public class Pedido implements Serializable {
+    private static final long serialVersionUID = 1L;
+    
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", nullable = false)
+    private Long id;
+    
+    @Column(name = "descipcion", nullable = false, length = 100)
     private String descripcion;
+    
+    @Enumerated(EnumType.STRING)
+    @Column(name = "estado_pedido", nullable = false)
     private EstadoPedidos estado;
-    private float costo;
+    
+    @Column(name = "costo", nullable = false)
+    private Float costo;
+    
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "id_cliente", nullable = false)
     private Cliente cliente;
-    private Date fecha;
+    
+    @Column(name = "fecha_compra", nullable = false)
+    @Temporal(TemporalType.TIMESTAMP)
+    private Calendar fecha;
+    
+    @Enumerated(EnumType.STRING)
+    @Column(name = "tipo_pago", nullable = false)
     private TipoPago tipoPago;
 
     // Constructor vacío
@@ -29,7 +67,7 @@ public class Pedido {
      * @param fecha Fecha en la que se realizó el pedido
      * @param tipoPago Tipo de pago utilizado para el pedido
      */
-    public Pedido(String descripcion, EstadoPedidos estado, float costo, Cliente cliente, Date fecha, TipoPago tipoPago) {
+    public Pedido(String descripcion, EstadoPedidos estado, Float costo, Cliente cliente, Calendar fecha, TipoPago tipoPago) {
         this.descripcion = descripcion;
         this.estado = estado;
         this.costo = costo;
@@ -48,7 +86,7 @@ public class Pedido {
      * @param fecha Fecha en la que se realizó el pedido
      * @param tipoPago Tipo de pago utilizado para el pedido
      */
-    public Pedido(int id, String descripcion, EstadoPedidos estado, Cliente cliente, float costo, Date fecha, TipoPago tipoPago) {
+    public Pedido(Long id, String descripcion, EstadoPedidos estado, Cliente cliente, Float costo, Calendar fecha, TipoPago tipoPago) {
         this.id = id;
         this.descripcion = descripcion;
         this.estado = estado;
@@ -59,11 +97,11 @@ public class Pedido {
     }
 
     // Getters & Setters
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -83,11 +121,11 @@ public class Pedido {
         this.estado = estado;
     }
 
-    public float getCosto() {
+    public Float getCosto() {
         return costo;
     }
 
-    public void setCosto(float costo) {
+    public void setCosto(Float costo) {
         this.costo = costo;
     }
 
@@ -99,11 +137,11 @@ public class Pedido {
         this.cliente = cliente;
     }
 
-    public Date getFecha() {
+    public Calendar getFecha() {
         return fecha;
     }
 
-    public void setFecha(Date fecha) {
+    public void setFecha(Calendar fecha) {
         this.fecha = fecha;
     }
 
@@ -117,8 +155,8 @@ public class Pedido {
 
     @Override
     public int hashCode() {
-        int hash = 3;
-        hash = 73 * hash + this.id;
+        int hash = 5;
+        hash = 71 * hash + Objects.hashCode(this.id);
         return hash;
     }
 
@@ -134,7 +172,7 @@ public class Pedido {
             return false;
         }
         final Pedido other = (Pedido) obj;
-        return this.id == other.id;
+        return Objects.equals(this.id, other.id);
     }
 
     /**
