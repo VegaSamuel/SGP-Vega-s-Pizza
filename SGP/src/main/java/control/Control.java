@@ -18,13 +18,15 @@ public class Control {
         
         return false;
     }
-    
-    public boolean obtenerDatosPedidos() {
-        return false;
-    }
 
     public void mostrarVentanaPrincipal() {
         this.main = new FrmPrincipal();
         this.main.setVisible(true);
+    }
+    
+    public boolean obtenerDatosPedidos() {
+        
+        
+        return false;
     }
 }

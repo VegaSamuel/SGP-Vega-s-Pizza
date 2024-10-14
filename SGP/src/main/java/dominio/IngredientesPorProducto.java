@@ -8,6 +8,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
@@ -26,11 +27,11 @@ public class IngredientesPorProducto implements Serializable {
     private Long id;
     
     @ManyToOne(fetch = FetchType.LAZY)
-    @Column(name = "id_producto", nullable = false)
+    @JoinColumn(name = "id_producto", nullable = false)
     private Producto objetoProducto;
     
     @ManyToOne(fetch = FetchType.LAZY)
-    @Column(name = "id_ingrediente", nullable = false)
+    @JoinColumn(name = "id_ingrediente", nullable = false)
     private Ingrediente objetoIngrediente;
     
     @Column(name = "cantidad_por_producto", nullable = false)

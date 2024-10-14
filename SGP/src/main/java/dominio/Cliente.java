@@ -2,11 +2,15 @@ package dominio;
 
 import java.io.Serializable;
 import java.util.Objects;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 /**
@@ -32,7 +36,8 @@ public class Cliente implements Serializable {
     @Column(name = "apellido_materno", nullable = false, length = 50)
     private String apellidoMaterno;
     
-    @Column(name = "direccion", nullable = false)
+    @OneToOne(fetch = FetchType.LAZY, optional = false, cascade = CascadeType.ALL)
+    @JoinColumn(name = "id_direccion", nullable = false)
     private Direccion direccion;
     
     @Column(name = "telefono", unique = true, nullable = false, length = 15)
