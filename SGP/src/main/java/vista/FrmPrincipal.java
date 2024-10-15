@@ -10,7 +10,7 @@ import javax.swing.ListModel;
  * @author Samuel Vega
  */
 public class FrmPrincipal extends javax.swing.JFrame {
-    Control c = new Control();
+    Control c = Control.getInstance();
     
     /**
      * Creates new form FrmPrincipal
@@ -183,7 +183,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
 
     private void btnRealizarPedidoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRealizarPedidoActionPerformed
         dispose();
-        c.realizarPedido();
+        c.mostrarRealizarPedido();
     }//GEN-LAST:event_btnRealizarPedidoActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

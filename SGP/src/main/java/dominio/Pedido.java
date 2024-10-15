@@ -198,4 +198,8 @@ public class Pedido implements Serializable {
         );
     }
 
+    public boolean esActual() {
+        return this.estado == EstadoPedidos.COCINANDO || this.estado == EstadoPedidos.ENVIADO;
+    }
+    
 }

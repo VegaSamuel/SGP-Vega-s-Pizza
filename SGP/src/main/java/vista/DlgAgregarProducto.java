@@ -4,6 +4,7 @@
  */
 package vista;
 
+import control.Control;
 import dominio.Producto;
 import java.awt.Dimension;
 import java.awt.Point;
@@ -20,6 +21,7 @@ import javax.swing.JTextField;
 public class DlgAgregarProducto extends javax.swing.JDialog {
     private DefaultListModel<String> modeloLista;
     private List<Producto> productos;
+    private Control c = Control.getInstance();
     
     /**
      * Creates new form dlgAgregarProducto
@@ -60,7 +62,7 @@ public class DlgAgregarProducto extends javax.swing.JDialog {
      * @return 
      */
     private List<Producto> filtrarProductos() {
-        String texto = txtBuscar.getText();
+        String texto = txtBuscar.getText().toLowerCase();
         List<Producto> productosFiltrados = productos.stream().filter(p -> p.getNombre().toLowerCase().contains(texto)).collect(Collectors.toList());
         return productosFiltrados;
     }
@@ -110,6 +112,11 @@ public class DlgAgregarProducto extends javax.swing.JDialog {
         jLabel1.setText("Buscar producto:");
 
         btnAgregar.setText("Agregar");
+        btnAgregar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAgregarActionPerformed(evt);
+            }
+        });
 
         txtBuscar.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
@@ -178,6 +185,19 @@ public class DlgAgregarProducto extends javax.swing.JDialog {
     private void listaProductosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_listaProductosMouseClicked
        txtBuscar.setText(listaProductos.getSelectedValue());
     }//GEN-LAST:event_listaProductosMouseClicked
+
+    private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
+        Producto productoAgregado = null;
+        
+        for (Producto producto : productos) {
+            if(producto.getNombre().equalsIgnoreCase(txtBuscar.getText())) {
+                productoAgregado = producto;
+            }
+        }
+        
+        c.agregarProducto(productoAgregado);
+        c.actualizarTablaRealizarPedido();
+    }//GEN-LAST:event_btnAgregarActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAgregar;

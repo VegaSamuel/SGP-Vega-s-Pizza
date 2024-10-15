@@ -13,7 +13,7 @@ import util.TipoPago;
  * @author Samuel Vega
  */
 public class FrmRealizarPedido extends javax.swing.JFrame {
-    Control c = new Control();
+    Control c = Control.getInstance();
     DefaultComboBoxModel<String> cbxPagos;
     
     /**
@@ -294,7 +294,7 @@ public class FrmRealizarPedido extends javax.swing.JFrame {
     }//GEN-LAST:event_btnBuscarActionPerformed
 
     private void btnAnhadirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAnhadirActionPerformed
-        c.agregarProducto(this);
+        c.mostrarAgregarProducto(this);
     }//GEN-LAST:event_btnAnhadirActionPerformed
 
     private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
