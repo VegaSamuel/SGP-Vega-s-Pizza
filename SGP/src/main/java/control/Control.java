@@ -145,6 +145,12 @@ public class Control {
         return clientes.obten(telefono);
     }
     
+    public void cancelarPedido(Long id){
+        IPedidoDAO pedidos = new PedidoDAO();
+        pedidos.eliminarPedido(id);
+        this.mostrarVentanaPrincipal();
+    }
+    
     
     
     

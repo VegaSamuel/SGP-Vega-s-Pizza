@@ -1,17 +1,21 @@
 package vista;
 
 import control.Control;
+import dominio.Pedido;
 import java.awt.Dimension;
 import java.awt.Toolkit;
+import javax.swing.DefaultListModel;
 import javax.swing.ListModel;
 
 /**
  * Ventana principal
+ *
  * @author Samuel Vega
  */
 public class FrmPrincipal extends javax.swing.JFrame {
+
     Control c = Control.getInstance();
-    
+
     /**
      * Creates new form FrmPrincipal
      */
@@ -19,28 +23,29 @@ public class FrmPrincipal extends javax.swing.JFrame {
         initComponents();
         centraVentana();
     }
-    
-    private void centraVentana(){
+
+    private void centraVentana() {
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        
+
         Dimension frameSize = getSize();
-        
-        if(frameSize.height > screenSize.height){
+
+        if (frameSize.height > screenSize.height) {
             frameSize.height = screenSize.height;
         }
-        
-        if(frameSize.width > screenSize.width){
+
+        if (frameSize.width > screenSize.width) {
             frameSize.width = screenSize.width;
         }
-        
-        setLocation((screenSize.width - frameSize.width)/2, (screenSize.height - frameSize.height)/2);
+
+        setLocation((screenSize.width - frameSize.width) / 2, (screenSize.height - frameSize.height) / 2);
     }
-    
+
     /**
      * Agrega los pedidos actuales a la lista de pedidos.
+     *
      * @param pedidos Lista de pedidos actuales.
      */
-    public void setListPedidos(ListModel<String> pedidos)  {
+    public void setListPedidos(ListModel<String> pedidos) {
         this.listPedidos.setModel(pedidos);
     }
 
@@ -54,8 +59,10 @@ public class FrmPrincipal extends javax.swing.JFrame {
     private void initComponents() {
 
         btnRealizarPedido = new javax.swing.JButton();
-        listPedidos = new javax.swing.JList<>();
         btnRevisarPedido = new javax.swing.JButton();
+        btn_cancelar = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        listPedidos = new javax.swing.JList<>();
         menuBar = new javax.swing.JMenuBar();
         fileMenu = new javax.swing.JMenu();
         openMenuItem = new javax.swing.JMenuItem();
@@ -82,18 +89,26 @@ public class FrmPrincipal extends javax.swing.JFrame {
             }
         });
 
-        listPedidos.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "item 1" };
-            public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
-        });
-
         btnRevisarPedido.setText("Revisar Pedido");
         btnRevisarPedido.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnRevisarPedidoActionPerformed(evt);
             }
         });
+
+        btn_cancelar.setText("Cancelar");
+        btn_cancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_cancelarActionPerformed(evt);
+            }
+        });
+
+        listPedidos.setModel(new javax.swing.AbstractListModel<String>() {
+            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
+            public int getSize() { return strings.length; }
+            public String getElementAt(int i) { return strings[i]; }
+        });
+        jScrollPane1.setViewportView(listPedidos);
 
         fileMenu.setMnemonic('f');
         fileMenu.setText("File");
@@ -166,24 +181,25 @@ public class FrmPrincipal extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(btnRealizarPedido, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnRevisarPedido, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(listPedidos, javax.swing.GroupLayout.DEFAULT_SIZE, 425, Short.MAX_VALUE)
+                    .addComponent(btnRevisarPedido, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btn_cancelar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 431, Short.MAX_VALUE)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(28, 28, 28)
-                        .addComponent(btnRealizarPedido)
-                        .addGap(95, 95, 95)
-                        .addComponent(btnRevisarPedido))
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(listPedidos, javax.swing.GroupLayout.PREFERRED_SIZE, 440, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(53, Short.MAX_VALUE))
+                .addGap(28, 28, 28)
+                .addComponent(btnRealizarPedido)
+                .addGap(39, 39, 39)
+                .addComponent(btn_cancelar)
+                .addGap(39, 39, 39)
+                .addComponent(btnRevisarPedido)
+                .addContainerGap(324, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 484, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         pack();
@@ -199,15 +215,29 @@ public class FrmPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_btnRealizarPedidoActionPerformed
 
     private void btnRevisarPedidoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRevisarPedidoActionPerformed
-        
+
         dispose();
         c.mostrarRevisarPedidos();
     }//GEN-LAST:event_btnRevisarPedidoActionPerformed
+
+    private void btn_cancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_cancelarActionPerformed
+        String pedidoLimpio = this.listPedidos.getSelectedValue()
+                .replaceAll("(?i)<br>", "\n")
+                .replaceAll("<[^>]*>", "");
+        String[] campos = pedidoLimpio.split("\n");
+
+        long idPedido = Long.parseLong(campos[0]);
+
+        dispose();
+        c.cancelarPedido(idPedido);
+
+    }//GEN-LAST:event_btn_cancelarActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem aboutMenuItem;
     private javax.swing.JButton btnRealizarPedido;
     private javax.swing.JButton btnRevisarPedido;
+    private javax.swing.JButton btn_cancelar;
     private javax.swing.JMenuItem contentsMenuItem;
     private javax.swing.JMenuItem copyMenuItem;
     private javax.swing.JMenuItem cutMenuItem;
@@ -216,6 +246,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenuItem exitMenuItem;
     private javax.swing.JMenu fileMenu;
     private javax.swing.JMenu helpMenu;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JList<String> listPedidos;
     private javax.swing.JMenuBar menuBar;
     private javax.swing.JMenuItem openMenuItem;
