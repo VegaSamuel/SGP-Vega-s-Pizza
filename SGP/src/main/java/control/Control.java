@@ -156,4 +156,8 @@ public class Control {
     public void mostrarSelectorFechas(){
         frmSeleccionarFechas.setVisible(true);
     }
+    
+    public void mostrarRevisarPedidos(){
+        frmRevisarPedidos.setVisible(true);
+    }
 }

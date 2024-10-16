@@ -89,6 +89,11 @@ public class FrmPrincipal extends javax.swing.JFrame {
         });
 
         btnRevisarPedido.setText("Revisar Pedido");
+        btnRevisarPedido.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRevisarPedidoActionPerformed(evt);
+            }
+        });
 
         fileMenu.setMnemonic('f');
         fileMenu.setText("File");
@@ -192,6 +197,12 @@ public class FrmPrincipal extends javax.swing.JFrame {
         dispose();
         c.mostrarRealizarPedido();
     }//GEN-LAST:event_btnRealizarPedidoActionPerformed
+
+    private void btnRevisarPedidoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRevisarPedidoActionPerformed
+        
+        dispose();
+        c.mostrarRevisarPedidos();
+    }//GEN-LAST:event_btnRevisarPedidoActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem aboutMenuItem;
