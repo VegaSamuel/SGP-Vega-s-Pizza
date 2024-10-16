@@ -4,6 +4,9 @@ import control.Control;
 import dominio.Cliente;
 import java.awt.Dimension;
 import java.awt.Toolkit;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.table.DefaultTableModel;
 import util.TipoPago;
@@ -58,6 +61,10 @@ public class FrmRealizarPedido extends javax.swing.JFrame {
     
     public void actualizarPrecioTotal(float precio) {
         this.lblPrecioProducto.setText("$ " + String.format("%.2f", precio));
+    }
+    
+    public void actualizarPrecioEnvio(float precioEnvio) {
+        this.lblPrecioEnvio.setText("$ " + String.format("%.2f", precioEnvio));
     }
 
     /**
@@ -155,6 +162,11 @@ public class FrmRealizarPedido extends javax.swing.JFrame {
         jScrollPane1.setViewportView(tblProductos);
 
         btnCalcularEnvio.setText("Calcular costo de envío");
+        btnCalcularEnvio.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCalcularEnvioActionPerformed(evt);
+            }
+        });
 
         btnAnhadir.setText("Añadir");
         btnAnhadir.addActionListener(new java.awt.event.ActionListener() {
@@ -340,6 +352,16 @@ public class FrmRealizarPedido extends javax.swing.JFrame {
     private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
         c.mostrarVentanaPrincipal();
     }//GEN-LAST:event_formWindowClosed
+
+    private void btnCalcularEnvioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCalcularEnvioActionPerformed
+        try {
+            c.calcularCostoEnvio(this.txtDireccion.getText());
+        } catch (IOException ioe) {
+            System.out.println(ioe.getMessage());
+        } catch (InterruptedException ie) {
+            System.out.println(ie.getMessage());
+        }
+    }//GEN-LAST:event_btnCalcularEnvioActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAnhadir;
