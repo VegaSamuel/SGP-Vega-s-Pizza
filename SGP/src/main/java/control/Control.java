@@ -17,6 +17,8 @@ import util.Conversiones;
 import vista.DlgAgregarProducto;
 import vista.FrmPrincipal;
 import vista.FrmRealizarPedido;
+import vista.FrmRevisarPedidos;
+import vista.FrmSeleccionarFechas;
 
 /**
  *
@@ -28,6 +30,8 @@ public class Control {
     private FrmPrincipal main;
     private FrmRealizarPedido frmRealizarPedido;
     private DlgAgregarProducto dlgAgregarProducto;
+    private FrmRevisarPedidos frmRevisarPedidos;
+    private FrmSeleccionarFechas frmSeleccionarFechas;
     
     private List<Pedido> lpedidos;
     private List<Producto> productosPedidos;
@@ -114,9 +118,23 @@ public class Control {
         return true;
     }
     
+    
+    
     public Cliente buscarCliente(String telefono) {
         IClienteDAO clientes = new ClienteDAO();
         
         return clientes.obten(telefono);
+    }
+    
+    
+    
+    
+    public List<Pedido> obtenerPedidos(){
+        IPedidoDAO pedidos = new PedidoDAO();
+        return pedidos.obtenerPedidos();
+    }
+    
+    public void mostrarSelectorFechas(){
+        frmSeleccionarFechas.setVisible(true);
     }
 }

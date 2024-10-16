@@ -2,6 +2,7 @@ package interfaces;
 
 import dominio.Pedido;
 import excepciones.DAOException;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -19,4 +20,6 @@ public interface IPedidoDAO {
     public void eliminarPedido(Long id) throws DAOException;
     
     public List<Pedido> obtenerPedidos() throws DAOException;
+    
+    public List<Pedido> obtenerPedidosEntreFechas(Date fechaInicio, Date fechaFin) throws DAOException;
 }

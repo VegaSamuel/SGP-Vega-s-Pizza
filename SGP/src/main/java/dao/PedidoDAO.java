@@ -3,11 +3,13 @@ package dao;
 import dominio.Pedido;
 import excepciones.DAOException;
 import interfaces.IPedidoDAO;
+import java.util.Date; 
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate; 
 import javax.persistence.criteria.Root;
 import util.DBConector;
 
@@ -116,4 +118,27 @@ public class PedidoDAO implements IPedidoDAO {
         return pedidos;
     }
     
+    @Override
+        public List<Pedido> obtenerPedidosEntreFechas(Date fechaInicio, Date fechaFin) throws DAOException {
+        List<Pedido> pedidos = null;
+
+        try {
+            CriteriaBuilder cb = em.getCriteriaBuilder();
+            CriteriaQuery<Pedido> cq = cb.createQuery(Pedido.class);
+            Root<Pedido> pedidoRoot = cq.from(Pedido.class);
+
+            // Aplicamos el filtro de rango de fechas
+            Predicate rangoFechas = cb.between(pedidoRoot.get("fecha"), fechaInicio, fechaFin);
+            cq.select(pedidoRoot).where(rangoFechas);
+
+            pedidos = em.createQuery(cq).getResultList();
+        } catch (NoResultException nre) {
+            System.out.println("No se encontraron pedidos en el rango de fechas proporcionado.");
+        } finally {
+            em.close();
+        }
+
+        return pedidos;
+    }
 }
+    
