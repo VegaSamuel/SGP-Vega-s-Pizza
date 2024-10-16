@@ -48,15 +48,17 @@ public class Control {
             this.frmRealizarPedido = new FrmRealizarPedido();
         }
         
-        this.actualizarTablaRealizarPedido();
+        this.productosPedidos.clear();
+        this.actualizarRealizarPedido();
         this.frmRealizarPedido.setVisible(true);
         
     }
     
-    public void actualizarTablaRealizarPedido() {
+    public void actualizarRealizarPedido() {
         Conversiones con = new Conversiones();
         
         this.frmRealizarPedido.despliegaTabla(con.productosPedidoModel(productosPedidos));
+        this.frmRealizarPedido.actualizarPrecioTotal(this.obtenerPrecioTotal());
     }
     
     public void mostrarAgregarProducto(Frame frame) {
@@ -87,6 +89,16 @@ public class Control {
         
         this.main.setListPedidos(pedidosActuales);
         this.main.setVisible(true);
+    }
+    
+    public float obtenerPrecioTotal() {
+        float precioTotal = 0.0f;
+        
+        for (Producto producto : productosPedidos) {
+            precioTotal += producto.getPrecio();
+        }
+        
+        return precioTotal;
     }
     
     public boolean obtenerDatosPedidos() {

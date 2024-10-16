@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JDialog.java to edit this template
- */
 package vista;
 
 import control.Control;
@@ -58,8 +54,8 @@ public class DlgAgregarProducto extends javax.swing.JDialog {
     }
     
     /**
-     * 
-     * @return 
+     * Filtra los productos en existencia
+     * @return Lista de productos disponibles
      */
     private List<Producto> filtrarProductos() {
         String texto = txtBuscar.getText().toLowerCase();
@@ -176,14 +172,15 @@ public class DlgAgregarProducto extends javax.swing.JDialog {
         if(!"".equalsIgnoreCase(txtBuscar.getText())) {
             modeloLista.removeAllElements();
             for (Producto producto : filtrarProductos()) {
-                modeloLista.addElement(producto.getNombre());
+                modeloLista.addElement(producto.getNombre() + ", $ " + producto.getPrecio());
             }
             menu.show(txtBuscar, 0, txtBuscar.getHeight());
         }
     }//GEN-LAST:event_txtBuscarKeyReleased
 
     private void listaProductosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_listaProductosMouseClicked
-       txtBuscar.setText(listaProductos.getSelectedValue());
+        int coma = listaProductos.getSelectedValue().indexOf(",");
+        txtBuscar.setText(listaProductos.getSelectedValue().substring(0, coma).trim());
     }//GEN-LAST:event_listaProductosMouseClicked
 
     private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
@@ -196,7 +193,7 @@ public class DlgAgregarProducto extends javax.swing.JDialog {
         }
         
         c.agregarProducto(productoAgregado);
-        c.actualizarTablaRealizarPedido();
+        c.actualizarRealizarPedido();
     }//GEN-LAST:event_btnAgregarActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
