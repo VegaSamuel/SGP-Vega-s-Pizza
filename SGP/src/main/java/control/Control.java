@@ -10,9 +10,13 @@ import interfaces.IClienteDAO;
 import interfaces.IPedidoDAO;
 import interfaces.IProductoDAO;
 import java.awt.Frame;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.DefaultListModel;
+import javax.swing.JOptionPane;
+import util.CalculoEnvio;
+import util.CalculoMetrosEnvio;
 import util.Conversiones;
 import vista.DlgAgregarProducto;
 import vista.FrmPrincipal;
@@ -43,6 +47,22 @@ public class Control {
         return instancia;
     }
     
+    public void calcularCostoEnvio(String direccion) throws IOException, InterruptedException {
+        CalculoMetrosEnvio metros = new CalculoMetrosEnvio();
+        CalculoEnvio envio = new CalculoEnvio();
+        
+        float costoEnvio = envio.calcularCostoEnvio(metros.getDistanciaMetros(direccion));
+        
+        Object[] botones = {"Agregar", "Cancelar"};
+        
+        int resp = JOptionPane.showOptionDialog(frmRealizarPedido, "¿Desea agregar el envío? \n envío: " + costoEnvio, "Costo de Envío Calculado", JOptionPane.YES_NO_OPTION, JOptionPane.PLAIN_MESSAGE, null, botones, botones[0]);
+        
+        if(resp == 0) {
+            this.frmRealizarPedido.actualizarPrecioEnvio(costoEnvio);
+            JOptionPane.showMessageDialog(frmRealizarPedido, "Se agregó correctamente el costo de envío al pedido.", "Agregado exitoso", JOptionPane.PLAIN_MESSAGE);
+        }
+    }
+    
     public void mostrarRealizarPedido() {
         if(this.frmRealizarPedido == null) {
             this.frmRealizarPedido = new FrmRealizarPedido();
@@ -51,7 +71,6 @@ public class Control {
         this.productosPedidos.clear();
         this.actualizarRealizarPedido();
         this.frmRealizarPedido.setVisible(true);
-        
     }
     
     public void actualizarRealizarPedido() {
