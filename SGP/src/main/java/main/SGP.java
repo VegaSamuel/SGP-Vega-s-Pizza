@@ -3,7 +3,7 @@ package main;
 import control.Control;
 
 /**
- *
+ * Clase principal del sistema SGP Vega's Pizza
  * @author Samuel Vega
  */
 public class SGP {

@@ -18,10 +18,10 @@ import util.DBConector;
  * @author Samuel Vega
  */
 public class PedidoDAO implements IPedidoDAO {
-    private final EntityManager em = new DBConector().getEM();
     
     @Override
     public Pedido obten(Long id) throws DAOException {
+        EntityManager em = new DBConector().getEM();
         Pedido cliente = null;
         
         try {
@@ -37,6 +37,8 @@ public class PedidoDAO implements IPedidoDAO {
 
     @Override
     public void agregarPedido(Pedido pedido) throws DAOException {
+        EntityManager em = new DBConector().getEM();
+        
         try {
             em.getTransaction().begin();
             em.persist(pedido);
@@ -53,6 +55,8 @@ public class PedidoDAO implements IPedidoDAO {
 
     @Override
     public void modificarPedido(Pedido pedido) throws DAOException {
+        EntityManager em = new DBConector().getEM();
+        
         try {
             em.getTransaction().begin();
             
@@ -79,6 +83,8 @@ public class PedidoDAO implements IPedidoDAO {
 
     @Override
     public void eliminarPedido(Long id) throws DAOException {
+        EntityManager em = new DBConector().getEM();
+        
         try {
             em.getTransaction().begin();
             
@@ -103,6 +109,7 @@ public class PedidoDAO implements IPedidoDAO {
 
     @Override
     public List<Pedido> obtenerPedidos() throws DAOException {
+        EntityManager em = new DBConector().getEM();
         List<Pedido> pedidos = null;
         
         try {
@@ -122,7 +129,8 @@ public class PedidoDAO implements IPedidoDAO {
     }
     
     @Override
-        public List<Pedido> obtenerPedidosEntreFechas(Date fechaInicio, Date fechaFin) throws DAOException {
+    public List<Pedido> obtenerPedidosEntreFechas(Date fechaInicio, Date fechaFin) throws DAOException {
+        EntityManager em = new DBConector().getEM();
         List<Pedido> pedidos = null;
 
         try {

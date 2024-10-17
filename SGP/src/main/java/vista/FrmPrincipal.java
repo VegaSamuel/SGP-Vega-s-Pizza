@@ -1,10 +1,8 @@
 package vista;
 
 import control.Control;
-import dominio.Pedido;
 import java.awt.Dimension;
 import java.awt.Toolkit;
-import javax.swing.DefaultListModel;
 import javax.swing.ListModel;
 
 /**

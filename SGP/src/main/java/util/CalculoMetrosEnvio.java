@@ -61,7 +61,6 @@ public class CalculoMetrosEnvio {
         HttpResponse<String> response = cliente.send(request, HttpResponse.BodyHandlers.ofString());
         
         if(response.statusCode() == 200) {
-            System.out.println(this.parseDistanciaResponse(response.body()));
             return this.parseDistanciaResponse(response.body());
         }else {
             throw new IOException("Error en la solicitud http: " + response.statusCode());
@@ -76,8 +75,6 @@ public class CalculoMetrosEnvio {
     private int parseDistanciaResponse(String json) {
         JsonElement jsonElement = JsonParser.parseString(json);
         JsonObject jsonResponse = jsonElement.getAsJsonObject();
-
-        System.out.println("Respuesta JSON completa: " + jsonResponse);
 
         JsonArray routes = jsonResponse.getAsJsonArray("routes");
         if (routes == null || routes.size() == 0) {

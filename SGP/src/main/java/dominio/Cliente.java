@@ -2,15 +2,11 @@ package dominio;
 
 import java.io.Serializable;
 import java.util.Objects;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 /**
@@ -36,9 +32,8 @@ public class Cliente implements Serializable {
     @Column(name = "apellido_materno", nullable = false, length = 50)
     private String apellidoMaterno;
     
-    @OneToOne(fetch = FetchType.LAZY, optional = false, cascade = CascadeType.ALL)
-    @JoinColumn(name = "id_direccion", nullable = false)
-    private Direccion direccion;
+    @Column(name = "direccion", nullable = false)
+    private String direccion;
     
     @Column(name = "telefono", unique = true, nullable = false, length = 15)
     private String telefono;
@@ -56,7 +51,7 @@ public class Cliente implements Serializable {
      * @param direccion Dirección del cliente
      * @param telefono Número de teléfono del cliente
      */
-    public Cliente(String nombres, String apellidoPaterno, String apellidoMaterno, Direccion direccion, String telefono) {
+    public Cliente(String nombres, String apellidoPaterno, String apellidoMaterno, String direccion, String telefono) {
         this.nombres = nombres;
         this.apellidoPaterno = apellidoPaterno;
         this.apellidoMaterno = apellidoMaterno;
@@ -74,7 +69,7 @@ public class Cliente implements Serializable {
      * @param direccion Dirección del cliente
      * @param telefono Número de teléfono del cliente
      */
-    public Cliente(Long id, String nombres, String apellidoPaterno, String apellidoMaterno, Direccion direccion, String telefono) {
+    public Cliente(Long id, String nombres, String apellidoPaterno, String apellidoMaterno, String direccion, String telefono) {
         this.id = id;
         this.nombres = nombres;
         this.apellidoPaterno = apellidoPaterno;
@@ -116,11 +111,11 @@ public class Cliente implements Serializable {
         this.apellidoMaterno = apellidoMaterno;
     }
 
-    public Direccion getDireccion() {
+    public String getDireccion() {
         return direccion;
     }
 
-    public void setDireccion(Direccion direccion) {
+    public void setDireccion(String direccion) {
         this.direccion = direccion;
     }
 

@@ -17,10 +17,10 @@ import util.DBConector;
  * @author Samuel Vega
  */
 public class ClienteDAO implements IClienteDAO {
-    private final EntityManager em = new DBConector().getEM();
     
     @Override
     public Cliente obten(Long id) throws DAOException {
+        EntityManager em = new DBConector().getEM();
         Cliente cliente = null;
         
         try {
@@ -36,6 +36,7 @@ public class ClienteDAO implements IClienteDAO {
 
     @Override
     public Cliente obten(String telefono) throws DAOException {
+        EntityManager em = new DBConector().getEM();
         Cliente cliente = null;
         
         try {
@@ -58,6 +59,8 @@ public class ClienteDAO implements IClienteDAO {
 
     @Override
     public void agregarCliente(Cliente cliente) throws DAOException {
+        EntityManager em = new DBConector().getEM();
+        
         try {
             em.getTransaction().begin();
             em.persist(cliente);
@@ -74,6 +77,8 @@ public class ClienteDAO implements IClienteDAO {
 
     @Override
     public void modificarCliente(Cliente cliente) throws DAOException {
+        EntityManager em = new DBConector().getEM();
+        
         try {
             em.getTransaction().begin();
             
@@ -99,6 +104,8 @@ public class ClienteDAO implements IClienteDAO {
 
     @Override
     public void eliminarCliente(Long id) throws DAOException {
+        EntityManager em = new DBConector().getEM();
+        
         try {
             em.getTransaction().begin();
             
@@ -120,6 +127,7 @@ public class ClienteDAO implements IClienteDAO {
 
     @Override
     public List<Cliente> obtenerClientes() throws DAOException {
+        EntityManager em = new DBConector().getEM();
         List<Cliente> clientes = null;
         
         try {

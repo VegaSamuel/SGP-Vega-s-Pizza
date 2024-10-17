@@ -33,7 +33,7 @@ public class Pedido implements Serializable {
     @Column(name = "id", nullable = false)
     private Long id;
     
-    @Column(name = "descipcion", nullable = false, length = 100)
+    @Column(name = "descripcion", nullable = false, length = 100)
     private String descripcion;
     
     @Enumerated(EnumType.STRING)
@@ -43,8 +43,8 @@ public class Pedido implements Serializable {
     @Column(name = "costo", nullable = false)
     private Float costo;
     
-    //@Column(name = "envio", nullable = false)
-    //private Float envio;
+    @Column(name = "envio", nullable = false)
+    private Float envio;
     
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_cliente", nullable = false)
@@ -66,14 +66,16 @@ public class Pedido implements Serializable {
      * @param descripcion Descripción del pedido
      * @param estado Estado del pedido (Cocinando, Enviado, Cancelado, Pagado)
      * @param costo Costo del pedido
+     * @param envio Costo del envio del pedido
      * @param cliente Cliente que realizó el pedido
      * @param fecha Fecha en la que se realizó el pedido
      * @param tipoPago Tipo de pago utilizado para el pedido
      */
-    public Pedido(String descripcion, EstadoPedidos estado, Float costo, Cliente cliente, Calendar fecha, TipoPago tipoPago) {
+    public Pedido(String descripcion, EstadoPedidos estado, Float costo, Float envio, Cliente cliente, Calendar fecha, TipoPago tipoPago) {
         this.descripcion = descripcion;
         this.estado = estado;
         this.costo = costo;
+        this.envio = envio;
         this.cliente = cliente;
         this.fecha = fecha;
         this.tipoPago = tipoPago;
@@ -86,14 +88,16 @@ public class Pedido implements Serializable {
      * @param estado Estado del pedido (Cocinando, Enviado, Cancelado, Pagado)
      * @param costo Costo del pedido
      * @param cliente Cliente que realizó el pedido
+     * @param envio Costo de envío del pedido
      * @param fecha Fecha en la que se realizó el pedido
      * @param tipoPago Tipo de pago utilizado para el pedido
      */
-    public Pedido(Long id, String descripcion, EstadoPedidos estado, Cliente cliente, Float costo, Calendar fecha, TipoPago tipoPago) {
+    public Pedido(Long id, String descripcion, EstadoPedidos estado, Cliente cliente, Float costo, Float envio, Calendar fecha, TipoPago tipoPago) {
         this.id = id;
         this.descripcion = descripcion;
         this.estado = estado;
         this.costo = costo;
+        this.envio = envio;
         this.cliente = cliente;
         this.fecha = fecha;
         this.tipoPago = tipoPago;
@@ -130,6 +134,14 @@ public class Pedido implements Serializable {
 
     public void setCosto(Float costo) {
         this.costo = costo;
+    }
+
+    public Float getEnvio() {
+        return envio;
+    }
+
+    public void setEnvio(Float envio) {
+        this.envio = envio;
     }
 
     public Cliente getCliente() {
@@ -185,16 +197,14 @@ public class Pedido implements Serializable {
     @Override
     public String toString() {
         return String.format(
-        "<html>%s<br>%s (%s)<br>%s - %s, %s, %d, %d<br>$ %.2f</html>",
+        "<html>%s<br>%s (%s)<br>%s - %s <br>$ %.2f %s</html>",
             String.valueOf(this.id),
             this.descripcion,
             this.estado.name().toLowerCase(),
             this.cliente.getNombres(),
-            this.cliente.getDireccion().getCalle(),
-            this.cliente.getDireccion().getColonia(),
-            Integer.parseInt(cliente.getDireccion().getNumero()),
-            this.cliente.getDireccion().getCodigoPostal(),
-            this.costo
+            this.cliente.getDireccion(),
+            this.costo,
+            (this.envio > 0) ? String.format(" + $ %.2f de envío", this.envio) : " (Sin costo de envío)"
         );
     }
 

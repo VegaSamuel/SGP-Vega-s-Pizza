@@ -17,10 +17,10 @@ public class Conversiones {
         if(productos != null) {
             tabla = new Object[productos.size()][4];
             for(int i = 0; i < productos.size(); i++) {
-                tabla[i][0] = "1";
+                tabla[i][0] = 1;
                 tabla[i][1] = productos.get(i).getNombre();
                 tabla[i][2] = productos.get(i).getPrecio();
-                tabla[i][3] = "";
+                tabla[i][3] = "Personalizar";
             }
             return new DefaultTableModel(tabla, columnasProductosPedido);
         }
