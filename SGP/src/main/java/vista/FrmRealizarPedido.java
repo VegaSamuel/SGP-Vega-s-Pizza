@@ -67,7 +67,7 @@ public class FrmRealizarPedido extends javax.swing.JFrame {
         tblProductos.getColumnModel().getColumn(3).setCellRenderer(new PersonalizarRenderer());
         tblProductos.getColumnModel().getColumn(3).setCellEditor(new PersonalizarEditor(new JCheckBox()));
         
-        tabla.addTableModelListener(e -> {
+        /*tabla.addTableModelListener(e -> {
             int fila = e.getFirstRow();
             int columna = e.getColumn();
             
@@ -77,7 +77,7 @@ public class FrmRealizarPedido extends javax.swing.JFrame {
                 float importe = cantidad * precio;
                 tabla.setValueAt(importe, fila, 3);
             }
-        });
+        });*/
         
         tblProductos.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF);
         tblProductos.setAutoscrolls(false);
