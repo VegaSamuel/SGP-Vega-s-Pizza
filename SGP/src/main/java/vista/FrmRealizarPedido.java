@@ -68,15 +68,8 @@ public class FrmRealizarPedido extends javax.swing.JFrame {
         tblProductos.getColumnModel().getColumn(3).setCellEditor(new PersonalizarEditor(new JCheckBox()));
         
         /*tabla.addTableModelListener(e -> {
-            int fila = e.getFirstRow();
-            int columna = e.getColumn();
-            
-            if(columna == 0) {
-                int cantidad = (int) tabla.getValueAt(fila, 0);
-                float precio = Float.valueOf((String) tabla.getValueAt(fila, 3));
-                float importe = cantidad * precio;
-                tabla.setValueAt(importe, fila, 3);
-            }
+            System.out.println(tblProductos.getSelectedRow());
+            new CantidadEditor().setFila(tblProductos.getSelectedRow());
         });*/
         
         tblProductos.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF);
@@ -165,6 +158,9 @@ public class FrmRealizarPedido extends javax.swing.JFrame {
         txtTelefono.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 txtTelefonoKeyReleased(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtTelefonoKeyTyped(evt);
             }
         });
 
@@ -443,16 +439,9 @@ public class FrmRealizarPedido extends javax.swing.JFrame {
 
     private void txtTelefonoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtTelefonoKeyReleased
         boolean limite = this.txtTelefono.getText().length() >= 10;
-        char c = evt.getKeyChar();
-        
-        if(!Character.isDigit(c) && evt.getKeyChar() != KeyEvent.VK_BACK_SPACE) {
-            JOptionPane.showMessageDialog(this, "Para el número solo se pueden ingresar números", "Formato no valido", JOptionPane.INFORMATION_MESSAGE);
-            evt.consume();
-        }
         
         if(limite) {
             this.btnBuscar.setEnabled(limite);
-            evt.consume();
         }else {
             this.btnBuscar.setEnabled(limite);
         }
@@ -489,6 +478,18 @@ public class FrmRealizarPedido extends javax.swing.JFrame {
         c.mostrarVentanaPrincipal();
         dispose();
     }//GEN-LAST:event_btnRealizarPedidoActionPerformed
+
+    private void txtTelefonoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtTelefonoKeyTyped
+        boolean limite = this.txtTelefono.getText().length() >= 10;
+        char c = evt.getKeyChar();
+        
+        if(!Character.isDigit(c) && evt.getKeyChar() != KeyEvent.VK_BACK_SPACE) {
+            JOptionPane.showMessageDialog(this, "Para el número solo se pueden ingresar números", "Formato no valido", JOptionPane.INFORMATION_MESSAGE);
+            evt.consume();
+        }else if(limite) {
+            evt.consume();
+        }
+    }//GEN-LAST:event_txtTelefonoKeyTyped
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAnhadir;

@@ -187,13 +187,13 @@ public class DlgAgregarProducto extends javax.swing.JDialog {
     private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
         Producto productoAgregado = null;
         
-        //JOptionPane.showMessageDialog(this, "Se agregó correctamente el costo de envío al pedido.", "Agregado exitoso", JOptionPane.PLAIN_MESSAGE);
-        
         for (Producto producto : productos) {
             if(producto.getNombre().equalsIgnoreCase(txtBuscar.getText())) {
                 productoAgregado = producto;
             }
         }
+        
+        JOptionPane.showMessageDialog(this, "Se agregó correctamente el costo de envío al pedido.", "Agregado exitoso", JOptionPane.PLAIN_MESSAGE);
         
         c.agregarProducto(productoAgregado);
         c.actualizarRealizarPedido();

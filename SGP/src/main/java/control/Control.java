@@ -42,6 +42,7 @@ public class Control {
     // Declaración de utilidades de los pedidos
     private List<Pedido> listaPedidos;
     private List<Producto> productosPedidos;
+    private List<Integer> cantidadPorProducto;
     private float costoTotal;
     private float costoEnvio;
     
@@ -50,6 +51,7 @@ public class Control {
      */
     private Control() {
         this.productosPedidos = new ArrayList<>();
+        this.cantidadPorProducto = new ArrayList<>();
     }
     
     /**
@@ -124,7 +126,7 @@ public class Control {
     public void actualizarRealizarPedido() {
         Conversiones con = new Conversiones();
         
-        this.frmRealizarPedido.despliegaTabla(con.productosPedidoModel(productosPedidos));
+        this.frmRealizarPedido.despliegaTabla(con.productosPedidoModel(productosPedidos, cantidadPorProducto));
         this.costoTotal += this.obtenerPrecioProductosTotal();
         this.frmRealizarPedido.actualizarPrecioEnvio(this.costoEnvio);
         this.frmRealizarPedido.actualizaCostoTotal(this.obtenerCostoTotal());
@@ -140,6 +142,7 @@ public class Control {
     }
     
     public void agregarProducto(Producto producto) {
+        this.cantidadPorProducto.add(1);
         this.productosPedidos.add(producto);
     }
 
@@ -170,7 +173,6 @@ public class Control {
         
         // Recorre la lista de productos existentes en el pedido.
         for (Producto producto : productosPedidos) {
-            // Suma los precios de cada uno.
             precioTotal += producto.getPrecio();
         }
         
@@ -217,8 +219,15 @@ public class Control {
     
     public void cancelarPedido(Long id){
         IPedidoDAO pedidos = new PedidoDAO();
-        pedidos.eliminarPedido(id);
-        this.mostrarVentanaPrincipal();
+        
+        Object[] botones = {"Regresar", "Cancelar"};
+        
+        int resp = JOptionPane.showOptionDialog(this.main, "¿Seguro que quiere cancelar el pedido " + id + "?", "Confirmación sobre cancelación", JOptionPane.YES_NO_OPTION, JOptionPane.PLAIN_MESSAGE, null, botones, botones[0]);
+        
+        if(resp == 1) {
+            pedidos.eliminarPedido(id);
+            this.mostrarVentanaPrincipal();
+        }
     }
     
     public List<Pedido> obtenerPedidos(){
@@ -236,5 +245,13 @@ public class Control {
         }
         
         frmRevisarPedidos.setVisible(true);
+    }
+    
+    public void actualizarCantidadPedido(int cantidad, int index) {
+        this.cantidadPorProducto.set(index, this.cantidadPorProducto.get(index) + cantidad);
+    }
+    
+    public int obtenerCantidadPedido(int index) {
+        return this.cantidadPorProducto.get(index);
     }
 }

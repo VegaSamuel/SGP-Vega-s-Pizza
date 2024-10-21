@@ -1,5 +1,6 @@
 package util.tablesButtons;
 
+import control.Control;
 import java.awt.Component;
 import java.awt.GridLayout;
 import javax.swing.JButton;
@@ -14,9 +15,10 @@ import javax.swing.table.TableCellRenderer;
  * @author Samuel Vega
  */
 public class CantidadRenderer extends JPanel implements TableCellRenderer {
+    private Control c = Control.getInstance();
     private JButton btnAumentar = new JButton("+");
     private JButton btnReducir = new JButton("-");
-    private JLabel lblCantidad = new JLabel("1", SwingConstants.CENTER);
+    private JLabel lblCantidad = new JLabel(String.valueOf(1), SwingConstants.CENTER);
     
     public CantidadRenderer() {
         setLayout(new GridLayout(1, 2));
