@@ -231,10 +231,11 @@ public class FrmPrincipal extends javax.swing.JFrame {
     private void btn_cancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_cancelarActionPerformed
         String pedidoLimpio = this.listPedidos.getSelectedValue()
                 .replaceAll("(?i)<br>", "\n")
-                .replaceAll("<[^>]*>", "");
+                .replaceAll("<[^>]*>", "")
+                .replaceAll("", "");
         String[] campos = pedidoLimpio.split("\n");
 
-        long idPedido = Long.parseLong(campos[0]);
+        long idPedido = Long.parseLong(campos[0].split("\\s+")[0]);
 
         c.cancelarPedido(idPedido);
     }//GEN-LAST:event_btn_cancelarActionPerformed
