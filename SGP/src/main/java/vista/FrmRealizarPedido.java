@@ -37,7 +37,7 @@ public class FrmRealizarPedido extends javax.swing.JFrame {
         this.cbxPagos.addElement(TipoPago.EFECTIVO.toString());
         this.cbxPagos.addElement(TipoPago.TRANSFERENCIA.toString());
         
-        initComponents();   
+        initComponents();
         
         centraVentana();
     }
@@ -66,11 +66,6 @@ public class FrmRealizarPedido extends javax.swing.JFrame {
         
         tblProductos.getColumnModel().getColumn(3).setCellRenderer(new PersonalizarRenderer());
         tblProductos.getColumnModel().getColumn(3).setCellEditor(new PersonalizarEditor(new JCheckBox()));
-        
-        /*tabla.addTableModelListener(e -> {
-            System.out.println(tblProductos.getSelectedRow());
-            new CantidadEditor().setFila(tblProductos.getSelectedRow());
-        });*/
         
         tblProductos.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF);
         tblProductos.setAutoscrolls(false);
@@ -196,6 +191,8 @@ public class FrmRealizarPedido extends javax.swing.JFrame {
             }
         ));
         tblProductos.setAutoscrolls(false);
+        tblProductos.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        tblProductos.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jScrollPane1.setViewportView(tblProductos);
 
         btnCalcularEnvio.setText("Calcular costo de envío");
@@ -428,12 +425,16 @@ public class FrmRealizarPedido extends javax.swing.JFrame {
     }//GEN-LAST:event_formWindowClosed
 
     private void btnCalcularEnvioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCalcularEnvioActionPerformed
-        try {
-            c.calcularCostoEnvio(this.txtDireccion.getText());
-        } catch (IOException ioe) {
-            System.out.println(ioe.getMessage());
-        } catch (InterruptedException ie) {
-            System.out.println(ie.getMessage());
+        if("".equalsIgnoreCase(this.txtDireccion.getText())) {
+            JOptionPane.showMessageDialog(this, "No ha introducido ni una dirección para calcular el envío", "Error!!", JOptionPane.ERROR_MESSAGE);
+        }else {
+            try {
+                c.calcularCostoEnvio(this.txtDireccion.getText());
+            } catch (IOException ioe) {
+                System.out.println(ioe.getMessage());
+            } catch (InterruptedException ie) {
+                System.out.println(ie.getMessage());
+            }
         }
     }//GEN-LAST:event_btnCalcularEnvioActionPerformed
 
@@ -461,7 +462,7 @@ public class FrmRealizarPedido extends javax.swing.JFrame {
         String descripcion = "";
         
         for (int i = 0; i < this.tblProductos.getRowCount(); i++) {
-            descripcion += "x" + this.tblProductos.getModel().getValueAt(i, 0) + " " + this.tblProductos.getModel().getValueAt(i, 1) + "\n"; 
+            descripcion += "x" + this.tblProductos.getModel().getValueAt(i, 0) + " " + this.tblProductos.getModel().getValueAt(i, 1) + ", \n"; 
         }
         
         Pedido pedido = new Pedido(

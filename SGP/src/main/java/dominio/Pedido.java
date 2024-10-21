@@ -197,10 +197,10 @@ public class Pedido implements Serializable {
     @Override
     public String toString() {
         return String.format(
-        "<html>%s<br>%s (%s)<br>%s - %s <br>$ %.2f %s</html>",
+        "<html>%s (%s)<br>%s <br>%s - %s <br>$ %.2f %s</html>",
             String.valueOf(this.id),
-            this.descripcion,
             this.estado.name().toLowerCase(),
+            this.descripcion,
             this.cliente.getNombres(),
             this.cliente.getDireccion(),
             this.costo,

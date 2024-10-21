@@ -171,9 +171,8 @@ public class Control {
     public float obtenerPrecioProductosTotal() {
         float precioTotal = 0.0f;
         
-        // Recorre la lista de productos existentes en el pedido.
-        for (Producto producto : productosPedidos) {
-            precioTotal += producto.getPrecio();
+        for (int i = 0; i < productosPedidos.size(); i++) {
+            precioTotal += (this.cantidadPorProducto.get(i) * this.productosPedidos.get(i).getPrecio());
         }
         
         return precioTotal;
@@ -249,9 +248,17 @@ public class Control {
     
     public void actualizarCantidadPedido(int cantidad, int index) {
         this.cantidadPorProducto.set(index, this.cantidadPorProducto.get(index) + cantidad);
+        
+        if(this.cantidadPorProducto.get(index) == 0) {
+            this.productosPedidos.remove(index);
+        }
     }
     
     public int obtenerCantidadPedido(int index) {
-        return this.cantidadPorProducto.get(index);
+        if(this.cantidadPorProducto.isEmpty()) {
+            return -1;
+        }else {
+            return this.cantidadPorProducto.get(index);
+        }
     }
 }

@@ -18,10 +18,17 @@ public class CantidadRenderer extends JPanel implements TableCellRenderer {
     private Control c = Control.getInstance();
     private JButton btnAumentar = new JButton("+");
     private JButton btnReducir = new JButton("-");
-    private JLabel lblCantidad = new JLabel(String.valueOf(1), SwingConstants.CENTER);
+    private JLabel lblCantidad;
+    int fila;
     
     public CantidadRenderer() {
-        setLayout(new GridLayout(1, 2));
+        if(fila != -1) {
+            lblCantidad = new JLabel(String.valueOf(c.obtenerCantidadPedido(fila)), SwingConstants.CENTER);
+        }else {
+            lblCantidad = new JLabel("1", SwingConstants.CENTER);
+        }
+        
+        setLayout(new GridLayout(1, 1));
         add(btnReducir);
         add(lblCantidad);
         add(btnAumentar);
@@ -29,6 +36,7 @@ public class CantidadRenderer extends JPanel implements TableCellRenderer {
 
     @Override
     public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+        fila = row;
         return this;
     }
     

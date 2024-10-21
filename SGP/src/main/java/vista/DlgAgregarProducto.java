@@ -190,14 +190,17 @@ public class DlgAgregarProducto extends javax.swing.JDialog {
         for (Producto producto : productos) {
             if(producto.getNombre().equalsIgnoreCase(txtBuscar.getText())) {
                 productoAgregado = producto;
+                
+                JOptionPane.showMessageDialog(this, "Se agregó correctamente el costo de envío al pedido.", "Agregado exitoso", JOptionPane.PLAIN_MESSAGE);
+        
+                c.agregarProducto(productoAgregado);
+                c.actualizarRealizarPedido();
+                dispose();
+                return;
             }
         }
         
-        JOptionPane.showMessageDialog(this, "Se agregó correctamente el costo de envío al pedido.", "Agregado exitoso", JOptionPane.PLAIN_MESSAGE);
-        
-        c.agregarProducto(productoAgregado);
-        c.actualizarRealizarPedido();
-        dispose();
+        JOptionPane.showMessageDialog(this, "No se encontró el producto: " + txtBuscar.getText() + "\nAsegurese de que el producto que eligió se haya puesto en la caja de texto.", "Error!!", JOptionPane.ERROR_MESSAGE);
     }//GEN-LAST:event_btnAgregarActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

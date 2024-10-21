@@ -20,11 +20,19 @@ public class CantidadEditor extends AbstractCellEditor implements TableCellEdito
     private JPanel panel = new JPanel(new GridLayout(1, 2));
     private JButton btnAumentar = new JButton("+");
     private JButton btnReducir = new JButton("-");
-    private JLabel lblCantidad = new JLabel(String.valueOf(1), SwingConstants.CENTER);
+    private JLabel lblCantidad = new JLabel("1", SwingConstants.CENTER);
     private int cantidad;
     private int fila;
     
     public CantidadEditor() {
+        if(c.obtenerCantidadPedido(0) != -1) {
+            if(fila != -1) {
+                lblCantidad = new JLabel(String.valueOf(c.obtenerCantidadPedido(fila)), SwingConstants.CENTER);
+            }else {
+                lblCantidad = new JLabel("1", SwingConstants.CENTER);
+            }
+        }
+        
         panel.add(btnReducir);
         panel.add(lblCantidad);
         panel.add(btnAumentar);
@@ -55,6 +63,7 @@ public class CantidadEditor extends AbstractCellEditor implements TableCellEdito
     @Override
     public Component getTableCellEditorComponent(JTable table, Object value, boolean isSelected, int row, int column) {    
         cantidad = (int) value;
+        fila = row;
         lblCantidad.setText(String.valueOf(cantidad));
         return panel;
     }
