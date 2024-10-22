@@ -25,27 +25,23 @@ public class CantidadEditor extends AbstractCellEditor implements TableCellEdito
     private int fila;
     
     public CantidadEditor() {
-        if(c.obtenerCantidadPedido(0) != -1) {
-            if(fila != -1) {
-                lblCantidad = new JLabel(String.valueOf(c.obtenerCantidadPedido(fila)), SwingConstants.CENTER);
-            }else {
-                lblCantidad = new JLabel("1", SwingConstants.CENTER);
-            }
-        }
-        
+        // Configura el panel y agrega los botones y la etiqueta
         panel.add(btnReducir);
         panel.add(lblCantidad);
         panel.add(btnAumentar);
         
+        // Acción al presionar aumentar
         btnAumentar.addActionListener(e -> {
             cantidad++;
             lblCantidad.setText(String.valueOf(cantidad));
             c.actualizarCantidadPedido(+1, fila);
             c.actualizarRealizarPedido();
+            fireEditingStopped(); // Asegura que el editor termine de editar
         });
         
+        // Acción al presionar reducir
         btnReducir.addActionListener(e -> {
-            if(cantidad > -1) {
+            if (cantidad > 0) { // Evita cantidades negativas
                 cantidad--;
                 lblCantidad.setText(String.valueOf(cantidad));
                 c.actualizarCantidadPedido(-1, fila);
@@ -61,14 +57,10 @@ public class CantidadEditor extends AbstractCellEditor implements TableCellEdito
     }
 
     @Override
-    public Component getTableCellEditorComponent(JTable table, Object value, boolean isSelected, int row, int column) {    
-        cantidad = (int) value;
-        fila = row;
-        lblCantidad.setText(String.valueOf(cantidad));
+    public Component getTableCellEditorComponent(JTable table, Object value, boolean isSelected, int row, int column) {
+        fila = row; // Guarda la fila actual para saber qué fila está siendo editada
+        cantidad = (int) value; // Toma el valor actual de la celda
+        lblCantidad.setText(String.valueOf(cantidad)); // Muestra el valor actual en la etiqueta
         return panel;
-    }
-    
-    public void setFila(int fila) {
-        this.fila = fila;
     }
 }

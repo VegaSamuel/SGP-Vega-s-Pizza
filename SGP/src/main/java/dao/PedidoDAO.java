@@ -89,7 +89,6 @@ public class PedidoDAO implements IPedidoDAO {
             em.getTransaction().begin();
             
             Pedido EPedido = em.find(Pedido.class, id);
-            System.out.println(EPedido.toString());
             if(EPedido != null) {
                 em.remove(EPedido);
                 em.getTransaction().commit();
