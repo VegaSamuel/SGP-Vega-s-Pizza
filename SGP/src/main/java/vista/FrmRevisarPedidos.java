@@ -7,6 +7,7 @@ package vista;
 import control.Control;
 import dominio.Pedido;
 import java.awt.BorderLayout;
+import java.util.Date;
 import java.util.List;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -28,6 +29,11 @@ public class FrmRevisarPedidos extends javax.swing.JFrame {
 
         initComponents();
         crearTabla();
+    }
+    
+    public FrmRevisarPedidos(Date fechaInicio, Date fechaFinal){
+        initComponents();
+        crearTablaFiltro(fechaInicio, fechaFinal);
     }
 
     /**
@@ -121,6 +127,7 @@ public class FrmRevisarPedidos extends javax.swing.JFrame {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnFiltroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFiltroActionPerformed
@@ -129,6 +136,7 @@ public class FrmRevisarPedidos extends javax.swing.JFrame {
 
     private void btnRegresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegresarActionPerformed
         c.mostrarVentanaPrincipal();
+        this.dispose();
     }//GEN-LAST:event_btnRegresarActionPerformed
 
     /**
@@ -183,6 +191,28 @@ public void crearTabla() {
     this.tblPedidos.setModel(tableModel);
    
     List<Pedido> pedidos = c.obtenerPedidos(); 
+    
+    
+    for (Pedido pedido : pedidos) {
+        tableModel.addRow(new Object[] {
+            pedido.getId(),
+            pedido.getDescripcion(),
+            pedido.getEstado(),
+            pedido.getCosto(),
+            pedido.getCliente().getId(),  
+            pedido.getFecha(),
+            pedido.getTipoPago()
+        });
+    }
+}
+
+public void crearTablaFiltro(Date fechaInicio, Date fechaFin){
+        tableModel = new DefaultTableModel();
+    tableModel.setColumnIdentifiers(new String[] {"ID", "Descripción", "Estado", "Costo", "ID Cliente", "Fecha Compra", "Tipo Pago"});
+
+    this.tblPedidos.setModel(tableModel);
+   
+    List<Pedido> pedidos = c.obtenerPedidosFiltro(fechaInicio, fechaFin); 
     
     
     for (Pedido pedido : pedidos) {

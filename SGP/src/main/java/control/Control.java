@@ -12,6 +12,7 @@ import interfaces.IProductoDAO;
 import java.awt.Frame;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
@@ -22,7 +23,8 @@ import vista.DlgAgregarProducto;
 import vista.FrmPrincipal;
 import vista.FrmRealizarPedido;
 import vista.FrmRevisarPedidos;
-import vista.FrmSeleccionarFechas;
+import vista.FrmSeleccionarDosFechas;
+
 
 /**
  * Clase que lleva el control de la aplicación.
@@ -37,7 +39,7 @@ public class Control {
     private FrmRealizarPedido frmRealizarPedido;
     private DlgAgregarProducto dlgAgregarProducto;
     private FrmRevisarPedidos frmRevisarPedidos;
-    private FrmSeleccionarFechas frmSeleccionarFechas;
+    private FrmSeleccionarDosFechas prueba;
     
     // Declaración de utilidades de los pedidos
     private List<Pedido> listaPedidos;
@@ -234,8 +236,15 @@ public class Control {
         return pedidos.obtenerPedidos();
     }
     
+
+    public List<Pedido> obtenerPedidosFiltro(Date fechaInicio, Date fechaFin){
+        IPedidoDAO pedidos = new PedidoDAO();
+        return pedidos.obtenerPedidosEntreFechas(fechaInicio, fechaFin);
+    }
+    
     public void mostrarSelectorFechas(){
-        frmSeleccionarFechas.setVisible(true);
+        prueba = new FrmSeleccionarDosFechas();
+        prueba.setVisible(true);
     }
     
     public void mostrarRevisarPedidos(){
