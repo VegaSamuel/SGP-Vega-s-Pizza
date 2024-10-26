@@ -1,11 +1,12 @@
 package vista;
 
 import com.toedter.calendar.JDateChooser;
+import control.Control;
 import java.util.Date;
 import javax.swing.JOptionPane;
 
 public class FrmSeleccionarDosFechas extends javax.swing.JFrame {
-
+    private Control c = Control.getInstance();
     private JDateChooser dateChooserInicio;
     private JDateChooser dateChooserFin;
 
@@ -27,6 +28,8 @@ public class FrmSeleccionarDosFechas extends javax.swing.JFrame {
         btnConfirmar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 confirmarFechas();
+                dateChooserInicio.setDate(null);
+                dateChooserFin.setDate(null);
             }
         });
 
@@ -46,7 +49,8 @@ public class FrmSeleccionarDosFechas extends javax.swing.JFrame {
         if (fechaInicio != null && fechaFin != null) {
             if (fechaInicio.before(fechaFin)) {
 
-                new FrmRevisarPedidos(fechaInicio, fechaFin).setVisible(true);
+                c.actualizarPeriodoPedidos(fechaInicio, fechaFin);
+                c.mostrarRevisarPedidos();
                 this.dispose();
             } else {
                 JOptionPane.showMessageDialog(this, "La fecha de inicio debe ser anterior a la fecha de fin. Por favor, selecciona fechas válidas.");
@@ -54,15 +58,5 @@ public class FrmSeleccionarDosFechas extends javax.swing.JFrame {
         } else {
             JOptionPane.showMessageDialog(this, "Por favor, selecciona ambas fechas.");
         }
-    }
-
-    public static void main(String args[]) {
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                FrmSeleccionarDosFechas frame = new FrmSeleccionarDosFechas();
-                frame.setVisible(true);
-                frame.setLocationRelativeTo(null);
-            }
-        });
     }
 }

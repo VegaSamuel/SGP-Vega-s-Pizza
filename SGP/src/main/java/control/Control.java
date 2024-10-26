@@ -39,7 +39,7 @@ public class Control {
     private FrmRealizarPedido frmRealizarPedido;
     private DlgAgregarProducto dlgAgregarProducto;
     private FrmRevisarPedidos frmRevisarPedidos;
-    private FrmSeleccionarDosFechas prueba;
+    private FrmSeleccionarDosFechas frmSeleccionarFechas;
     
     // Declaración de utilidades de los pedidos
     private List<Pedido> listaPedidos;
@@ -243,8 +243,11 @@ public class Control {
     }
     
     public void mostrarSelectorFechas(){
-        prueba = new FrmSeleccionarDosFechas();
-        prueba.setVisible(true);
+        if(this.frmSeleccionarFechas == null) {
+            this.frmSeleccionarFechas = new FrmSeleccionarDosFechas();
+        }
+        
+        this.frmSeleccionarFechas.setVisible(true);
     }
     
     public void mostrarRevisarPedidos(){
@@ -253,6 +256,10 @@ public class Control {
         }
         
         frmRevisarPedidos.setVisible(true);
+    }
+    
+    public void actualizarPeriodoPedidos(Date fechaInicio, Date fechaFinal) {
+        this.frmRevisarPedidos.setPeriodo(fechaInicio, fechaFinal);
     }
     
     public void actualizarCantidadPedido(int cantidad, int index) {

@@ -6,11 +6,9 @@ package vista;
 
 import control.Control;
 import dominio.Pedido;
-import java.awt.BorderLayout;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -35,6 +33,10 @@ public class FrmRevisarPedidos extends javax.swing.JFrame {
         initComponents();
         crearTablaFiltro(fechaInicio, fechaFinal);
     }
+    
+    public void setPeriodo(Date fechaInicio, Date fechaFinal) {
+        crearTablaFiltro(fechaInicio, fechaFinal);
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -52,7 +54,13 @@ public class FrmRevisarPedidos extends javax.swing.JFrame {
         btnRegresar = new javax.swing.JButton();
         btnFiltro = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Revisar Pedidos - SGP");
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosed(java.awt.event.WindowEvent evt) {
+                formWindowClosed(evt);
+            }
+        });
 
         jPanel1.setBackground(new java.awt.Color(204, 204, 204));
 
@@ -135,44 +143,14 @@ public class FrmRevisarPedidos extends javax.swing.JFrame {
     }//GEN-LAST:event_btnFiltroActionPerformed
 
     private void btnRegresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegresarActionPerformed
+        crearTabla();
         c.mostrarVentanaPrincipal();
         this.dispose();
     }//GEN-LAST:event_btnRegresarActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(FrmRevisarPedidos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(FrmRevisarPedidos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(FrmRevisarPedidos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(FrmRevisarPedidos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new FrmRevisarPedidos().setVisible(true);
-            }
-        });
-    }
+    private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
+        c.mostrarVentanaPrincipal();
+    }//GEN-LAST:event_formWindowClosed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnFiltro;
@@ -192,6 +170,7 @@ public void crearTabla() {
    
     List<Pedido> pedidos = c.obtenerPedidos(); 
     
+    SimpleDateFormat formatoFecha = new SimpleDateFormat("yyyy-MM-dd");
     
     for (Pedido pedido : pedidos) {
         tableModel.addRow(new Object[] {
@@ -200,7 +179,7 @@ public void crearTabla() {
             pedido.getEstado(),
             pedido.getCosto(),
             pedido.getCliente().getId(),  
-            pedido.getFecha(),
+            formatoFecha.format(pedido.getFecha().getTime()),
             pedido.getTipoPago()
         });
     }
@@ -214,6 +193,7 @@ public void crearTablaFiltro(Date fechaInicio, Date fechaFin){
    
     List<Pedido> pedidos = c.obtenerPedidosFiltro(fechaInicio, fechaFin); 
     
+    SimpleDateFormat formatoFecha = new SimpleDateFormat("yyyy-MM-dd");
     
     for (Pedido pedido : pedidos) {
         tableModel.addRow(new Object[] {
@@ -222,7 +202,7 @@ public void crearTablaFiltro(Date fechaInicio, Date fechaFin){
             pedido.getEstado(),
             pedido.getCosto(),
             pedido.getCliente().getId(),  
-            pedido.getFecha(),
+            formatoFecha.format(pedido.getFecha().getTime()),
             pedido.getTipoPago()
         });
     }
