@@ -1,6 +1,5 @@
 package dao;
 
-import dominio.Pedido;
 import dominio.Producto;
 import excepciones.DAOException;
 import interfaces.IProductoDAO;
@@ -17,10 +16,14 @@ import util.DBConector;
  * @author Samuel Vega
  */
 public class ProductoDAO implements IProductoDAO {
+    EntityManager em;
+    
+    public ProductoDAO(EntityManager em) {
+        this.em = em;
+    }
 
     @Override
     public Producto obten(Long id) throws DAOException {
-        EntityManager em = new DBConector().getEM();
         Producto producto = null;
         
         try {
@@ -36,8 +39,6 @@ public class ProductoDAO implements IProductoDAO {
 
     @Override
     public void agregarProducto(Producto producto) throws DAOException {
-        EntityManager em = new DBConector().getEM();
-        
         try {
             em.getTransaction().begin();
             em.persist(producto);
@@ -54,8 +55,6 @@ public class ProductoDAO implements IProductoDAO {
 
     @Override
     public void modificarProducto(Producto producto) throws DAOException {
-        EntityManager em = new DBConector().getEM();
-        
         try {
             em.getTransaction().begin();
             
@@ -79,8 +78,6 @@ public class ProductoDAO implements IProductoDAO {
 
     @Override
     public void eliminarProducto(Long id) throws DAOException {
-        EntityManager em = new DBConector().getEM();
-        
         try {
             em.getTransaction().begin();
             
@@ -102,7 +99,6 @@ public class ProductoDAO implements IProductoDAO {
 
     @Override
     public List<Producto> obtenerProductos() throws DAOException {
-        EntityManager em = new DBConector().getEM();
         List<Producto> productos = null;
         
         try {

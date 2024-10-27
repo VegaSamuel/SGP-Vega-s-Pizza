@@ -19,6 +19,7 @@ import javax.swing.JOptionPane;
 import util.CalculoEnvio;
 import util.CalculoMetrosEnvio;
 import util.Conversiones;
+import util.DBConector;
 import vista.DlgAgregarProducto;
 import vista.FrmPrincipal;
 import vista.FrmRealizarPedido;
@@ -68,8 +69,8 @@ public class Control {
     }
     
     public void realizarPedido(Cliente cliente, Pedido pedido) {
-        IClienteDAO clientes = new ClienteDAO();
-        IPedidoDAO pedidos = new PedidoDAO();
+        IClienteDAO clientes = new ClienteDAO(new DBConector().getEM());
+        IPedidoDAO pedidos = new PedidoDAO(new DBConector().getEM());
         
         if(clientes.obten(cliente.getTelefono()) == null) {
             clientes.agregarCliente(cliente);
@@ -136,7 +137,7 @@ public class Control {
     }
     
     public void mostrarAgregarProducto(Frame frame) {
-        IProductoDAO productos = new ProductoDAO();
+        IProductoDAO productos = new ProductoDAO(new DBConector().getEM());
         List<Producto> listaProductos = productos.obtenerProductos();
         
         this.dlgAgregarProducto = new DlgAgregarProducto(frame, false, listaProductos);
@@ -194,7 +195,7 @@ public class Control {
     }
     
     public boolean obtenerDatosPedidos() {
-        IPedidoDAO pedidos = new PedidoDAO();
+        IPedidoDAO pedidos = new PedidoDAO(new DBConector().getEM());
         
         listaPedidos = pedidos.obtenerPedidos();
         
@@ -207,7 +208,7 @@ public class Control {
     }
     
     public Cliente buscarCliente(String telefono) {
-        IClienteDAO clientes = new ClienteDAO();
+        IClienteDAO clientes = new ClienteDAO(new DBConector().getEM());
         
         Cliente cliente = clientes.obten(telefono);
         
@@ -219,7 +220,7 @@ public class Control {
     }
     
     public void cancelarPedido(Long id){
-        IPedidoDAO pedidos = new PedidoDAO();
+        IPedidoDAO pedidos = new PedidoDAO(new DBConector().getEM());
         
         Object[] botones = {"Regresar", "Cancelar"};
         
@@ -232,13 +233,13 @@ public class Control {
     }
     
     public List<Pedido> obtenerPedidos(){
-        IPedidoDAO pedidos = new PedidoDAO();
+        IPedidoDAO pedidos = new PedidoDAO(new DBConector().getEM());
         return pedidos.obtenerPedidos();
     }
     
 
     public List<Pedido> obtenerPedidosFiltro(Date fechaInicio, Date fechaFin){
-        IPedidoDAO pedidos = new PedidoDAO();
+        IPedidoDAO pedidos = new PedidoDAO(new DBConector().getEM());
         return pedidos.obtenerPedidosEntreFechas(fechaInicio, fechaFin);
     }
     

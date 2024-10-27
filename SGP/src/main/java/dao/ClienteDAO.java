@@ -10,17 +10,20 @@ import javax.persistence.NonUniqueResultException;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
-import util.DBConector;
 
 /**
  * DAO del cliente
  * @author Samuel Vega
  */
 public class ClienteDAO implements IClienteDAO {
+    EntityManager em;
+    
+    public ClienteDAO(EntityManager em) {
+        this.em = em;
+    }
     
     @Override
     public Cliente obten(Long id) throws DAOException {
-        EntityManager em = new DBConector().getEM();
         Cliente cliente = null;
         
         try {
@@ -36,7 +39,6 @@ public class ClienteDAO implements IClienteDAO {
 
     @Override
     public Cliente obten(String telefono) throws DAOException {
-        EntityManager em = new DBConector().getEM();
         Cliente cliente = null;
         
         try {
@@ -59,8 +61,6 @@ public class ClienteDAO implements IClienteDAO {
 
     @Override
     public void agregarCliente(Cliente cliente) throws DAOException {
-        EntityManager em = new DBConector().getEM();
-        
         try {
             em.getTransaction().begin();
             em.persist(cliente);
@@ -77,8 +77,6 @@ public class ClienteDAO implements IClienteDAO {
 
     @Override
     public void modificarCliente(Cliente cliente) throws DAOException {
-        EntityManager em = new DBConector().getEM();
-        
         try {
             em.getTransaction().begin();
             
@@ -89,6 +87,8 @@ public class ClienteDAO implements IClienteDAO {
                 ECliente.setApellidoMaterno(cliente.getApellidoMaterno());
                 ECliente.setDireccion(cliente.getDireccion());
                 ECliente.setTelefono(cliente.getTelefono());
+                
+                em.getTransaction().commit();
             }else {
                 System.out.println("No se encontró el cliente que se quiere modificar");
             }
@@ -104,8 +104,6 @@ public class ClienteDAO implements IClienteDAO {
 
     @Override
     public void eliminarCliente(Long id) throws DAOException {
-        EntityManager em = new DBConector().getEM();
-        
         try {
             em.getTransaction().begin();
             
@@ -127,7 +125,6 @@ public class ClienteDAO implements IClienteDAO {
 
     @Override
     public List<Cliente> obtenerClientes() throws DAOException {
-        EntityManager em = new DBConector().getEM();
         List<Cliente> clientes = null;
         
         try {
