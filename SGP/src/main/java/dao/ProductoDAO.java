@@ -62,6 +62,8 @@ public class ProductoDAO implements IProductoDAO {
                 EProducto.setNombre(producto.getNombre());
                 EProducto.setPrecio(producto.getPrecio());
                 EProducto.setIngredientes(producto.getIngredientes());
+                
+                em.getTransaction().commit();
             }else {
                 System.out.println("No se encontró el producto que se quiere modificar");
             }
