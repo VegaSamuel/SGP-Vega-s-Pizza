@@ -7,6 +7,7 @@ package vista;
 import control.Control;
 import dominio.Pedido;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import javax.swing.table.DefaultTableModel;
@@ -28,13 +29,13 @@ public class FrmRevisarPedidos extends javax.swing.JFrame {
         initComponents();
         crearTabla();
     }
-    
-    public FrmRevisarPedidos(Date fechaInicio, Date fechaFinal){
+
+    public FrmRevisarPedidos(Calendar fechaInicio, Calendar fechaFinal) {
         initComponents();
         crearTablaFiltro(fechaInicio, fechaFinal);
     }
-    
-    public void setPeriodo(Date fechaInicio, Date fechaFinal) {
+
+    public void setPeriodo(Calendar fechaInicio, Calendar fechaFinal) {
         crearTablaFiltro(fechaInicio, fechaFinal);
     }
 
@@ -139,7 +140,7 @@ public class FrmRevisarPedidos extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnFiltroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFiltroActionPerformed
-       c.mostrarSelectorFechas();
+        c.mostrarSelectorFechas();
     }//GEN-LAST:event_btnFiltroActionPerformed
 
     private void btnRegresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegresarActionPerformed
@@ -161,51 +162,58 @@ public class FrmRevisarPedidos extends javax.swing.JFrame {
     private javax.swing.JTable tblPedidos;
     // End of variables declaration//GEN-END:variables
 
-public void crearTabla() {
-    
-    tableModel = new DefaultTableModel();
-    tableModel.setColumnIdentifiers(new String[] {"ID", "Descripción", "Estado", "Costo", "ID Cliente", "Fecha Compra", "Tipo Pago"});
+    public void crearTabla() {
 
-    this.tblPedidos.setModel(tableModel);
-   
-    List<Pedido> pedidos = c.obtenerPedidos(); 
-    
-    SimpleDateFormat formatoFecha = new SimpleDateFormat("yyyy-MM-dd");
-    
-    for (Pedido pedido : pedidos) {
-        tableModel.addRow(new Object[] {
-            pedido.getId(),
-            pedido.getDescripcion(),
-            pedido.getEstado(),
-            pedido.getCosto(),
-            pedido.getCliente().getId(),  
-            formatoFecha.format(pedido.getFecha().getTime()),
-            pedido.getTipoPago()
-        });
-    }
-}
-
-public void crearTablaFiltro(Date fechaInicio, Date fechaFin){
         tableModel = new DefaultTableModel();
-    tableModel.setColumnIdentifiers(new String[] {"ID", "Descripción", "Estado", "Costo", "ID Cliente", "Fecha Compra", "Tipo Pago"});
+        tableModel.setColumnIdentifiers(new String[]{"ID", "Descripción", "Estado", "Costo", "ID Cliente", "Fecha Compra", "Tipo Pago"});
 
-    this.tblPedidos.setModel(tableModel);
-   
-    List<Pedido> pedidos = c.obtenerPedidosFiltro(fechaInicio, fechaFin); 
-    
-    SimpleDateFormat formatoFecha = new SimpleDateFormat("yyyy-MM-dd");
-    
-    for (Pedido pedido : pedidos) {
-        tableModel.addRow(new Object[] {
-            pedido.getId(),
-            pedido.getDescripcion(),
-            pedido.getEstado(),
-            pedido.getCosto(),
-            pedido.getCliente().getId(),  
-            formatoFecha.format(pedido.getFecha().getTime()),
-            pedido.getTipoPago()
-        });
+        this.tblPedidos.setModel(tableModel);
+
+        List<Pedido> pedidos = c.obtenerPedidos();
+
+        for (Pedido pedido : pedidos) {
+            Calendar fecha = pedido.getFecha();
+
+            int anio = fecha.get(Calendar.YEAR);
+            int mes = fecha.get(Calendar.MONTH) + 1;
+            int dia = fecha.get(Calendar.DAY_OF_MONTH);
+
+            String fechaFormateada = anio + "-" + (mes < 10 ? "0" + mes : mes) + "-" + (dia < 10 ? "0" + dia : dia);
+
+            tableModel.addRow(new Object[]{
+                pedido.getId(),
+                pedido.getDescripcion(),
+                pedido.getEstado(),
+                pedido.getCosto(),
+                pedido.getCliente().getId(),
+                fechaFormateada,
+                pedido.getTipoPago()
+            });
+        }
+
     }
-}
+
+    public void crearTablaFiltro(Calendar fechaInicio, Calendar fechaFin) {
+        tableModel = new DefaultTableModel();
+        tableModel.setColumnIdentifiers(new String[]{"ID", "Descripción", "Estado", "Costo", "ID Cliente", "Fecha Compra", "Tipo Pago"});
+
+        this.tblPedidos.setModel(tableModel);
+
+        List<Pedido> pedidos = c.obtenerPedidosFiltro(fechaInicio, fechaFin);
+
+        SimpleDateFormat formatoFecha = new SimpleDateFormat("yyyy-MM-dd");
+
+        for (Pedido pedido : pedidos) {
+            tableModel.addRow(new Object[]{
+                pedido.getId(),
+                pedido.getDescripcion(),
+                pedido.getEstado(),
+                pedido.getCosto(),
+                pedido.getCliente().getId(),
+                formatoFecha.format(pedido.getFecha().getTime()),
+                pedido.getTipoPago()
+            });
+        }
+    }
 
 }

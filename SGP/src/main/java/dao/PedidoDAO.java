@@ -3,13 +3,14 @@ package dao;
 import dominio.Pedido;
 import excepciones.DAOException;
 import interfaces.IPedidoDAO;
-import java.util.Date; 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Predicate; 
+import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
 /**
@@ -17,24 +18,25 @@ import javax.persistence.criteria.Root;
  * @author Samuel Vega
  */
 public class PedidoDAO implements IPedidoDAO {
+
     EntityManager em;
-    
+
     public PedidoDAO(EntityManager em) {
         this.em = em;
     }
-    
+
     @Override
     public Pedido obten(Long id) throws DAOException {
         Pedido cliente = null;
-        
+
         try {
             cliente = em.find(Pedido.class, id);
-        }catch (DAOException e){
+        } catch (DAOException e) {
             System.out.println(e.getMessage());
-        }finally {
+        } finally {
             em.close();
         }
-        
+
         return cliente;
     }
 
@@ -44,38 +46,39 @@ public class PedidoDAO implements IPedidoDAO {
             em.getTransaction().begin();
             em.persist(pedido);
             em.getTransaction().commit();
-        }catch(DAOException e) {
-            if(em.getTransaction().isActive()) {
+        } catch (DAOException e) {
+            if (em.getTransaction().isActive()) {
                 em.getTransaction().rollback();
             }
             System.out.println("No se pudo registrar el pedido");
-        }finally {
+        } finally {
             em.close();
         }
     }
 
     @Override
-    public void modificarPedido(Pedido pedido) throws DAOException { 
+    public void modificarPedido(Pedido pedido) throws DAOException {
         try {
             em.getTransaction().begin();
-            
+
             Pedido EPedido = em.find(Pedido.class, pedido.getId());
-            if(EPedido != null) {
+            if (EPedido != null) {
                 EPedido.setDescripcion(pedido.getDescripcion());
                 EPedido.setEstado(pedido.getEstado());
                 EPedido.setCosto(pedido.getCosto());
                 EPedido.setCliente(pedido.getCliente());
                 EPedido.setFecha(pedido.getFecha());
                 EPedido.setTipoPago(pedido.getTipoPago());
-            }else {
+                em.getTransaction().commit();
+            } else {
                 System.out.println("No se encontró el pedido que se quiere modificar");
             }
-        }catch(DAOException e) {
-            if(em.getTransaction().isActive()) {
+        } catch (DAOException e) {
+            if (em.getTransaction().isActive()) {
                 em.getTransaction().rollback();
             }
             System.out.println("No se pudo modificar el pedido");
-        }finally {
+        } finally {
             em.close();
         }
     }
@@ -84,21 +87,21 @@ public class PedidoDAO implements IPedidoDAO {
     public void eliminarPedido(Long id) throws DAOException {
         try {
             em.getTransaction().begin();
-            
+
             Pedido EPedido = em.find(Pedido.class, id);
-            if(EPedido != null) {
+            if (EPedido != null) {
                 em.remove(EPedido);
                 em.getTransaction().commit();
-            }else {
+            } else {
                 System.out.println("No se encontró el pedido mencionado");
             }
-            
-        }catch(DAOException e) {
-            if(em.getTransaction().isActive()) {
+
+        } catch (DAOException e) {
+            if (em.getTransaction().isActive()) {
                 em.getTransaction().rollback();
             }
             System.out.println("No se pudo eliminar el pedido");
-        }finally {
+        } finally {
             em.close();
         }
     }
@@ -106,25 +109,25 @@ public class PedidoDAO implements IPedidoDAO {
     @Override
     public List<Pedido> obtenerPedidos() throws DAOException {
         List<Pedido> pedidos = null;
-        
+
         try {
             CriteriaBuilder cb = em.getCriteriaBuilder();
             CriteriaQuery<Pedido> cq = cb.createQuery(Pedido.class);
             Root<Pedido> c = cq.from(Pedido.class);
-            
+
             cq.select(c);
             pedidos = em.createQuery(cq).getResultList();
-        }catch(NoResultException nre) {
+        } catch (NoResultException nre) {
             System.out.println("No se encontrarón pedidos.");
-        }finally {
+        } finally {
             em.close();
         }
-        
+
         return pedidos;
     }
-    
+
     @Override
-    public List<Pedido> obtenerPedidosEntreFechas(Date fechaInicio, Date fechaFin) throws DAOException {
+    public List<Pedido> obtenerPedidosEntreFechas(Calendar fechaInicio, Calendar fechaFin) throws DAOException {
         List<Pedido> pedidos = null;
 
         try {
@@ -132,8 +135,11 @@ public class PedidoDAO implements IPedidoDAO {
             CriteriaQuery<Pedido> cq = cb.createQuery(Pedido.class);
             Root<Pedido> pedidoRoot = cq.from(Pedido.class);
 
-            // Aplicamos el filtro de rango de fechas
-            Predicate rangoFechas = cb.between(pedidoRoot.get("fecha"), fechaInicio, fechaFin);
+            // Convertir Calendar a Date
+            Date fechaInicioDate = fechaInicio.getTime();
+            Date fechaFinDate = fechaFin.getTime();
+
+            Predicate rangoFechas = cb.between(pedidoRoot.get("fecha"), fechaInicioDate, fechaFinDate);
             cq.select(pedidoRoot).where(rangoFechas);
 
             pedidos = em.createQuery(cq).getResultList();
@@ -145,5 +151,5 @@ public class PedidoDAO implements IPedidoDAO {
 
         return pedidos;
     }
+
 }
-    

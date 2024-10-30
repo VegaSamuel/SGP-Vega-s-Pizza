@@ -12,6 +12,7 @@ import interfaces.IProductoDAO;
 import java.awt.Frame;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import javax.swing.DefaultListModel;
@@ -238,7 +239,7 @@ public class Control {
     }
     
 
-    public List<Pedido> obtenerPedidosFiltro(Date fechaInicio, Date fechaFin){
+    public List<Pedido> obtenerPedidosFiltro(Calendar fechaInicio, Calendar fechaFin){
         IPedidoDAO pedidos = new PedidoDAO(new DBConector().getEM());
         return pedidos.obtenerPedidosEntreFechas(fechaInicio, fechaFin);
     }
@@ -259,7 +260,7 @@ public class Control {
         frmRevisarPedidos.setVisible(true);
     }
     
-    public void actualizarPeriodoPedidos(Date fechaInicio, Date fechaFinal) {
+    public void actualizarPeriodoPedidos(Calendar fechaInicio, Calendar fechaFinal) {
         this.frmRevisarPedidos.setPeriodo(fechaInicio, fechaFinal);
     }
     
