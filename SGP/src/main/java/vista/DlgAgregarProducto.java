@@ -1,6 +1,6 @@
 package vista;
 
-import control.Control;
+import control.ControlPedidos;
 import dominio.Producto;
 import java.awt.Dimension;
 import java.awt.Point;
@@ -18,7 +18,7 @@ import javax.swing.JTextField;
 public class DlgAgregarProducto extends javax.swing.JDialog {
     private DefaultListModel<String> modeloLista;
     private List<Producto> productos;
-    private Control c = Control.getInstance();
+    private ControlPedidos c = ControlPedidos.getInstance();
     
     /**
      * Creates new form dlgAgregarProducto

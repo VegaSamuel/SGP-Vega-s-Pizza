@@ -36,9 +36,9 @@ import vista.FrmSeleccionarDosFechas;
  * Clase que lleva el control de la aplicación.
  * @author Samuel Vega & Pedro Moya & Juan Sánchez
  */
-public class Control {
+public class ControlPedidos {
     // Instancia única de la clase
-    private static Control instancia;
+    private static ControlPedidos instancia;
     
     // Declaración de ventanas
     private FrmPrincipal main;
@@ -58,7 +58,7 @@ public class Control {
     /**
      * Constructor que inicializa ciertos atributos.
      */
-    private Control() {
+    private ControlPedidos() {
         this.productosPedidos = new ArrayList<>();
         this.cantidadPorProducto = new ArrayList<>();
     }
@@ -67,9 +67,9 @@ public class Control {
      * Crea una instancia de la clase si es que no la hay y devuelve una que ya este creada.
      * @return Instancia de la clase.
      */
-    public static Control getInstance() {
+    public static ControlPedidos getInstance() {
         if(instancia == null) {
-            instancia = new Control();
+            instancia = new ControlPedidos();
         }
         return instancia;
     }

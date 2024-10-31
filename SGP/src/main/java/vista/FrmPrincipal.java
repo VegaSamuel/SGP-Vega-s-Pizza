@@ -1,6 +1,6 @@
 package vista;
 
-import control.Control;
+import control.ControlPedidos;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import javax.swing.JOptionPane;
@@ -13,7 +13,7 @@ import javax.swing.ListModel;
  */
 public class FrmPrincipal extends javax.swing.JFrame {
 
-    Control c = Control.getInstance();
+    ControlPedidos c = ControlPedidos.getInstance();
 
     /**
      * Creates new form FrmPrincipal
@@ -58,29 +58,36 @@ public class FrmPrincipal extends javax.swing.JFrame {
     private void initComponents() {
 
         jLabel1 = new javax.swing.JLabel();
+        jMenu1 = new javax.swing.JMenu();
         btnRealizarPedido = new javax.swing.JButton();
         btnRevisarPedido = new javax.swing.JButton();
         btn_cancelar = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         listPedidos = new javax.swing.JList<>();
-        jLabel2 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
+        lblLogo = new javax.swing.JLabel();
+        btnEnviarPedido = new javax.swing.JButton();
         menuBar = new javax.swing.JMenuBar();
-        fileMenu = new javax.swing.JMenu();
-        openMenuItem = new javax.swing.JMenuItem();
-        saveMenuItem = new javax.swing.JMenuItem();
-        saveAsMenuItem = new javax.swing.JMenuItem();
-        exitMenuItem = new javax.swing.JMenuItem();
-        editMenu = new javax.swing.JMenu();
-        cutMenuItem = new javax.swing.JMenuItem();
-        copyMenuItem = new javax.swing.JMenuItem();
-        pasteMenuItem = new javax.swing.JMenuItem();
-        deleteMenuItem = new javax.swing.JMenuItem();
-        helpMenu = new javax.swing.JMenu();
-        contentsMenuItem = new javax.swing.JMenuItem();
-        aboutMenuItem = new javax.swing.JMenuItem();
+        menuClientes = new javax.swing.JMenu();
+        clientesAgregar = new javax.swing.JMenuItem();
+        clientesModificar = new javax.swing.JMenuItem();
+        clientesEliminar = new javax.swing.JMenuItem();
+        clientesRevisar = new javax.swing.JMenuItem();
+        menuInventario = new javax.swing.JMenu();
+        inventarioInventariar = new javax.swing.JMenuItem();
+        menuProductos = new javax.swing.JMenu();
+        productosAgregar = new javax.swing.JMenuItem();
+        productosModificar = new javax.swing.JMenuItem();
+        productosEliminar = new javax.swing.JMenuItem();
+        productosRevisar = new javax.swing.JMenuItem();
+        menuPromociones = new javax.swing.JMenu();
+        promocionesAgregar = new javax.swing.JMenuItem();
+        promocionesModificar = new javax.swing.JMenuItem();
+        promocionesEliminar = new javax.swing.JMenuItem();
+        promocionesRevisar = new javax.swing.JMenuItem();
 
         jLabel1.setText("jLabel1");
+
+        jMenu1.setText("jMenu1");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Sistema de Gestión de Pedidos - Vega's Pizza");
@@ -114,75 +121,74 @@ public class FrmPrincipal extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(listPedidos);
 
-        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Logo2.png"))); // NOI18N
+        lblLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Logo2.png"))); // NOI18N
 
-        jButton1.setText("Enviar Pedido");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        btnEnviarPedido.setText("Enviar Pedido");
+        btnEnviarPedido.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnEnviarPedido(evt);
             }
         });
 
-        fileMenu.setMnemonic('f');
-        fileMenu.setText("File");
+        menuClientes.setText("Clientes");
 
-        openMenuItem.setMnemonic('o');
-        openMenuItem.setText("Open");
-        fileMenu.add(openMenuItem);
+        clientesAgregar.setText("Agregar");
+        menuClientes.add(clientesAgregar);
 
-        saveMenuItem.setMnemonic('s');
-        saveMenuItem.setText("Save");
-        fileMenu.add(saveMenuItem);
+        clientesModificar.setText("Modificar");
+        menuClientes.add(clientesModificar);
 
-        saveAsMenuItem.setMnemonic('a');
-        saveAsMenuItem.setText("Save As ...");
-        saveAsMenuItem.setDisplayedMnemonicIndex(5);
-        fileMenu.add(saveAsMenuItem);
+        clientesEliminar.setText("Eliminar");
+        menuClientes.add(clientesEliminar);
 
-        exitMenuItem.setMnemonic('x');
-        exitMenuItem.setText("Exit");
-        exitMenuItem.addActionListener(new java.awt.event.ActionListener() {
+        clientesRevisar.setText("Revisar");
+        clientesRevisar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                exitMenuItemActionPerformed(evt);
+                clientesRevisarActionPerformed(evt);
             }
         });
-        fileMenu.add(exitMenuItem);
+        menuClientes.add(clientesRevisar);
 
-        menuBar.add(fileMenu);
+        menuBar.add(menuClientes);
 
-        editMenu.setMnemonic('e');
-        editMenu.setText("Edit");
+        menuInventario.setText("Inventario");
 
-        cutMenuItem.setMnemonic('t');
-        cutMenuItem.setText("Cut");
-        editMenu.add(cutMenuItem);
+        inventarioInventariar.setText("Inventariar");
+        menuInventario.add(inventarioInventariar);
 
-        copyMenuItem.setMnemonic('y');
-        copyMenuItem.setText("Copy");
-        editMenu.add(copyMenuItem);
+        menuBar.add(menuInventario);
 
-        pasteMenuItem.setMnemonic('p');
-        pasteMenuItem.setText("Paste");
-        editMenu.add(pasteMenuItem);
+        menuProductos.setText("Productos");
 
-        deleteMenuItem.setMnemonic('d');
-        deleteMenuItem.setText("Delete");
-        editMenu.add(deleteMenuItem);
+        productosAgregar.setText("Agregar");
+        menuProductos.add(productosAgregar);
 
-        menuBar.add(editMenu);
+        productosModificar.setText("Modificar");
+        menuProductos.add(productosModificar);
 
-        helpMenu.setMnemonic('h');
-        helpMenu.setText("Help");
+        productosEliminar.setText("Eliminar");
+        menuProductos.add(productosEliminar);
 
-        contentsMenuItem.setMnemonic('c');
-        contentsMenuItem.setText("Contents");
-        helpMenu.add(contentsMenuItem);
+        productosRevisar.setText("Revisar");
+        menuProductos.add(productosRevisar);
 
-        aboutMenuItem.setMnemonic('a');
-        aboutMenuItem.setText("About");
-        helpMenu.add(aboutMenuItem);
+        menuBar.add(menuProductos);
 
-        menuBar.add(helpMenu);
+        menuPromociones.setText("Promociones");
+
+        promocionesAgregar.setText("Agregar");
+        menuPromociones.add(promocionesAgregar);
+
+        promocionesModificar.setText("Modificar");
+        menuPromociones.add(promocionesModificar);
+
+        promocionesEliminar.setText("Eliminar");
+        menuPromociones.add(promocionesEliminar);
+
+        promocionesRevisar.setText("Revisar");
+        menuPromociones.add(promocionesRevisar);
+
+        menuBar.add(menuPromociones);
 
         setJMenuBar(menuBar);
 
@@ -197,13 +203,13 @@ public class FrmPrincipal extends javax.swing.JFrame {
                         .addComponent(btnRealizarPedido, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnRevisarPedido, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btn_cancelar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addComponent(jLabel2))
+                    .addComponent(lblLogo))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 426, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jButton1)))
+                        .addComponent(btnEnviarPedido)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -216,21 +222,21 @@ public class FrmPrincipal extends javax.swing.JFrame {
                 .addGap(39, 39, 39)
                 .addComponent(btnRevisarPedido)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 179, Short.MAX_VALUE)
-                .addComponent(jLabel2)
+                .addComponent(lblLogo)
                 .addGap(27, 27, 27))
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 461, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton1)
+                .addComponent(btnEnviarPedido)
                 .addGap(0, 0, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void exitMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exitMenuItemActionPerformed
+    private void clientesRevisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clientesRevisarActionPerformed
         System.exit(0);
-    }//GEN-LAST:event_exitMenuItemActionPerformed
+    }//GEN-LAST:event_clientesRevisarActionPerformed
 
     private void btnRealizarPedidoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRealizarPedidoActionPerformed
         
@@ -278,28 +284,33 @@ public class FrmPrincipal extends javax.swing.JFrame {
     }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JMenuItem aboutMenuItem;
+    private javax.swing.JButton btnEnviarPedido;
     private javax.swing.JButton btnRealizarPedido;
     private javax.swing.JButton btnRevisarPedido;
     private javax.swing.JButton btn_cancelar;
-    private javax.swing.JMenuItem contentsMenuItem;
-    private javax.swing.JMenuItem copyMenuItem;
-    private javax.swing.JMenuItem cutMenuItem;
-    private javax.swing.JMenuItem deleteMenuItem;
-    private javax.swing.JMenu editMenu;
-    private javax.swing.JMenuItem exitMenuItem;
-    private javax.swing.JMenu fileMenu;
-    private javax.swing.JMenu helpMenu;
-    private javax.swing.JButton jButton1;
+    private javax.swing.JMenuItem clientesAgregar;
+    private javax.swing.JMenuItem clientesEliminar;
+    private javax.swing.JMenuItem clientesModificar;
+    private javax.swing.JMenuItem clientesRevisar;
+    private javax.swing.JMenuItem inventarioInventariar;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
+    private javax.swing.JMenu jMenu1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel lblLogo;
     private javax.swing.JList<String> listPedidos;
     private javax.swing.JMenuBar menuBar;
-    private javax.swing.JMenuItem openMenuItem;
-    private javax.swing.JMenuItem pasteMenuItem;
-    private javax.swing.JMenuItem saveAsMenuItem;
-    private javax.swing.JMenuItem saveMenuItem;
+    private javax.swing.JMenu menuClientes;
+    private javax.swing.JMenu menuInventario;
+    private javax.swing.JMenu menuProductos;
+    private javax.swing.JMenu menuPromociones;
+    private javax.swing.JMenuItem productosAgregar;
+    private javax.swing.JMenuItem productosEliminar;
+    private javax.swing.JMenuItem productosModificar;
+    private javax.swing.JMenuItem productosRevisar;
+    private javax.swing.JMenuItem promocionesAgregar;
+    private javax.swing.JMenuItem promocionesEliminar;
+    private javax.swing.JMenuItem promocionesModificar;
+    private javax.swing.JMenuItem promocionesRevisar;
     // End of variables declaration//GEN-END:variables
 
 }

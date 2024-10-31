@@ -1,6 +1,6 @@
 package util.tablesButtons;
 
-import control.Control;
+import control.ControlPedidos;
 import java.awt.Component;
 import java.awt.GridLayout;
 import javax.swing.AbstractCellEditor;
@@ -16,7 +16,7 @@ import javax.swing.table.TableCellEditor;
  * @author Samuel Vega
  */
 public class CantidadEditor extends AbstractCellEditor implements TableCellEditor {
-    private Control c = Control.getInstance();
+    private ControlPedidos c = ControlPedidos.getInstance();
     private JPanel panel = new JPanel(new GridLayout(1, 2));
     private JButton btnAumentar = new JButton("+");
     private JButton btnReducir = new JButton("-");

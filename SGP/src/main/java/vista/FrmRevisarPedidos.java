@@ -4,7 +4,7 @@
  */
 package vista;
 
-import control.Control;
+import control.ControlPedidos;
 import dominio.Pedido;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -18,7 +18,7 @@ import javax.swing.table.DefaultTableModel;
  */
 public class FrmRevisarPedidos extends javax.swing.JFrame {
 
-    Control c = Control.getInstance();
+    ControlPedidos c = ControlPedidos.getInstance();
     private DefaultTableModel tableModel;
 
     /**

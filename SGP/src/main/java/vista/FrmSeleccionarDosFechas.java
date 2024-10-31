@@ -1,13 +1,13 @@
 package vista;
 
 import com.toedter.calendar.JDateChooser;
-import control.Control;
+import control.ControlPedidos;
 import java.util.Calendar;
 import java.util.Date;
 import javax.swing.JOptionPane;
 
 public class FrmSeleccionarDosFechas extends javax.swing.JFrame {
-    private Control c = Control.getInstance();
+    private ControlPedidos c = ControlPedidos.getInstance();
     private JDateChooser dateChooserInicio;
     private JDateChooser dateChooserFin;
 

@@ -1,6 +1,6 @@
 package vista;
 
-import control.Control;
+import control.ControlPedidos;
 import dominio.Cliente;
 import dominio.Pedido;
 import java.awt.Dimension;
@@ -24,7 +24,7 @@ import util.tablesButtons.CantidadRenderer;
  * @author Samuel Vega
  */
 public class FrmRealizarPedido extends javax.swing.JFrame {
-    Control c = Control.getInstance();
+    ControlPedidos c = ControlPedidos.getInstance();
     Cliente cliente;
     DefaultComboBoxModel<String> cbxPagos;
     

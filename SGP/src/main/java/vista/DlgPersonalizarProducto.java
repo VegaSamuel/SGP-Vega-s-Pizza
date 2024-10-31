@@ -1,6 +1,6 @@
 package vista;
 
-import control.Control;
+import control.ControlPedidos;
 import dominio.Ingrediente;
 import java.awt.Dimension;
 import java.awt.Point;
@@ -12,7 +12,7 @@ import javax.swing.JCheckBox;
  * @author Samuel Vega
  */
 public class DlgPersonalizarProducto extends javax.swing.JDialog {
-    private Control c = Control.getInstance();
+    private ControlPedidos c = ControlPedidos.getInstance();
     private List<Ingrediente> ingredientes;
     
     public DlgPersonalizarProducto(java.awt.Frame parent, boolean modal, List<Ingrediente> ingredientes) {

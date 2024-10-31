@@ -1,6 +1,6 @@
 package util.tablesButtons;
 
-import control.Control;
+import control.ControlPedidos;
 import java.awt.Component;
 import javax.swing.DefaultCellEditor;
 import javax.swing.JButton;
@@ -12,7 +12,7 @@ import javax.swing.JTable;
  * @author Samuel Vega
  */
 public class PersonalizarEditor extends DefaultCellEditor {
-    private Control c = Control.getInstance();
+    private ControlPedidos c = ControlPedidos.getInstance();
     private JButton boton;
     private String nombreBoton;
     private boolean clicked;
