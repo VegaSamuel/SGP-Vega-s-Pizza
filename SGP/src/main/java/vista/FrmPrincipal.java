@@ -63,6 +63,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         listPedidos = new javax.swing.JList<>();
         jLabel2 = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
         menuBar = new javax.swing.JMenuBar();
         fileMenu = new javax.swing.JMenu();
         openMenuItem = new javax.swing.JMenuItem();
@@ -113,6 +114,13 @@ public class FrmPrincipal extends javax.swing.JFrame {
         jScrollPane1.setViewportView(listPedidos);
 
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Logo2.png"))); // NOI18N
+
+        jButton1.setText("Enviar Pedido");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEnviarPedido(evt);
+            }
+        });
 
         fileMenu.setMnemonic('f');
         fileMenu.setText("File");
@@ -190,7 +198,11 @@ public class FrmPrincipal extends javax.swing.JFrame {
                         .addComponent(btn_cancelar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addComponent(jLabel2))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 426, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 426, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jButton1)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -202,12 +214,14 @@ public class FrmPrincipal extends javax.swing.JFrame {
                 .addComponent(btn_cancelar)
                 .addGap(39, 39, 39)
                 .addComponent(btnRevisarPedido)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 179, Short.MAX_VALUE)
                 .addComponent(jLabel2)
                 .addGap(27, 27, 27))
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 484, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 15, Short.MAX_VALUE))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 461, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButton1)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         pack();
@@ -230,17 +244,28 @@ public class FrmPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_btnRevisarPedidoActionPerformed
 
     private void btn_cancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_cancelarActionPerformed
-        String pedidoLimpio = this.listPedidos.getSelectedValue()
-                .replaceAll("(?i)<br>", "\n")
-                .replaceAll("<[^>]*>", "")
-                .replaceAll("", "");
-        String[] campos = pedidoLimpio.split("\n");
+        String[] campos = this.obtenerPedidoLimpio().split("\n");
 
         long idPedido = Long.parseLong(campos[0].split("\\s+")[0]);
 
         c.cancelarPedido(idPedido);
     }//GEN-LAST:event_btn_cancelarActionPerformed
 
+    private void btnEnviarPedido(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEnviarPedido
+        String[] campos = this.obtenerPedidoLimpio().split("\n");
+
+        long idPedido = Long.parseLong(campos[0].split("\\s+")[0]);
+
+        c.enviarPedido(idPedido);
+    }//GEN-LAST:event_btnEnviarPedido
+
+    private String obtenerPedidoLimpio() {
+        return this.listPedidos.getSelectedValue()
+                .replaceAll("(?i)<br>", "\n")
+                .replaceAll("<[^>]*>", "")
+                .replaceAll("", "");
+    }
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem aboutMenuItem;
     private javax.swing.JButton btnRealizarPedido;
@@ -254,6 +279,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenuItem exitMenuItem;
     private javax.swing.JMenu fileMenu;
     private javax.swing.JMenu helpMenu;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;

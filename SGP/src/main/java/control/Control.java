@@ -23,6 +23,7 @@ import util.CalculoEnvio;
 import util.CalculoMetrosEnvio;
 import util.Conversiones;
 import util.DBConector;
+import util.EstadoPedidos;
 import vista.DlgAgregarProducto;
 import vista.DlgPersonalizarProducto;
 import vista.FrmPrincipal;
@@ -170,6 +171,24 @@ public class Control {
     public void agregarProducto(Producto producto) {
         this.cantidadPorProducto.add(1);
         this.productosPedidos.add(producto);
+    }
+    
+    public void enviarPedido(Long id) {
+        IPedidoDAO pedidos = new PedidoDAO(new DBConector().getEM());
+        
+        Object[] botones = {"Regresar", "Enviar"};
+        
+        int resp = JOptionPane.showOptionDialog(this.main, "¿Seguro que quiere enviar el pedido " + id + "?", "Confirmación sobre envío de pedido", JOptionPane.YES_NO_OPTION, JOptionPane.PLAIN_MESSAGE, null, botones, botones[0]);
+        
+        if(resp == 1) {
+            Pedido pedido = pedidos.obten(id);
+            pedido.setEstado(EstadoPedidos.ENVIADO);
+            
+            pedidos = new PedidoDAO(new DBConector().getEM());
+            
+            pedidos.modificarPedido(pedido);
+            this.mostrarVentanaPrincipal();
+        }
     }
 
     public void mostrarVentanaPrincipal() {
