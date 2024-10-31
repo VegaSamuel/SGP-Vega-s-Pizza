@@ -466,7 +466,8 @@ public class FrmRealizarPedido extends javax.swing.JFrame {
         String descripcion = "";
         
         for (int i = 0; i < this.tblProductos.getRowCount(); i++) {
-            descripcion += "x" + this.tblProductos.getModel().getValueAt(i, 0) + " " + this.tblProductos.getModel().getValueAt(i, 1) + ", \n"; 
+            descripcion += "x" + this.tblProductos.getModel().getValueAt(i, 0) + " "; 
+            descripcion += (i == (this.tblProductos.getRowCount()-1)) ? this.tblProductos.getModel().getValueAt(i, 1) : this.tblProductos.getModel().getValueAt(i, 1) + ", \n";
         }
         
         Pedido pedido = new Pedido(

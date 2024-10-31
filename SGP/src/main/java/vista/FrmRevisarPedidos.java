@@ -184,7 +184,7 @@ public class FrmRevisarPedidos extends javax.swing.JFrame {
                 pedido.getId(),
                 pedido.getDescripcion(),
                 pedido.getEstado(),
-                pedido.getCosto(),
+                "$ " + String.format("%.2f", pedido.getCosto()),
                 pedido.getCliente().getId(),
                 fechaFormateada,
                 pedido.getTipoPago()
@@ -208,7 +208,7 @@ public class FrmRevisarPedidos extends javax.swing.JFrame {
                 pedido.getId(),
                 pedido.getDescripcion(),
                 pedido.getEstado(),
-                pedido.getCosto(),
+                "$ " + String.format("%.2f", pedido.getCosto()),
                 pedido.getCliente().getId(),
                 formatoFecha.format(pedido.getFecha().getTime()),
                 pedido.getTipoPago()

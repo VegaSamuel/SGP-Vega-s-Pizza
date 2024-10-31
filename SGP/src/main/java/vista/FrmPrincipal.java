@@ -3,6 +3,7 @@ package vista;
 import control.Control;
 import java.awt.Dimension;
 import java.awt.Toolkit;
+import javax.swing.JOptionPane;
 import javax.swing.ListModel;
 
 /**
@@ -244,6 +245,11 @@ public class FrmPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_btnRevisarPedidoActionPerformed
 
     private void btn_cancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_cancelarActionPerformed
+        if(this.listPedidos.getSelectedValue() == null) {
+            JOptionPane.showMessageDialog(this, "No hay ningún pedido seleccionado, por favor, seleccione uno", "Seleccione un pedido", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        
         String[] campos = this.obtenerPedidoLimpio().split("\n");
 
         long idPedido = Long.parseLong(campos[0].split("\\s+")[0]);
@@ -252,6 +258,11 @@ public class FrmPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_btn_cancelarActionPerformed
 
     private void btnEnviarPedido(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEnviarPedido
+        if(this.listPedidos.getSelectedValue() == null) {
+            JOptionPane.showMessageDialog(this, "No hay ningún pedido seleccionado, por favor, seleccione uno", "Seleccione un pedido", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        
         String[] campos = this.obtenerPedidoLimpio().split("\n");
 
         long idPedido = Long.parseLong(campos[0].split("\\s+")[0]);

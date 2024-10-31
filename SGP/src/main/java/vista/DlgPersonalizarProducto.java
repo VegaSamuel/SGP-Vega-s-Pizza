@@ -1,6 +1,9 @@
 package vista;
 
+import control.Control;
 import dominio.Ingrediente;
+import java.awt.Dimension;
+import java.awt.Point;
 import java.util.List;
 import javax.swing.JCheckBox;
 
@@ -9,6 +12,7 @@ import javax.swing.JCheckBox;
  * @author Samuel Vega
  */
 public class DlgPersonalizarProducto extends javax.swing.JDialog {
+    private Control c = Control.getInstance();
     private List<Ingrediente> ingredientes;
     
     public DlgPersonalizarProducto(java.awt.Frame parent, boolean modal, List<Ingrediente> ingredientes) {
@@ -29,6 +33,18 @@ public class DlgPersonalizarProducto extends javax.swing.JDialog {
         this.panelIngredientes.revalidate();
         this.panelIngredientes.repaint();
         this.panelIngredientes.setVisible(true);
+        
+        this.centraCuadroDialogo(parent);
+    }
+    
+    private void centraCuadroDialogo(java.awt.Frame parent){
+        Dimension frameSize = parent.getSize();
+        Point loc = parent.getLocation();
+        
+        Dimension dlgSize = getPreferredSize();
+        
+        setLocation( (frameSize.width - dlgSize.width) / 2 + loc.x,
+                     (frameSize.height - dlgSize.height) / 2 + loc.y);
     }
 
     /**
@@ -54,6 +70,11 @@ public class DlgPersonalizarProducto extends javax.swing.JDialog {
         panelIngredientes.setLayout(new java.awt.GridLayout(ingredientes.size(), 0));
 
         btnAgregar.setText("Agregar");
+        btnAgregar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAgregarActionPerformed(evt);
+            }
+        });
 
         btnCancelar.setText("Cancelar");
         btnCancelar.addActionListener(new java.awt.event.ActionListener() {
@@ -100,6 +121,21 @@ public class DlgPersonalizarProducto extends javax.swing.JDialog {
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
         dispose();
     }//GEN-LAST:event_btnCancelarActionPerformed
+
+    private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
+        int nIngredientesSelec = 0;
+        
+        for (int i = 0; i < this.panelIngredientes.getComponentCount(); i++) {
+            if(this.panelIngredientes.getComponent(i) instanceof JCheckBox) {
+                JCheckBox check = (JCheckBox) this.panelIngredientes.getComponent(i);
+                if(check.isSelected()) {
+                    nIngredientesSelec += 1;
+                }
+            }
+        }
+        
+        c.agregarIngredientes(nIngredientesSelec);
+    }//GEN-LAST:event_btnAgregarActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAgregar;

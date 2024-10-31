@@ -19,7 +19,7 @@ public class Conversiones {
             for(int i = 0; i < productos.size(); i++) {
                 tabla[i][0] = cantidadProducto.get(i);
                 tabla[i][1] = productos.get(i).getNombre();
-                tabla[i][2] = cantidadProducto.get(i) * productos.get(i).getPrecio();
+                tabla[i][2] = "$ " + String.format("%.2f", cantidadProducto.get(i) * productos.get(i).getPrecio());
                 tabla[i][3] = "Personalizar";
             }
             return new DefaultTableModel(tabla, columnasProductosPedido);

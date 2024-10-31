@@ -173,6 +173,12 @@ public class Control {
         this.productosPedidos.add(producto);
     }
     
+    public void agregarIngredientes(int cantidad) {
+        float costoExtra = 10.0f * cantidad;
+        
+        
+    }
+    
     public void enviarPedido(Long id) {
         IPedidoDAO pedidos = new PedidoDAO(new DBConector().getEM());
         
