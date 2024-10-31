@@ -1,5 +1,6 @@
 package util.tablesButtons;
 
+import control.Control;
 import java.awt.Component;
 import javax.swing.DefaultCellEditor;
 import javax.swing.JButton;
@@ -11,6 +12,7 @@ import javax.swing.JTable;
  * @author Samuel Vega
  */
 public class PersonalizarEditor extends DefaultCellEditor {
+    private Control c = Control.getInstance();
     private JButton boton;
     private String nombreBoton;
     private boolean clicked;
@@ -21,7 +23,7 @@ public class PersonalizarEditor extends DefaultCellEditor {
         boton.setOpaque(true);
         
         boton.addActionListener(e -> {
-            
+            c.mostrarPersonalizarProducto();
         });
     }
     

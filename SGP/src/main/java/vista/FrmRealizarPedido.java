@@ -449,6 +449,10 @@ public class FrmRealizarPedido extends javax.swing.JFrame {
     }//GEN-LAST:event_txtTelefonoKeyReleased
 
     private void btnRealizarPedidoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRealizarPedidoActionPerformed
+        if(!this.validarCampos()) {
+            return;
+        }
+        
         if(cliente == null) {
             cliente = new Cliente(
                 this.txtNombre.getText(),
@@ -492,6 +496,30 @@ public class FrmRealizarPedido extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_txtTelefonoKeyTyped
 
+    private boolean validarCampos() {
+        if("".equalsIgnoreCase(this.txtTelefono.getText())) {
+            JOptionPane.showMessageDialog(this, "Tiene que ingresar el número de teléfono", "Campo faltante!", JOptionPane.INFORMATION_MESSAGE);
+            return false;
+        }else if("".equalsIgnoreCase(this.txtNombre.getText())) {
+            JOptionPane.showMessageDialog(this, "Tiene que ingresar el nombre del cliente", "Campo faltante!", JOptionPane.INFORMATION_MESSAGE);
+            return false;
+        }else if("".equalsIgnoreCase(this.txtApellidoPaterno.getText())) {
+            JOptionPane.showMessageDialog(this, "Tiene que ingresar el apellido paterno del cliente", "Campo faltante!", JOptionPane.INFORMATION_MESSAGE);
+            return false;
+        }else if("".equalsIgnoreCase(this.txtApellidoMaterno.getText())) {
+            JOptionPane.showMessageDialog(this, "Tiene que ingresar el apellido materno del cliente", "Campo faltante!", JOptionPane.INFORMATION_MESSAGE);
+            return false;
+        }else if("".equalsIgnoreCase(this.txtDireccion.getText())) {
+            JOptionPane.showMessageDialog(this, "Tiene que ingresar la dirección del cliente", "Campo faltante", JOptionPane.INFORMATION_MESSAGE);
+            return false;
+        }else if(this.tblProductos.getRowCount() == 0) {
+            JOptionPane.showMessageDialog(this, "Tiene que haber productos en el pedido", "Productos a comprar!", JOptionPane.INFORMATION_MESSAGE);
+            return false;
+        }
+        
+        return true;
+    }
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAnhadir;
     private javax.swing.JButton btnBuscar;

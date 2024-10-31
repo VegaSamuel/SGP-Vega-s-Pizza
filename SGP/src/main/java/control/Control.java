@@ -1,19 +1,21 @@
 package control;
 
 import dao.ClienteDAO;
+import dao.IngredienteDAO;
 import dao.PedidoDAO;
 import dao.ProductoDAO;
 import dominio.Cliente;
+import dominio.Ingrediente;
 import dominio.Pedido;
 import dominio.Producto;
 import interfaces.IClienteDAO;
+import interfaces.IIngredienteDAO;
 import interfaces.IPedidoDAO;
 import interfaces.IProductoDAO;
 import java.awt.Frame;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
@@ -22,6 +24,7 @@ import util.CalculoMetrosEnvio;
 import util.Conversiones;
 import util.DBConector;
 import vista.DlgAgregarProducto;
+import vista.DlgPersonalizarProducto;
 import vista.FrmPrincipal;
 import vista.FrmRealizarPedido;
 import vista.FrmRevisarPedidos;
@@ -40,6 +43,7 @@ public class Control {
     private FrmPrincipal main;
     private FrmRealizarPedido frmRealizarPedido;
     private DlgAgregarProducto dlgAgregarProducto;
+    private DlgPersonalizarProducto dlgPersonalizarProducto;
     private FrmRevisarPedidos frmRevisarPedidos;
     private FrmSeleccionarDosFechas frmSeleccionarFechas;
     
@@ -80,6 +84,10 @@ public class Control {
         pedidos.agregarPedido(pedido);
         
         JOptionPane.showMessageDialog(frmRealizarPedido, "Se agregó correctamente el pedido.", "Agregado exitoso.", JOptionPane.PLAIN_MESSAGE);
+    }
+    
+    public void personalizarPedido() {
+        
     }
     
     /**
@@ -143,6 +151,20 @@ public class Control {
         
         this.dlgAgregarProducto = new DlgAgregarProducto(frame, false, listaProductos);
         this.dlgAgregarProducto.setVisible(true);
+    }
+    
+    public void mostrarPersonalizarProducto() {
+        IIngredienteDAO ingredientes = new IngredienteDAO(new DBConector().getEM());
+        
+        List<Ingrediente> listaIngredientes = ingredientes.obtenerIngredientes();
+        
+        if(listaIngredientes.isEmpty()) {
+            JOptionPane.showMessageDialog(this.frmRealizarPedido, "No hay ingredientes que seleccionar.", "No hay ingredientes", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        
+        this.dlgPersonalizarProducto = new DlgPersonalizarProducto(this.frmRealizarPedido, false, listaIngredientes);
+        this.dlgPersonalizarProducto.setVisible(true);
     }
     
     public void agregarProducto(Producto producto) {

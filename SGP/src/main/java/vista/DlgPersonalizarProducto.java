@@ -9,20 +9,26 @@ import javax.swing.JCheckBox;
  * @author Samuel Vega
  */
 public class DlgPersonalizarProducto extends javax.swing.JDialog {
-
-    /**
-     * Creates new form DlgPersonalizarProducto
-     */
+    private List<Ingrediente> ingredientes;
+    
     public DlgPersonalizarProducto(java.awt.Frame parent, boolean modal, List<Ingrediente> ingredientes) {
         super(parent, modal);
+        this.ingredientes = ingredientes;
         initComponents();
         
-        for (Ingrediente ingrediente : ingredientes) {
-            JCheckBox checkBox = new JCheckBox(ingrediente.getNombre());
-            this.panelIngredientes.add(checkBox);
+        for (Ingrediente ingrediente : this.ingredientes) {
+            if(ingrediente.getNombre().equalsIgnoreCase("masa")) {
+            } else if(ingrediente.getNombre().equalsIgnoreCase("pure de tomate")) {
+            } else if(ingrediente.getNombre().equalsIgnoreCase("queso")) {
+            } else {
+                JCheckBox checkBox = new JCheckBox(ingrediente.getNombre());
+                this.panelIngredientes.add(checkBox);
+            }
         }
         
-        
+        this.panelIngredientes.revalidate();
+        this.panelIngredientes.repaint();
+        this.panelIngredientes.setVisible(true);
     }
 
     /**
@@ -34,30 +40,27 @@ public class DlgPersonalizarProducto extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        buttonGroup1 = new javax.swing.ButtonGroup();
         jLabel1 = new javax.swing.JLabel();
         panelIngredientes = new javax.swing.JPanel();
         btnAgregar = new javax.swing.JButton();
         btnCancelar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Personalizar Producto");
+        setResizable(false);
 
         jLabel1.setText("Ingredientes a agregar");
 
-        javax.swing.GroupLayout panelIngredientesLayout = new javax.swing.GroupLayout(panelIngredientes);
-        panelIngredientes.setLayout(panelIngredientesLayout);
-        panelIngredientesLayout.setHorizontalGroup(
-            panelIngredientesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
-        );
-        panelIngredientesLayout.setVerticalGroup(
-            panelIngredientesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 248, Short.MAX_VALUE)
-        );
+        panelIngredientes.setLayout(new java.awt.GridLayout(ingredientes.size(), 0));
 
         btnAgregar.setText("Agregar");
 
         btnCancelar.setText("Cancelar");
+        btnCancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancelarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -84,19 +87,23 @@ public class DlgPersonalizarProducto extends javax.swing.JDialog {
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(panelIngredientes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, 455, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnAgregar)
                     .addComponent(btnCancelar))
-                .addContainerGap(8, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
+        dispose();
+    }//GEN-LAST:event_btnCancelarActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAgregar;
     private javax.swing.JButton btnCancelar;
-    private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel panelIngredientes;
     // End of variables declaration//GEN-END:variables

@@ -16,7 +16,7 @@ import javax.persistence.criteria.Root;
  * @author Samuel Vega
  */
 public class ClienteDAO implements IClienteDAO {
-    EntityManager em;
+    private final EntityManager em;
     
     public ClienteDAO(EntityManager em) {
         this.em = em;
