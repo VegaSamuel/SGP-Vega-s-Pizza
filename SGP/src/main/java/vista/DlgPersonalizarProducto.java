@@ -6,6 +6,7 @@ import java.awt.Dimension;
 import java.awt.Point;
 import java.util.List;
 import javax.swing.JCheckBox;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -14,6 +15,7 @@ import javax.swing.JCheckBox;
 public class DlgPersonalizarProducto extends javax.swing.JDialog {
     private ControlPedidos c = ControlPedidos.getInstance();
     private List<Ingrediente> ingredientes;
+    private int fila;
     
     public DlgPersonalizarProducto(java.awt.Frame parent, boolean modal, List<Ingrediente> ingredientes) {
         super(parent, modal);
@@ -45,6 +47,10 @@ public class DlgPersonalizarProducto extends javax.swing.JDialog {
         
         setLocation( (frameSize.width - dlgSize.width) / 2 + loc.x,
                      (frameSize.height - dlgSize.height) / 2 + loc.y);
+    }
+    
+    public void setFila(int fila) {
+        this.fila = fila;
     }
 
     /**
@@ -124,17 +130,33 @@ public class DlgPersonalizarProducto extends javax.swing.JDialog {
 
     private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
         int nIngredientesSelec = 0;
+        StringBuilder extras = new StringBuilder("(Extras: ");
         
         for (int i = 0; i < this.panelIngredientes.getComponentCount(); i++) {
             if(this.panelIngredientes.getComponent(i) instanceof JCheckBox) {
                 JCheckBox check = (JCheckBox) this.panelIngredientes.getComponent(i);
                 if(check.isSelected()) {
                     nIngredientesSelec += 1;
+                    extras.append(check.getText()).append(", ");
                 }
             }
         }
         
-        c.agregarIngredientes(nIngredientesSelec);
+        if(nIngredientesSelec > 0) {
+            extras.setLength(extras.length() - 2);
+        } else {
+            JOptionPane.showMessageDialog(this, "No has seleccionado ni una opción", "No hay selecciones", JOptionPane.INFORMATION_MESSAGE);
+            return;
+        }
+        
+        extras.append(")");
+        
+        JOptionPane.showMessageDialog(this, "Extras agregados correctamente", "Extras agregados!!", JOptionPane.PLAIN_MESSAGE);
+        
+        c.agregarIngredientes(nIngredientesSelec, extras.toString(), fila);
+        c.actualizarRealizarPedido();
+        
+        dispose();
     }//GEN-LAST:event_btnAgregarActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

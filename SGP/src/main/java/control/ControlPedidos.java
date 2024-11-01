@@ -173,10 +173,13 @@ public class ControlPedidos {
         this.productosPedidos.add(producto);
     }
     
-    public void agregarIngredientes(int cantidad) {
+    public void agregarIngredientes(int cantidad, String extras, int fila) {
         float costoExtra = 10.0f * cantidad;
         
+        String descripcion = this.productosPedidos.get(fila).getNombre() + " " + extras;
         
+        this.productosPedidos.get(fila).setNombre(descripcion);
+        this.productosPedidos.get(fila).setPrecio(this.productosPedidos.get(fila).getPrecio() + costoExtra);
     }
     
     public void enviarPedido(Long id) {
@@ -325,5 +328,9 @@ public class ControlPedidos {
         }else {
             return this.cantidadPorProducto.get(index);
         }
+    }
+    
+    public void setFilaPersonalizar(int fila) {
+        this.dlgPersonalizarProducto.setFila(fila);
     }
 }

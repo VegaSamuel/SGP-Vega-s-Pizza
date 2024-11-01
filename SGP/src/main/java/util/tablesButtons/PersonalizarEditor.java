@@ -6,6 +6,7 @@ import javax.swing.DefaultCellEditor;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JTable;
+import vista.DlgPersonalizarProducto;
 
 /**
  *
@@ -16,6 +17,7 @@ public class PersonalizarEditor extends DefaultCellEditor {
     private JButton boton;
     private String nombreBoton;
     private boolean clicked;
+    private int fila;
     
     public PersonalizarEditor(JCheckBox cb) {
         super(cb);
@@ -24,6 +26,7 @@ public class PersonalizarEditor extends DefaultCellEditor {
         
         boton.addActionListener(e -> {
             c.mostrarPersonalizarProducto();
+            c.setFilaPersonalizar(fila);
         });
     }
     
@@ -32,6 +35,7 @@ public class PersonalizarEditor extends DefaultCellEditor {
         nombreBoton = (value == null) ? "" : value.toString();
         
         boton.setText(nombreBoton);
+        fila = row;
         clicked = true;
         return boton;
     }
