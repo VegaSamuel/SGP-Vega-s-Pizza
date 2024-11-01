@@ -79,6 +79,7 @@ public class ControlPedidos {
         IPedidoDAO pedidos = new PedidoDAO(new DBConector().getEM());
         
         if(clientes.obten(cliente.getTelefono()) == null) {
+            clientes = new ClienteDAO(new DBConector().getEM());
             clientes.agregarCliente(cliente);
         }
         
@@ -105,12 +106,17 @@ public class ControlPedidos {
         // Calcula el costo según una tarifa definida por la empresa.
         CalculoEnvio envio = new CalculoEnvio();
         
-        costoEnvio = envio.calcularCostoEnvio(metros.getDistanciaMetros(direccion));
+        int metrosEnvio = metros.getDistanciaMetros(direccion);
+        double kilometrosEnvio = metrosEnvio / 1000.0;
+        
+        String distancia = String.format("%.1f km", kilometrosEnvio);
+        
+        costoEnvio = envio.calcularCostoEnvio(metrosEnvio);
         
         Object[] botones = {"Agregar", "Cancelar"};
         
         // Muestra el precio de envío y pregunta si el usuario quiere agregar el costo al pedido.
-        int resp = JOptionPane.showOptionDialog(frmRealizarPedido, "¿Desea agregar el envío? \n envío: " + costoEnvio, "Costo de Envío Calculado", JOptionPane.YES_NO_OPTION, JOptionPane.PLAIN_MESSAGE, null, botones, botones[0]);
+        int resp = JOptionPane.showOptionDialog(frmRealizarPedido, "¿Desea agregar el envío? \n kilometros: " +  distancia + " \n envío: $ " + costoEnvio, "Costo de Envío Calculado", JOptionPane.YES_NO_OPTION, JOptionPane.PLAIN_MESSAGE, null, botones, botones[0]);
         
         // Si se agrega el costo
         if(resp == 0) {
