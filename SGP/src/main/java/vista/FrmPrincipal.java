@@ -66,6 +66,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
         listPedidos = new javax.swing.JList<>();
         lblLogo = new javax.swing.JLabel();
         btnEnviarPedido = new javax.swing.JButton();
+        btnRegistrarVenta = new javax.swing.JButton();
         menuBar = new javax.swing.JMenuBar();
         menuClientes = new javax.swing.JMenu();
         clientesAgregar = new javax.swing.JMenuItem();
@@ -129,6 +130,8 @@ public class FrmPrincipal extends javax.swing.JFrame {
                 btnEnviarPedido(evt);
             }
         });
+
+        btnRegistrarVenta.setText("Registrar venta");
 
         menuClientes.setText("Clientes");
 
@@ -207,8 +210,9 @@ public class FrmPrincipal extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 426, Short.MAX_VALUE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(btnRegistrarVenta)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnEnviarPedido)))
                 .addContainerGap())
         );
@@ -228,7 +232,9 @@ public class FrmPrincipal extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 455, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnEnviarPedido)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnEnviarPedido)
+                    .addComponent(btnRegistrarVenta))
                 .addGap(0, 0, Short.MAX_VALUE))
         );
 
@@ -287,6 +293,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnEnviarPedido;
     private javax.swing.JButton btnRealizarPedido;
+    private javax.swing.JButton btnRegistrarVenta;
     private javax.swing.JButton btnRevisarPedido;
     private javax.swing.JButton btn_cancelar;
     private javax.swing.JMenuItem clientesAgregar;

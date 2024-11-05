@@ -26,6 +26,7 @@ public class DlgPersonalizarProducto extends javax.swing.JDialog {
             if(ingrediente.getNombre().equalsIgnoreCase("masa")) {
             } else if(ingrediente.getNombre().equalsIgnoreCase("pure de tomate")) {
             } else if(ingrediente.getNombre().equalsIgnoreCase("queso")) {
+            } else if(ingrediente.getCantidad() == 0) {
             } else {
                 JCheckBox checkBox = new JCheckBox(ingrediente.getNombre());
                 this.panelIngredientes.add(checkBox);

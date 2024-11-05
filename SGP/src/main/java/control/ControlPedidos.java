@@ -88,10 +88,6 @@ public class ControlPedidos {
         JOptionPane.showMessageDialog(frmRealizarPedido, "Se agregó correctamente el pedido.", "Agregado exitoso.", JOptionPane.PLAIN_MESSAGE);
     }
     
-    public void personalizarPedido() {
-        
-    }
-    
     /**
      * Calcula el costo de envío según la dirección que se le otorga en el parámetro.
      * @param direccion Dirección del cliente en un formato que contenga la calle, el número de casa y la colonia como mínimo.
