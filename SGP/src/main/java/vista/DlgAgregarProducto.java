@@ -4,6 +4,8 @@ import control.ControlPedidos;
 import dominio.Producto;
 import java.awt.Dimension;
 import java.awt.Point;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.util.List;
 import java.util.stream.Collectors;
 import javax.swing.DefaultListModel;
@@ -19,6 +21,7 @@ public class DlgAgregarProducto extends javax.swing.JDialog {
     private DefaultListModel<String> modeloLista;
     private List<Producto> productos;
     private ControlPedidos c = ControlPedidos.getInstance();
+    private JTextField txtActual;
     
     /**
      * Creates new form dlgAgregarProducto
@@ -30,12 +33,27 @@ public class DlgAgregarProducto extends javax.swing.JDialog {
         super(parent, modal);
         this.productos = productos;
         this.txtBuscar = new JTextField();
+        this.txtBuscarMitad = new JTextField();
+        this.txtActual = new JTextField();
         this.modeloLista = new DefaultListModel<>();
         this.listaProductos = new JList<>(modeloLista);
         
         initComponents();
         
         this.menu.add(this.panel);
+        this.txtBuscarMitad.setEnabled(false);
+        
+        this.checkMitad.addItemListener(new ItemListener() {
+            @Override
+            public void itemStateChanged(ItemEvent e) {
+                if(checkMitad.isSelected()) {
+                    txtBuscarMitad.setEnabled(true);
+                }else {
+                    txtBuscarMitad.setEnabled(false);
+                }
+            }
+            
+        });
         
         centraCuadroDialogo(parent);
     }
@@ -58,8 +76,8 @@ public class DlgAgregarProducto extends javax.swing.JDialog {
      * Filtra los productos en existencia
      * @return Lista de productos disponibles
      */
-    private List<Producto> filtrarProductos() {
-        String texto = txtBuscar.getText().toLowerCase();
+    private List<Producto> filtrarProductos(JTextField txt) {
+        String texto = txt.getText().toLowerCase();
         List<Producto> productosFiltrados = productos.stream().filter(p -> p.getNombre().toLowerCase().contains(texto)).collect(Collectors.toList());
         return productosFiltrados;
     }
@@ -81,6 +99,8 @@ public class DlgAgregarProducto extends javax.swing.JDialog {
         btnAgregar = new javax.swing.JButton();
         txtBuscar = new javax.swing.JTextField();
         btnCancelar = new javax.swing.JButton();
+        checkMitad = new javax.swing.JCheckBox();
+        txtBuscarMitad = new javax.swing.JTextField();
 
         listaProductos.setModel(modeloLista);
         listaProductos.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -105,6 +125,7 @@ public class DlgAgregarProducto extends javax.swing.JDialog {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Agregar Producto");
+        setResizable(false);
 
         jLabel1.setText("Buscar producto:");
 
@@ -128,6 +149,14 @@ public class DlgAgregarProducto extends javax.swing.JDialog {
             }
         });
 
+        checkMitad.setText("Mitad");
+
+        txtBuscarMitad.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtBuscarMitadKeyReleased(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -146,6 +175,12 @@ public class DlgAgregarProducto extends javax.swing.JDialog {
                         .addComponent(btnCancelar)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnAgregar)
+                        .addContainerGap())
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(checkMitad)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(txtBuscarMitad)
                         .addContainerGap())))
         );
         layout.setVerticalGroup(
@@ -155,7 +190,11 @@ public class DlgAgregarProducto extends javax.swing.JDialog {
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txtBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 168, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
+                .addComponent(checkMitad)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(txtBuscarMitad, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 105, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnAgregar)
                     .addComponent(btnCancelar))
@@ -171,8 +210,9 @@ public class DlgAgregarProducto extends javax.swing.JDialog {
 
     private void txtBuscarKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBuscarKeyReleased
         if(!"".equalsIgnoreCase(txtBuscar.getText())) {
+            txtActual = txtBuscar;
             modeloLista.removeAllElements();
-            for (Producto producto : filtrarProductos()) {
+            for (Producto producto : filtrarProductos(txtBuscar)) {
                 modeloLista.addElement(producto.getNombre() + ", $ " + producto.getPrecio());
             }
             menu.show(txtBuscar, 0, txtBuscar.getHeight());
@@ -181,36 +221,62 @@ public class DlgAgregarProducto extends javax.swing.JDialog {
 
     private void listaProductosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_listaProductosMouseClicked
         int coma = listaProductos.getSelectedValue().indexOf(",");
-        txtBuscar.setText(listaProductos.getSelectedValue().substring(0, coma).trim());
+        txtActual.setText(listaProductos.getSelectedValue().substring(0, coma).trim());
     }//GEN-LAST:event_listaProductosMouseClicked
 
     private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
         Producto productoAgregado = null;
+        Producto productoAgregadoMitad = null;
         
         for (Producto producto : productos) {
             if(producto.getNombre().equalsIgnoreCase(txtBuscar.getText())) {
                 productoAgregado = producto;
-                
-                JOptionPane.showMessageDialog(this, "Se agregó correctamente el costo de envío al pedido.", "Agregado exitoso", JOptionPane.PLAIN_MESSAGE);
-        
-                c.agregarProducto(productoAgregado);
-                c.actualizarRealizarPedido();
-                dispose();
-                return;
+            }else if(checkMitad.isSelected()) {
+                if(producto.getNombre().equalsIgnoreCase(txtBuscarMitad.getText())) {
+                    productoAgregadoMitad = producto;
+                }
             }
         }
         
-        JOptionPane.showMessageDialog(this, "No se encontró el producto: " + txtBuscar.getText() + "\nAsegurese de que el producto que eligió se haya puesto en la caja de texto.", "Error!!", JOptionPane.ERROR_MESSAGE);
+        if(productoAgregado != null) {
+            if(productoAgregadoMitad != null) {
+                productoAgregado.setNombre(productoAgregado.getNombre() + " mitad " + productoAgregadoMitad.getNombre().toLowerCase());
+                
+                float precio = (productoAgregado.getPrecio() / 2) + (productoAgregadoMitad.getPrecio() / 2);
+                productoAgregado.setPrecio(precio);
+            }
+            
+            JOptionPane.showMessageDialog(this, "Se agregó correctamente el producto " + productoAgregado.getNombre() + " al pedido.", "Agregado exitoso", JOptionPane.PLAIN_MESSAGE);
+
+            c.agregarProducto(productoAgregado);
+            c.actualizarRealizarPedido();
+            dispose();
+        }else {
+            JOptionPane.showMessageDialog(this, "No se encontró el producto: " + txtBuscar.getText() + "\nAsegurese de que el producto que eligió se haya puesto en la caja de texto.", "Error!!", JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_btnAgregarActionPerformed
+
+    private void txtBuscarMitadKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBuscarMitadKeyReleased
+        if(!"".equalsIgnoreCase(txtBuscarMitad.getText())) {
+            txtActual = txtBuscarMitad;
+            modeloLista.removeAllElements();
+            for (Producto producto : filtrarProductos(txtBuscarMitad)) {
+                modeloLista.addElement(producto.getNombre() + ", $ " + producto.getPrecio());
+            }
+            menu.show(txtBuscarMitad, 0, txtBuscarMitad.getHeight());
+        }
+    }//GEN-LAST:event_txtBuscarMitadKeyReleased
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAgregar;
     private javax.swing.JButton btnCancelar;
+    private javax.swing.JCheckBox checkMitad;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JList<String> listaProductos;
     private javax.swing.JPopupMenu menu;
     private javax.swing.JPanel panel;
     private javax.swing.JTextField txtBuscar;
+    private javax.swing.JTextField txtBuscarMitad;
     // End of variables declaration//GEN-END:variables
 }
