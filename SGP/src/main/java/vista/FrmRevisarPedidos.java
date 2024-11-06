@@ -5,12 +5,15 @@
 package vista;
 
 import control.ControlPedidos;
+import dominio.Cliente;
 import dominio.Pedido;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumn;
+import javax.swing.table.TableColumnModel;
 
 /**
  *
@@ -57,13 +60,14 @@ public class FrmRevisarPedidos extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Revisar Pedidos - SGP");
+        setResizable(false);
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosed(java.awt.event.WindowEvent evt) {
                 formWindowClosed(evt);
             }
         });
 
-        jPanel1.setBackground(new java.awt.Color(204, 204, 204));
+        jPanel1.setBackground(new java.awt.Color(220, 230, 250));
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 20)); // NOI18N
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -80,6 +84,7 @@ public class FrmRevisarPedidos extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        tblPedidos.setEnabled(false);
         jScrollPane1.setViewportView(tblPedidos);
 
         btnRegresar.setText("Regresar");
@@ -102,33 +107,38 @@ public class FrmRevisarPedidos extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(20, 20, 20)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(btnFiltro)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(20, 20, 20)
                         .addComponent(btnRegresar)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 687, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(21, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnFiltro))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addContainerGap(20, Short.MAX_VALUE)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1164, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(19, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(20, 20, 20)
+                .addGap(17, 17, 17)
                 .addComponent(jLabel1)
-                .addGap(3, 3, 3)
-                .addComponent(btnFiltro)
-                .addGap(18, 18, 18)
+                .addGap(47, 47, 47)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 395, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(btnRegresar)
-                .addContainerGap(11, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnRegresar)
+                    .addComponent(btnFiltro))
+                .addContainerGap(17, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -161,11 +171,10 @@ public class FrmRevisarPedidos extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable tblPedidos;
     // End of variables declaration//GEN-END:variables
-
     public void crearTabla() {
 
         tableModel = new DefaultTableModel();
-        tableModel.setColumnIdentifiers(new String[]{"ID", "Descripción", "Estado", "Costo", "ID Cliente", "Fecha Compra", "Tipo Pago"});
+        tableModel.setColumnIdentifiers(new String[]{"ID", "Descripción", "Estado", "Costo", "Nombre del cliente", "Dirección", "Fecha Compra", "Tipo Pago"});
 
         this.tblPedidos.setModel(tableModel);
 
@@ -180,22 +189,28 @@ public class FrmRevisarPedidos extends javax.swing.JFrame {
 
             String fechaFormateada = anio + "-" + (mes < 10 ? "0" + mes : mes) + "-" + (dia < 10 ? "0" + dia : dia);
 
+            Cliente cliente = pedido.getCliente();
+            String nombreCliente = cliente.getNombres() + " " + cliente.getApellidoPaterno();
+            String direccionCliente = cliente.getDireccion();
+
             tableModel.addRow(new Object[]{
                 pedido.getId(),
                 pedido.getDescripcion(),
                 pedido.getEstado(),
                 "$ " + String.format("%.2f", pedido.getCosto()),
-                pedido.getCliente().getId(),
+                nombreCliente,
+                direccionCliente,
                 fechaFormateada,
                 pedido.getTipoPago()
             });
         }
 
+        ajustarColumnas();
     }
 
     public void crearTablaFiltro(Calendar fechaInicio, Calendar fechaFin) {
         tableModel = new DefaultTableModel();
-        tableModel.setColumnIdentifiers(new String[]{"ID", "Descripción", "Estado", "Costo", "ID Cliente", "Fecha Compra", "Tipo Pago"});
+        tableModel.setColumnIdentifiers(new String[]{"ID", "Descripción", "Estado", "Costo", "Nombre del cliente", "Dirección", "Fecha Compra", "Tipo Pago"});
 
         this.tblPedidos.setModel(tableModel);
 
@@ -204,16 +219,39 @@ public class FrmRevisarPedidos extends javax.swing.JFrame {
         SimpleDateFormat formatoFecha = new SimpleDateFormat("yyyy-MM-dd");
 
         for (Pedido pedido : pedidos) {
+            Cliente cliente = pedido.getCliente();
+            String nombreCliente = cliente.getNombres() + " " + cliente.getApellidoPaterno();
+            String direccionCliente = cliente.getDireccion();
+
             tableModel.addRow(new Object[]{
                 pedido.getId(),
                 pedido.getDescripcion(),
                 pedido.getEstado(),
                 "$ " + String.format("%.2f", pedido.getCosto()),
-                pedido.getCliente().getId(),
+                nombreCliente,
+                direccionCliente,
                 formatoFecha.format(pedido.getFecha().getTime()),
                 pedido.getTipoPago()
             });
         }
+        
+        ajustarColumnas();
+    }
+
+    private void ajustarColumnas() {
+       
+    TableColumnModel columnModel = tblPedidos.getColumnModel();
+
+    columnModel.getColumn(7).setPreferredWidth(65);  
+    columnModel.getColumn(6).setPreferredWidth(50);  
+    columnModel.getColumn(5).setPreferredWidth(300);  
+    columnModel.getColumn(3).setPreferredWidth(35); 
+    columnModel.getColumn(2).setPreferredWidth(45); 
+    columnModel.getColumn(1).setPreferredWidth(150); 
+    columnModel.getColumn(0).setPreferredWidth(35); 
+    
+    tblPedidos.revalidate();
+    tblPedidos.repaint();
     }
 
 }

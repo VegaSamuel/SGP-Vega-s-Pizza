@@ -70,6 +70,7 @@ public class DlgPersonalizarProducto extends javax.swing.JDialog {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Personalizar Producto");
+        setBackground(new java.awt.Color(220, 230, 250));
         setResizable(false);
 
         jLabel1.setText("Ingredientes a agregar");
