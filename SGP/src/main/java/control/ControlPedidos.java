@@ -201,6 +201,23 @@ public class ControlPedidos {
             this.mostrarVentanaPrincipal();
         }
     }
+    public void registrarVentaPedido(Long id) {
+        IPedidoDAO pedidos = new PedidoDAO(new DBConector().getEM());
+        
+        Object[] botones = {"Regresar", "Registar"};
+        
+        int resp = JOptionPane.showOptionDialog(this.main, "¿Seguro que quiere registrar la venta del pedido " + id + "?", "Confirmación sobre registro de pedido", JOptionPane.YES_NO_OPTION, JOptionPane.PLAIN_MESSAGE, null, botones, botones[0]);
+        
+        if(resp == 1) {
+            Pedido pedido = pedidos.obten(id);
+            pedido.setEstado(EstadoPedidos.PAGADO);
+            
+            pedidos = new PedidoDAO(new DBConector().getEM());
+            
+            pedidos.modificarPedido(pedido);
+            this.mostrarVentanaPrincipal();
+        }
+    }
 
     public void mostrarVentanaPrincipal() {
         DefaultListModel pedidosActuales = new DefaultListModel<>();

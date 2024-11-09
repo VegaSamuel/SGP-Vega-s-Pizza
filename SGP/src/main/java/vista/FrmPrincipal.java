@@ -302,7 +302,15 @@ public class FrmPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_btnEnviarPedido
 
     private void btnRegistrarVentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarVentaActionPerformed
-       
+       if(this.listPedidos.getSelectedValue() == null) {
+            JOptionPane.showMessageDialog(this, "No hay ningún pedido seleccionado, por favor, seleccione uno", "Seleccione un pedido", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        String[] campos = this.obtenerPedidoLimpio().split("\n");
+
+        long idPedido = Long.parseLong(campos[0].split("\\s+")[0]);
+        
+        c.registrarVentaPedido(idPedido);
     }//GEN-LAST:event_btnRegistrarVentaActionPerformed
 
     private String obtenerPedidoLimpio() {
