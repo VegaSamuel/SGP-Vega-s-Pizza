@@ -201,6 +201,7 @@ public class ControlPedidos {
             this.mostrarVentanaPrincipal();
         }
     }
+    
     public void registrarVentaPedido(Long id) {
         IPedidoDAO pedidos = new PedidoDAO(new DBConector().getEM());
         
