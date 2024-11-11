@@ -55,6 +55,9 @@ public class ControlPedidos {
     private float costoTotal;
     private float costoEnvio;
     
+    // Objeto de control de ventas
+    private ControlVentas cventas = ControlVentas.getInstance();
+    
     /**
      * Constructor que inicializa ciertos atributos.
      */
@@ -74,6 +77,11 @@ public class ControlPedidos {
         return instancia;
     }
     
+    /**
+     * Realiza un pedido que haya pedido un cliente y lo registra.
+     * @param cliente Cliente que pidió el pedido.
+     * @param pedido Pedido que pidió.
+     */
     public void realizarPedido(Cliente cliente, Pedido pedido) {
         IClienteDAO clientes = new ClienteDAO(new DBConector().getEM());
         IPedidoDAO pedidos = new PedidoDAO(new DBConector().getEM());
@@ -127,17 +135,26 @@ public class ControlPedidos {
         }
     }
     
+    /**
+     * Muestra la ventana de realizar pedido.
+     */
     public void mostrarRealizarPedido() {
+        // Si no esta inicializada aún, la inicializa
         if(this.frmRealizarPedido == null) {
             this.frmRealizarPedido = new FrmRealizarPedido();
         }
         
+        // Cada que se abre la ventana, se resetean los valores
         this.costoEnvio = 0.0f;
         this.productosPedidos.clear();
         this.actualizarRealizarPedido();
         this.frmRealizarPedido.setVisible(true);
     }
     
+    /**
+     * Actualiza la ventana actual de realizar pedido.
+     * Se usa normalmente cuando se realiza una operación que realiza cambios en esta ventana.
+     */
     public void actualizarRealizarPedido() {
         Conversiones con = new Conversiones();
         
@@ -148,6 +165,10 @@ public class ControlPedidos {
         this.frmRealizarPedido.actualizarPrecioTotal(this.obtenerPrecioProductosTotal());
     }
     
+    /**
+     * Muestra el cuadro de diálogo para agregar productos al pedido.
+     * @param frame Ventana que pide abrir el cuadro de diálogo.
+     */
     public void mostrarAgregarProducto(Frame frame) {
         IProductoDAO productos = new ProductoDAO(new DBConector().getEM());
         List<Producto> listaProductos = productos.obtenerProductos();
@@ -156,11 +177,15 @@ public class ControlPedidos {
         this.dlgAgregarProducto.setVisible(true);
     }
     
+    /**
+     * Muestra el cuadro de diálogo para personalizar un pedido.
+     */
     public void mostrarPersonalizarProducto() {
         IIngredienteDAO ingredientes = new IngredienteDAO(new DBConector().getEM());
         
         List<Ingrediente> listaIngredientes = ingredientes.obtenerIngredientes();
         
+        // Si no hay ingredientes para agregar al pedido, se anuncia y se cancela la operación
         if(listaIngredientes.isEmpty()) {
             JOptionPane.showMessageDialog(this.frmRealizarPedido, "No hay ingredientes que seleccionar.", "No hay ingredientes", JOptionPane.ERROR_MESSAGE);
             return;
@@ -170,25 +195,44 @@ public class ControlPedidos {
         this.dlgPersonalizarProducto.setVisible(true);
     }
     
+    /**
+     * Agrega un producto a la lista del pedido.
+     * @param producto Producto a agregar al pedido.
+     */
     public void agregarProducto(Producto producto) {
+        // Cada que se agrega un producto, se agrega en una cantidad de uno.
         this.cantidadPorProducto.add(1);
         this.productosPedidos.add(producto);
     }
     
+    /**
+     * Agrega ingredientes al pedido, los que prefiera el cliente.
+     * @param cantidad Cantidad de ingredientes que pidió.
+     * @param extras Ingredientes que el cliente agregó.
+     * @param fila Pedido al que le agregó los ingredientes.
+     */
     public void agregarIngredientes(int cantidad, String extras, int fila) {
-        float costoExtra = 10.0f * cantidad;
+        // *Este costo extra es variable, recordar poner un campo donde poder cambiarlo a preferencia de la empresa
+        float costoExtra = 15.0f * cantidad;
         
+        // Agrega los extras al nombre del producto
         String descripcion = this.productosPedidos.get(fila).getNombre() + " " + extras;
         
         this.productosPedidos.get(fila).setNombre(descripcion);
+        // Suma el precio de los extras al precio del pedido
         this.productosPedidos.get(fila).setPrecio(this.productosPedidos.get(fila).getPrecio() + costoExtra);
     }
     
+    /**
+     * Envía un pedido una vez que haya sido cocinado.
+     * @param id ID del pedido a enviar.
+     */
     public void enviarPedido(Long id) {
         IPedidoDAO pedidos = new PedidoDAO(new DBConector().getEM());
         
         Object[] botones = {"Regresar", "Enviar"};
         
+        // Pide confirmación
         int resp = JOptionPane.showOptionDialog(this.main, "¿Seguro que quiere enviar el pedido " + id + "?", "Confirmación sobre envío de pedido", JOptionPane.YES_NO_OPTION, JOptionPane.PLAIN_MESSAGE, null, botones, botones[0]);
         
         if(resp == 1) {
@@ -220,9 +264,13 @@ public class ControlPedidos {
         }
     }
 
+    /**
+     * Muestra la ventana principal
+     */
     public void mostrarVentanaPrincipal() {
         DefaultListModel pedidosActuales = new DefaultListModel<>();
         
+        // Obtiene los pedidos antes de mostrar la ventana principal
         obtenerDatosPedidos();
         
         for (Pedido pedido : listaPedidos) {
@@ -230,6 +278,7 @@ public class ControlPedidos {
                 pedidosActuales.addElement(pedido.toString());
         }
         
+        // Si no esta inicializada la ventana, la inicializa
         if(this.main == null) {
             this.main = new FrmPrincipal();
         }
@@ -253,8 +302,8 @@ public class ControlPedidos {
     }
     
     /**
-     * 
-     * @return 
+     * Calcula y regresa el costo total del pedido.
+     * @return El costo total del pedido.
      */
     public float obtenerCostoTotal() {
         this.costoTotal = 0.0f;
@@ -265,6 +314,10 @@ public class ControlPedidos {
         return this.costoTotal;
     }
     
+    /**
+     * Obtiene los pedidos desde la base de datos para la ventana principal.
+     * @return Los pedidos desde la base de datos para la ventana principal.
+     */
     public boolean obtenerDatosPedidos() {
         IPedidoDAO pedidos = new PedidoDAO(new DBConector().getEM());
         
@@ -278,6 +331,11 @@ public class ControlPedidos {
         return true;
     }
     
+    /**
+     * En la ventana de realizar pedido se puede buscar un cliente por su teléfono.
+     * @param telefono Teléfono del cliente que se quiere buscar.
+     * @return Cliente con 
+     */
     public Cliente buscarCliente(String telefono) {
         IClienteDAO clientes = new ClienteDAO(new DBConector().getEM());
         
@@ -285,16 +343,22 @@ public class ControlPedidos {
         
         if(cliente == null) {
             JOptionPane.showMessageDialog(this.frmRealizarPedido, "No se encontró un cliente con este teléfono: " + telefono + "\nUse el formulario para llenar sus datos y cuando realice el pedido se registrará en automático.", "No existe el cliente.", JOptionPane.ERROR_MESSAGE);
+            return null;
         }
         
         return cliente;
     }
     
+    /**
+     * Cancela el pedido del cliente que lo haya cancelado.
+     * @param id ID del pedido a cancelar.
+     */
     public void cancelarPedido(Long id){
         IPedidoDAO pedidos = new PedidoDAO(new DBConector().getEM());
         
         Object[] botones = {"Regresar", "Cancelar"};
         
+        // Pide confirmación
         int resp = JOptionPane.showOptionDialog(this.main, "¿Seguro que quiere cancelar el pedido " + id + "?", "Confirmación sobre cancelación", JOptionPane.YES_NO_OPTION, JOptionPane.PLAIN_MESSAGE, null, botones, botones[0]);
         
         if(resp == 1) {
@@ -303,17 +367,29 @@ public class ControlPedidos {
         }
     }
     
+    /**
+     * Obtiene los pedidos desde la base de datos para ver la tabla de pedidos.
+     * @return Los pedidos desde la base de datos para ver la tabla de pedidos.
+     */
     public List<Pedido> obtenerPedidos(){
         IPedidoDAO pedidos = new PedidoDAO(new DBConector().getEM());
         return pedidos.obtenerPedidos();
     }
     
-
+    /**
+     * Obtiene los pedidos desde la base de datos en cierto rango de fechas.
+     * @param fechaInicio Fecha de inicio para buscar pedidos.
+     * @param fechaFin Fecha final para buscar pedidos.
+     * @return Pedidos en el rango seleccionado.
+     */
     public List<Pedido> obtenerPedidosFiltro(Calendar fechaInicio, Calendar fechaFin){
         IPedidoDAO pedidos = new PedidoDAO(new DBConector().getEM());
         return pedidos.obtenerPedidosEntreFechas(fechaInicio, fechaFin);
     }
     
+    /**
+     * Muestra el selector de fechas.
+     */
     public void mostrarSelectorFechas(){
         if(this.frmSeleccionarFechas == null) {
             this.frmSeleccionarFechas = new FrmSeleccionarDosFechas();
@@ -322,6 +398,9 @@ public class ControlPedidos {
         this.frmSeleccionarFechas.setVisible(true);
     }
     
+    /**
+     * Muestra la ventana de revisar pedidos.
+     */
     public void mostrarRevisarPedidos(){
         if(this.frmRevisarPedidos == null) {
             this.frmRevisarPedidos = new FrmRevisarPedidos();
@@ -330,18 +409,35 @@ public class ControlPedidos {
         frmRevisarPedidos.setVisible(true);
     }
     
+    /**
+     * Actualiza el periodo seleccionado para mostrar en la tabla de pedidos.
+     * @param fechaInicio Fecha de inicio para buscar pedidos.
+     * @param fechaFinal Fecha final para buscar pedidos.
+     */
     public void actualizarPeriodoPedidos(Calendar fechaInicio, Calendar fechaFinal) {
         this.frmRevisarPedidos.setPeriodo(fechaInicio, fechaFinal);
     }
     
+    /**
+     * Actualiza la cantidad del pedido especificado.
+     * @param cantidad Cantidad que agrega al pedido.
+     * @param index Pedido al que agregarle cantidad.
+     */
     public void actualizarCantidadPedido(int cantidad, int index) {
         this.cantidadPorProducto.set(index, this.cantidadPorProducto.get(index) + cantidad);
         
+        // Si la cantidad llega a cero, remueve el pedido de la lista
         if(this.cantidadPorProducto.get(index) == 0) {
             this.productosPedidos.remove(index);
+            this.cantidadPorProducto.remove(index);
         }
     }
     
+    /**
+     * Obtiene la cantidad del pedido especificado.
+     * @param index Pedido del que se quiere recuperar la cantidad.
+     * @return La cantidad del pedido especificado.
+     */
     public int obtenerCantidadPedido(int index) {
         if(this.cantidadPorProducto.isEmpty()) {
             return -1;
@@ -350,6 +446,10 @@ public class ControlPedidos {
         }
     }
     
+    /**
+     * Utilidad para dar a conocer el producto al que se quieren agregar los ingredientes.
+     * @param fila Fila del producto que se quiere personalizar en la tabla.
+     */
     public void setFilaPersonalizar(int fila) {
         this.dlgPersonalizarProducto.setFila(fila);
     }
