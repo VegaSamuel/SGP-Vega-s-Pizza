@@ -240,7 +240,11 @@ public class DlgAgregarProducto extends javax.swing.JDialog {
         
         if(productoAgregado != null) {
             if(productoAgregadoMitad != null) {
-                productoAgregado.setNombre(productoAgregado.getNombre() + " mitad " + productoAgregadoMitad.getNombre().toLowerCase());
+                if(productoAgregadoMitad.getNombre().contains("de")) {
+                    productoAgregado.setNombre(productoAgregado.getNombre() + " mitad " + productoAgregadoMitad.getNombre().toLowerCase().substring(9));
+                }else {
+                    productoAgregado.setNombre(productoAgregado.getNombre() + " mitad " + productoAgregadoMitad.getNombre().toLowerCase().substring(6));
+                }
                 
                 float precio = (productoAgregado.getPrecio() / 2) + (productoAgregadoMitad.getPrecio() / 2);
                 productoAgregado.setPrecio(precio);
