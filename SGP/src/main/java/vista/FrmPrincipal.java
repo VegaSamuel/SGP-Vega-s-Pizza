@@ -6,6 +6,8 @@ import java.awt.Dimension;
 import java.awt.Toolkit;
 import javax.swing.JOptionPane;
 import javax.swing.ListModel;
+import util.EstadoPedidos;
+import util.TipoPago;
 
 /**
  * Ventana principal
@@ -295,6 +297,9 @@ public class FrmPrincipal extends javax.swing.JFrame {
         if(this.listPedidos.getSelectedValue() == null) {
             JOptionPane.showMessageDialog(this, "No hay ningún pedido seleccionado, por favor, seleccione uno", "Seleccione un pedido", JOptionPane.ERROR_MESSAGE);
             return;
+        }else if(this.listPedidos.getSelectedValue().getEstado().equals(EstadoPedidos.ENVIADO)) {
+            JOptionPane.showMessageDialog(this, "El pedido que seleccionó ya ha sido enviado", "Pedido ya enviado", JOptionPane.INFORMATION_MESSAGE);
+            return;
         }
 
         long idPedido = this.listPedidos.getSelectedValue().getId();
@@ -306,6 +311,9 @@ public class FrmPrincipal extends javax.swing.JFrame {
         if(this.listPedidos.getSelectedValue() == null) {
             JOptionPane.showMessageDialog(this, "No hay ningún pedido seleccionado, por favor, seleccione uno", "Seleccione un pedido", JOptionPane.ERROR_MESSAGE);
             return;
+        }else if(!this.listPedidos.getSelectedValue().getEstado().equals(EstadoPedidos.ENVIADO)) {
+            JOptionPane.showMessageDialog(this, "El pedido que seleccionó no ha sido enviado, por lo que no puede ser una venta aún", "Pedido no enviado!!", JOptionPane.ERROR_MESSAGE);
+            return;
         }
         
         long idPedido = this.listPedidos.getSelectedValue().getId();
@@ -315,6 +323,12 @@ public class FrmPrincipal extends javax.swing.JFrame {
 
     private void listPedidosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_listPedidosMouseClicked
         Pedido pedido = this.listPedidos.getSelectedValue();
+        
+        if(pedido.getTipoPago().equals(TipoPago.TRANSFERENCIA)) {
+            this.btnRegistrarVenta.setEnabled(false);
+        }else {
+            this.btnRegistrarVenta.setEnabled(true);
+        }
     }//GEN-LAST:event_listPedidosMouseClicked
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
