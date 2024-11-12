@@ -1,5 +1,11 @@
 package control;
 
+import dao.VentaDAO;
+import dominio.Pedido;
+import dominio.Venta;
+import interfaces.IVentaDAO;
+import util.DBConector;
+
 /**
  *
  * @author Samuel Vega
@@ -7,9 +13,7 @@ package control;
 public class ControlVentas {
     private static ControlVentas instancia;
     
-    public ControlVentas() {
-        
-    }
+    public ControlVentas() { }
     
     public static ControlVentas getInstance() {
         if(instancia != null) {
@@ -19,7 +23,11 @@ public class ControlVentas {
         return instancia;
     }
     
-    public void registrarVenta() {
+    public void registrarVenta(Pedido pedido) {
+        IVentaDAO ventas = new VentaDAO(new DBConector().getEM());
+        Venta venta = null;
+        
+        
         
     }
 }

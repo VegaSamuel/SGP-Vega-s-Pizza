@@ -1,6 +1,7 @@
 package vista;
 
 import control.ControlPedidos;
+import dominio.Pedido;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import javax.swing.JOptionPane;
@@ -44,7 +45,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
      *
      * @param pedidos Lista de pedidos actuales.
      */
-    public void setListPedidos(ListModel<String> pedidos) {
+    public void setListPedidos(ListModel<Pedido> pedidos) {
         this.listPedidos.setModel(pedidos);
     }
 
@@ -97,10 +98,10 @@ public class FrmPrincipal extends javax.swing.JFrame {
 
         jPanel1.setBackground(new java.awt.Color(220, 230, 250));
 
-        listPedidos.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
+        listPedidos.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                listPedidosMouseClicked(evt);
+            }
         });
         jScrollPane1.setViewportView(listPedidos);
 
@@ -280,10 +281,12 @@ public class FrmPrincipal extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "No hay ningún pedido seleccionado, por favor, seleccione uno", "Seleccione un pedido", JOptionPane.ERROR_MESSAGE);
             return;
         }
-        
+        /*
         String[] campos = this.obtenerPedidoLimpio().split("\n");
 
-        long idPedido = Long.parseLong(campos[0].split("\\s+")[0]);
+        long idPedido = Long.parseLong(campos[0].split("\\s+")[0]);*/
+        
+        long idPedido = this.listPedidos.getSelectedValue().getId();
 
         c.cancelarPedido(idPedido);
     }//GEN-LAST:event_btn_cancelarActionPerformed
@@ -293,32 +296,26 @@ public class FrmPrincipal extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "No hay ningún pedido seleccionado, por favor, seleccione uno", "Seleccione un pedido", JOptionPane.ERROR_MESSAGE);
             return;
         }
+
+        long idPedido = this.listPedidos.getSelectedValue().getId();
         
-        String[] campos = this.obtenerPedidoLimpio().split("\n");
-
-        long idPedido = Long.parseLong(campos[0].split("\\s+")[0]);
-
         c.enviarPedido(idPedido);
     }//GEN-LAST:event_btnEnviarPedido
 
     private void btnRegistrarVentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarVentaActionPerformed
-       if(this.listPedidos.getSelectedValue() == null) {
+        if(this.listPedidos.getSelectedValue() == null) {
             JOptionPane.showMessageDialog(this, "No hay ningún pedido seleccionado, por favor, seleccione uno", "Seleccione un pedido", JOptionPane.ERROR_MESSAGE);
             return;
         }
-        String[] campos = this.obtenerPedidoLimpio().split("\n");
-
-        long idPedido = Long.parseLong(campos[0].split("\\s+")[0]);
+        
+        long idPedido = this.listPedidos.getSelectedValue().getId();
         
         c.registrarVentaPedido(idPedido);
     }//GEN-LAST:event_btnRegistrarVentaActionPerformed
 
-    private String obtenerPedidoLimpio() {
-        return this.listPedidos.getSelectedValue()
-                .replaceAll("(?i)<br>", "\n")
-                .replaceAll("<[^>]*>", "")
-                .replaceAll("", "");
-    }
+    private void listPedidosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_listPedidosMouseClicked
+        Pedido pedido = this.listPedidos.getSelectedValue();
+    }//GEN-LAST:event_listPedidosMouseClicked
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnEnviarPedido;
@@ -336,7 +333,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblLogo;
-    private javax.swing.JList<String> listPedidos;
+    private javax.swing.JList<Pedido> listPedidos;
     private javax.swing.JMenuBar menuBar;
     private javax.swing.JMenu menuClientes;
     private javax.swing.JMenu menuInventario;

@@ -31,7 +31,6 @@ import vista.FrmRealizarPedido;
 import vista.FrmRevisarPedidos;
 import vista.FrmSeleccionarDosFechas;
 
-
 /**
  * Clase que lleva el control de la aplicación.
  * @author Samuel Vega & Pedro Moya & Juan Sánchez
@@ -56,7 +55,7 @@ public class ControlPedidos {
     private float costoEnvio;
     
     // Objeto de control de ventas
-    private ControlVentas cventas = ControlVentas.getInstance();
+    private ControlVentas cVentas = ControlVentas.getInstance();
     
     /**
      * Constructor que inicializa ciertos atributos.
@@ -246,6 +245,10 @@ public class ControlPedidos {
         }
     }
     
+    /**
+     * Registra como venta un pedido que ya fue entregado.
+     * @param id ID del pedido a registrar como venta.
+     */
     public void registrarVentaPedido(Long id) {
         IPedidoDAO pedidos = new PedidoDAO(new DBConector().getEM());
         
@@ -275,7 +278,7 @@ public class ControlPedidos {
         
         for (Pedido pedido : listaPedidos) {
             if(pedido.esActual())
-                pedidosActuales.addElement(pedido.toString());
+                pedidosActuales.addElement(pedido);
         }
         
         // Si no esta inicializada la ventana, la inicializa
