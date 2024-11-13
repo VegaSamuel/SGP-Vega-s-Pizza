@@ -263,6 +263,10 @@ public class ControlPedidos {
             pedidos = new PedidoDAO(new DBConector().getEM());
             
             pedidos.modificarPedido(pedido);
+            
+            /*cVentas.registrarVenta(pedido);
+            Faltan algunos campos para que la venta pueda ser registrada.
+            */
             this.mostrarVentanaPrincipal();
         }
     }

@@ -2,16 +2,22 @@ package control;
 
 import dao.VentaDAO;
 import dominio.Pedido;
+import dominio.Producto;
 import dominio.Venta;
 import interfaces.IVentaDAO;
+import javax.swing.JOptionPane;
 import util.DBConector;
+import vista.FrmPrincipal;
 
 /**
  *
  * @author Samuel Vega
  */
+
+
 public class ControlVentas {
     private static ControlVentas instancia;
+    private FrmPrincipal main;
     
     public ControlVentas() { }
     
@@ -25,8 +31,18 @@ public class ControlVentas {
     
     public void registrarVenta(Pedido pedido) {
         IVentaDAO ventas = new VentaDAO(new DBConector().getEM());
-        Venta venta = null;
         
+        //Datos de relleno
+        Venta ventaNueva = new Venta
+        ( pedido,
+          new Producto(),
+          2,
+          10f,
+          20f
+        );
+        
+        ventas.agregarVenta(ventaNueva);
+        JOptionPane.showMessageDialog(main, "Se registró correctamente la venta.", "Agregado exitoso.", JOptionPane.PLAIN_MESSAGE);
         
         
     }
