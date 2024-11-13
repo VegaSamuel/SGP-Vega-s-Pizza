@@ -5,6 +5,7 @@ import dominio.Pedido;
 import dominio.Producto;
 import dominio.Venta;
 import interfaces.IVentaDAO;
+import java.util.List;
 import javax.swing.JOptionPane;
 import util.DBConector;
 import util.enums.EstadoVentas;
@@ -23,29 +24,25 @@ public class ControlVentas {
     public ControlVentas() { }
     
     public static ControlVentas getInstance() {
-        if(instancia != null) {
+        if(instancia == null) {
             instancia = new ControlVentas();
         }
         
         return instancia;
     }
     
-    public void registrarVenta(Pedido pedido) {
-        IVentaDAO ventas = new VentaDAO(new DBConector().getEM());
+    public void registrarVenta(Pedido pedido, List<Producto> productos, List<Integer> cantidades) {
+        int cantidad_index = 0;
         
-        //Datos de relleno
-        Venta ventaNueva = new Venta
-        ( pedido,
-          new Producto(),
-          2,
-          10f,
-          20f,
-          EstadoVentas.EN_PROCESO
-        );
+        for (Producto producto : productos) {
+            IVentaDAO ventas = new VentaDAO(new DBConector().getEM());
+            int cantidad = cantidades.get(cantidad_index);
+            Venta nuevaVenta = new Venta(pedido, producto, cantidad, producto.getPrecio(), (cantidad * producto.getPrecio()), EstadoVentas.EN_PROCESO);
+            
+            ventas.agregarVenta(nuevaVenta);
+            cantidad_index += 1;
+        }
         
-        ventas.agregarVenta(ventaNueva);
-        JOptionPane.showMessageDialog(main, "Se registró correctamente la venta.", "Agregado exitoso.", JOptionPane.PLAIN_MESSAGE);
-        
-        
+        JOptionPane.showMessageDialog(null, "Se registró correctamente la venta.", "Agregado exitoso.", JOptionPane.PLAIN_MESSAGE);
     }
 }

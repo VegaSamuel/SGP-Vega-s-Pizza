@@ -63,6 +63,8 @@ public class ControlPedidos {
     private ControlPedidos() {
         this.productosPedidos = new ArrayList<>();
         this.cantidadPorProducto = new ArrayList<>();
+        
+        this.cVentas = ControlVentas.getInstance();
     }
     
     /**
@@ -91,6 +93,7 @@ public class ControlPedidos {
         }
         
         pedidos.agregarPedido(pedido);
+        cVentas.registrarVenta(pedido, productosPedidos, cantidadPorProducto);
         
         JOptionPane.showMessageDialog(frmRealizarPedido, "Se agregó correctamente el pedido.", "Agregado exitoso.", JOptionPane.PLAIN_MESSAGE);
     }
