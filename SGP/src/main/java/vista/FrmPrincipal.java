@@ -6,8 +6,8 @@ import java.awt.Dimension;
 import java.awt.Toolkit;
 import javax.swing.JOptionPane;
 import javax.swing.ListModel;
-import util.EstadoPedidos;
-import util.TipoPago;
+import util.enums.EstadoPedidos;
+import util.enums.TipoPago;
 
 /**
  * Ventana principal

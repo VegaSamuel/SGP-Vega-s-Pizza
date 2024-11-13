@@ -1,4 +1,4 @@
-package util;
+package util.enums;
 
 /**
  * Este enum maneja los tipos de pago que existen

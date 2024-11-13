@@ -1,4 +1,4 @@
-package util;
+package util.enums;
 
 /**
  * Este Enum maneja los estados de los pedidos

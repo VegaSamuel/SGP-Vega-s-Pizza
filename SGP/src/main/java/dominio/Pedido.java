@@ -16,8 +16,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import util.EstadoPedidos;
-import util.TipoPago;
+import util.enums.EstadoPedidos;
+import util.enums.TipoPago;
 
 /**
  *

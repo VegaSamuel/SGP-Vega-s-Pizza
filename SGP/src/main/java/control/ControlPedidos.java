@@ -23,7 +23,7 @@ import util.CalculoEnvio;
 import util.CalculoMetrosEnvio;
 import util.Conversiones;
 import util.DBConector;
-import util.EstadoPedidos;
+import util.enums.EstadoPedidos;
 import vista.DlgAgregarProducto;
 import vista.DlgPersonalizarProducto;
 import vista.FrmPrincipal;

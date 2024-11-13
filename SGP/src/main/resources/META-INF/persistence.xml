@@ -3,7 +3,6 @@
   <persistence-unit name="sgpvegas" transaction-type="RESOURCE_LOCAL">
     <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
     <class>dominio.Cliente</class>
-    <class>dominio.Direccion</class>
     <class>dominio.Ingrediente</class>
     <class>dominio.IngredientesPorProducto</class>
     <class>dominio.Pedido</class>

@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -11,6 +13,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import util.enums.EstadoVentas;
 
 /**
  *
@@ -43,6 +46,10 @@ public class Venta implements Serializable {
     @Column(name = "importe", nullable = false)
     private Float importe;
 
+    @Enumerated(EnumType.STRING)
+    @Column(name = "estado", nullable = false)
+    private EstadoVentas estado;
+    
     // Constructor vacío
     public Venta() {}
 
@@ -54,12 +61,13 @@ public class Venta implements Serializable {
      * @param precio Precio unitario del producto
      * @param importe Importe (cantidad * precio)
      */
-    public Venta(Pedido objetoPedido, Producto objetoProducto, Integer cantidad, Float precio, Float importe) {
+    public Venta(Pedido objetoPedido, Producto objetoProducto, Integer cantidad, Float precio, Float importe, EstadoVentas estado) {
         this.objetoPedido = objetoPedido;
         this.objetoProducto = objetoProducto;
         this.cantidad = cantidad;
         this.precio = precio;
         this.importe = importe;
+        this.estado = estado;
     }
 
     /**
@@ -71,13 +79,14 @@ public class Venta implements Serializable {
      * @param precio Precio unitario del producto
      * @param importe Importe (cantidad * precio) 
      */
-    public Venta(Long id, Pedido objetoPedido, Producto objetoProducto, Integer cantidad, Float precio, Float importe) {
+    public Venta(Long id, Pedido objetoPedido, Producto objetoProducto, Integer cantidad, Float precio, Float importe, EstadoVentas estado) {
         this.id = id;
         this.objetoPedido = objetoPedido;
         this.objetoProducto = objetoProducto;
         this.cantidad = cantidad;
         this.precio = precio;
         this.importe = importe;
+        this.estado = estado;
     }
 
     // Getters & Setters
@@ -129,6 +138,14 @@ public class Venta implements Serializable {
         this.importe = importe;
     }
 
+    public EstadoVentas getEstado() {
+        return estado;
+    }
+
+    public void setEstado(EstadoVentas estado) {
+        this.estado = estado;
+    }
+
     @Override
     public int hashCode() {
         int hash = 5;
@@ -158,7 +175,7 @@ public class Venta implements Serializable {
      */
     @Override
     public String toString() {
-        return "Venta{" + "id=" + id + ", objetoPedido=" + objetoPedido + ", objetoProducto=" + objetoProducto + ", cantidad=" + cantidad + ", precio=" + precio + ", importe=" + importe + '}';
+        return "Venta{" + "id=" + id + ", objetoPedido=" + objetoPedido + ", objetoProducto=" + objetoProducto + ", cantidad=" + cantidad + ", precio=" + precio + ", importe=" + importe + ", estado=" + estado + '}';
     }
 
 }

@@ -7,6 +7,7 @@ import dominio.Venta;
 import interfaces.IVentaDAO;
 import javax.swing.JOptionPane;
 import util.DBConector;
+import util.enums.EstadoVentas;
 import vista.FrmPrincipal;
 
 /**
@@ -38,7 +39,8 @@ public class ControlVentas {
           new Producto(),
           2,
           10f,
-          20f
+          20f,
+          EstadoVentas.EN_PROCESO
         );
         
         ventas.agregarVenta(ventaNueva);

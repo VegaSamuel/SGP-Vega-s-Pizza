@@ -12,10 +12,10 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.JCheckBox;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
-import util.EstadoPedidos;
+import util.enums.EstadoPedidos;
 import util.tablesButtons.PersonalizarRenderer;
 import util.tablesButtons.PersonalizarEditor;
-import util.TipoPago;
+import util.enums.TipoPago;
 import util.tablesButtons.CantidadEditor;
 import util.tablesButtons.CantidadRenderer;
 
