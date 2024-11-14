@@ -4,6 +4,7 @@
  */
 package vista;
 
+import control.ControlPedidos;
 import control.ControlVentas;
 import dominio.Cliente;
 import dominio.Venta;
@@ -14,8 +15,8 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
 
 public class FrmRevisarVentas extends javax.swing.JFrame {
-
-    ControlVentas c = ControlVentas.getInstance();
+    ControlVentas cVentas = ControlVentas.getInstance();
+    ControlPedidos cPedidos = ControlPedidos.getInstance();
     private DefaultTableModel tableModel;
 
     public FrmRevisarVentas() {
@@ -69,6 +70,11 @@ public class FrmRevisarVentas extends javax.swing.JFrame {
         jScrollPane1.setViewportView(tblVentas);
 
         jButton1.setText("Regresar");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jButton2.setText("Filtros");
 
@@ -115,6 +121,11 @@ public class FrmRevisarVentas extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        dispose();
+        cPedidos.mostrarVentanaPrincipal();
+    }//GEN-LAST:event_jButton1ActionPerformed
+
  public void crearTabla() {
 
         tableModel = new DefaultTableModel();
@@ -122,7 +133,7 @@ public class FrmRevisarVentas extends javax.swing.JFrame {
 
         this.tblVentas.setModel(tableModel);
 
-        List<Venta> ventas = null;//= c.obtenerVentasFiltro(fechaInicio, fechaFin);IMPLEMENTAR EN EL CONTROL
+        List<Venta> ventas = cVentas.obtenerVentas();
 
         for (Venta venta : ventas) {
             Calendar fecha = venta.getObjetoPedido().getFecha();
@@ -157,7 +168,7 @@ public class FrmRevisarVentas extends javax.swing.JFrame {
 
         this.tblVentas.setModel(tableModel);
 
-        List<Venta> ventas = null;//= c.obtenerVentasFiltro(fechaInicio, fechaFin);IMPLEMENTAR EN EL CONTROL
+        List<Venta> ventas = cVentas.obtenerVentasFiltro(fechaInicio, fechaFin);
 
         SimpleDateFormat formatoFecha = new SimpleDateFormat("yyyy-MM-dd");
 
@@ -180,7 +191,7 @@ public class FrmRevisarVentas extends javax.swing.JFrame {
         ajustarColumnas();
     }
     
-        private void ajustarColumnas() {
+    private void ajustarColumnas() {
         TableColumnModel columnModel = tblVentas.getColumnModel();
 
         columnModel.getColumn(7).setPreferredWidth(65);

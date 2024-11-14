@@ -3,6 +3,7 @@ package interfaces;
 import dominio.Pedido;
 import dominio.Venta;
 import excepciones.DAOException;
+import java.util.Calendar;
 import java.util.List;
 
 public interface IVentaDAO {
@@ -18,4 +19,6 @@ public interface IVentaDAO {
     public List<Venta> obtenerVentas() throws DAOException;
     
     public List<Venta> obtenVentasPedido(Pedido pedido) throws DAOException;
+    
+    public List<Venta> obtenVentasEntreFechas(Calendar fechaInicio, Calendar fechaFin) throws DAOException;
 }

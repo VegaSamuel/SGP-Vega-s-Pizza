@@ -4,12 +4,17 @@ import dominio.Pedido;
 import dominio.Venta;
 import excepciones.DAOException;
 import interfaces.IVentaDAO;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Join;
+import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
+import util.enums.EstadoVentas;
 
 public class VentaDAO implements IVentaDAO {
     private final EntityManager em;
@@ -107,8 +112,11 @@ public class VentaDAO implements IVentaDAO {
             CriteriaBuilder cb = em.getCriteriaBuilder();
             CriteriaQuery cq = cb.createQuery(Venta.class);
             Root<Venta> c = cq.from(Venta.class);
+            Join<Venta, Pedido> pedidoJoin = c.join("objetoPedido");
             
-            cq.select(c);
+            Predicate estadoPagada = cb.equal(c.get("estado"), EstadoVentas.PAGADA);
+            
+            cq.select(c).where(estadoPagada).groupBy(pedidoJoin.get("id"));
             ventas = em.createQuery(cq).getResultList();
         }catch(NoResultException nre) {
             System.out.println("No se encontraron ventas");
@@ -139,4 +147,32 @@ public class VentaDAO implements IVentaDAO {
         return ventas;
     }
     
+    @Override
+    public List<Venta> obtenVentasEntreFechas(Calendar fechaInicio, Calendar fechaFin) {
+        List<Venta> ventas = null;
+
+        try {
+            CriteriaBuilder cb = em.getCriteriaBuilder();
+            CriteriaQuery<Venta> cq = cb.createQuery(Venta.class);
+            Root<Venta> ventaRoot = cq.from(Venta.class);
+            Join<Venta, Pedido> pedidoJoin = ventaRoot.join("objetoPedido");
+
+            // Convertir Calendar a Date
+            Date fechaInicioDate = fechaInicio.getTime();
+            Date fechaFinDate = fechaFin.getTime();
+
+            Predicate rangoFechas = cb.between(pedidoJoin.get("fecha"), fechaInicioDate, fechaFinDate);
+            Predicate estadoPagada = cb.equal(ventaRoot.get("estado"), EstadoVentas.PAGADA);
+            
+            cq.select(ventaRoot).where(cb.and(rangoFechas, estadoPagada)).groupBy(pedidoJoin.get("id"));
+
+            ventas = em.createQuery(cq).getResultList();
+        } catch (NoResultException nre) {
+            System.out.println("No se encontraron pedidos en el rango de fechas proporcionado.");
+        } finally {
+            em.close();
+        }
+
+        return ventas;
+    }
 }

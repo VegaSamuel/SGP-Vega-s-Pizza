@@ -166,9 +166,10 @@
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" max="-2" attributes="0">
                       <Component id="lblLogo" alignment="0" max="32767" attributes="0"/>
-                      <Component id="btnRevisarPedido" alignment="0" max="32767" attributes="0"/>
                       <Component id="btn_cancelar" alignment="0" max="32767" attributes="0"/>
                       <Component id="btnRealizarPedido" alignment="0" max="32767" attributes="0"/>
+                      <Component id="btnRevisarVentas" max="32767" attributes="0"/>
+                      <Component id="btnRevisarPedido" max="32767" attributes="0"/>
                   </Group>
                   <EmptySpace pref="198" max="32767" attributes="0"/>
                   <Group type="103" groupAlignment="0" max="-2" attributes="0">
@@ -200,8 +201,10 @@
                   <Component id="btnRealizarPedido" min="-2" max="-2" attributes="0"/>
                   <EmptySpace min="-2" pref="66" max="-2" attributes="0"/>
                   <Component id="btn_cancelar" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace min="-2" pref="67" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="48" max="-2" attributes="0"/>
                   <Component id="btnRevisarPedido" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="51" max="-2" attributes="0"/>
+                  <Component id="btnRevisarVentas" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="32767" attributes="0"/>
                   <Component id="lblLogo" min="-2" max="-2" attributes="0"/>
                   <EmptySpace min="-2" pref="94" max="-2" attributes="0"/>
@@ -272,6 +275,14 @@
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnEnviarPedido"/>
+          </Events>
+        </Component>
+        <Component class="javax.swing.JButton" name="btnRevisarVentas">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Revisar Ventas"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnRevisarVentasActionPerformed"/>
           </Events>
         </Component>
       </SubComponents>

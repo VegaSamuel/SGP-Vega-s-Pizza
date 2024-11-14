@@ -5,21 +5,25 @@ import dominio.Pedido;
 import dominio.Producto;
 import dominio.Venta;
 import interfaces.IVentaDAO;
+import java.util.Calendar;
 import java.util.List;
 import javax.swing.JOptionPane;
 import util.DBConector;
 import util.enums.EstadoVentas;
 import vista.FrmPrincipal;
+import vista.FrmRevisarVentas;
+import vista.FrmSeleccionarDosFechas;
 
 /**
  *
  * @author Samuel Vega
  */
-
-
 public class ControlVentas {
     private static ControlVentas instancia;
+    
     private FrmPrincipal main;
+    private FrmRevisarVentas frmRevisarVentas;
+    private FrmSeleccionarDosFechas frmSeleccionarFechas;
     
     public ControlVentas() { }
     
@@ -60,5 +64,35 @@ public class ControlVentas {
             IVentaDAO ventas = new VentaDAO(new DBConector().getEM());
             ventas.eliminarVenta(venta.getId());
         }
+    }
+    
+    public List<Venta> obtenerVentas(){
+        IVentaDAO ventas = new VentaDAO(new DBConector().getEM());
+        return ventas.obtenerVentas();
+    }
+    
+    public List<Venta> obtenerVentasFiltro(Calendar fechaInicio, Calendar fechaFin) {
+        IVentaDAO ventas = new VentaDAO(new DBConector().getEM());
+        return ventas.obtenVentasEntreFechas(fechaInicio, fechaFin);
+    }
+    
+    public void mostrarSelectorFechas(){
+        if(this.frmSeleccionarFechas == null) {
+            this.frmSeleccionarFechas = new FrmSeleccionarDosFechas();
+        }
+        
+        this.frmSeleccionarFechas.setVisible(true);
+    }
+
+    public void mostrarRevisarVentas(){
+        if(this.frmRevisarVentas == null) {
+            this.frmRevisarVentas = new FrmRevisarVentas();
+        }
+        
+       frmRevisarVentas.setVisible(true);
+    }
+
+    public void actualizarPeriodoVentas(Calendar fechaInicio, Calendar fechaFinal) {
+        this.frmRevisarVentas.setPeriodo(fechaInicio, fechaFinal);
     }
 }

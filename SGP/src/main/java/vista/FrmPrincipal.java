@@ -1,6 +1,7 @@
 package vista;
 
 import control.ControlPedidos;
+import control.ControlVentas;
 import dominio.Pedido;
 import java.awt.Dimension;
 import java.awt.Toolkit;
@@ -16,7 +17,8 @@ import util.enums.TipoPago;
  */
 public class FrmPrincipal extends javax.swing.JFrame {
 
-    ControlPedidos c = ControlPedidos.getInstance();
+    ControlPedidos cPedidos = ControlPedidos.getInstance();
+    ControlVentas cVentas = ControlVentas.getInstance();
 
     /**
      * Creates new form FrmPrincipal
@@ -71,6 +73,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
         lblLogo = new javax.swing.JLabel();
         btnRegistrarVenta = new javax.swing.JButton();
         btnEnviarPedido = new javax.swing.JButton();
+        btnRevisarVentas = new javax.swing.JButton();
         menuBar = new javax.swing.JMenuBar();
         menuClientes = new javax.swing.JMenu();
         clientesAgregar = new javax.swing.JMenuItem();
@@ -144,6 +147,13 @@ public class FrmPrincipal extends javax.swing.JFrame {
             }
         });
 
+        btnRevisarVentas.setText("Revisar Ventas");
+        btnRevisarVentas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRevisarVentasActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -152,9 +162,10 @@ public class FrmPrincipal extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(lblLogo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnRevisarPedido, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btn_cancelar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnRealizarPedido, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(btnRealizarPedido, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnRevisarVentas, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnRevisarPedido, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 198, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(jPanel1Layout.createSequentialGroup()
@@ -179,8 +190,10 @@ public class FrmPrincipal extends javax.swing.JFrame {
                 .addComponent(btnRealizarPedido)
                 .addGap(66, 66, 66)
                 .addComponent(btn_cancelar)
-                .addGap(67, 67, 67)
+                .addGap(48, 48, 48)
                 .addComponent(btnRevisarPedido)
+                .addGap(51, 51, 51)
+                .addComponent(btnRevisarVentas)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(lblLogo)
                 .addGap(94, 94, 94))
@@ -267,15 +280,13 @@ public class FrmPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_clientesRevisarActionPerformed
 
     private void btnRealizarPedidoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRealizarPedidoActionPerformed
-        
-        c.mostrarRealizarPedido();
+        cPedidos.mostrarRealizarPedido();
         dispose();
     }//GEN-LAST:event_btnRealizarPedidoActionPerformed
 
     private void btnRevisarPedidoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRevisarPedidoActionPerformed
-
         dispose();
-        c.mostrarRevisarPedidos();
+        cPedidos.mostrarRevisarPedidos();
     }//GEN-LAST:event_btnRevisarPedidoActionPerformed
 
     private void btn_cancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_cancelarActionPerformed
@@ -283,14 +294,10 @@ public class FrmPrincipal extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "No hay ningún pedido seleccionado, por favor, seleccione uno", "Seleccione un pedido", JOptionPane.ERROR_MESSAGE);
             return;
         }
-        /*
-        String[] campos = this.obtenerPedidoLimpio().split("\n");
-
-        long idPedido = Long.parseLong(campos[0].split("\\s+")[0]);*/
         
         long idPedido = this.listPedidos.getSelectedValue().getId();
 
-        c.cancelarPedido(idPedido);
+        cPedidos.cancelarPedido(idPedido);
     }//GEN-LAST:event_btn_cancelarActionPerformed
 
     private void btnEnviarPedido(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEnviarPedido
@@ -304,7 +311,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
 
         long idPedido = this.listPedidos.getSelectedValue().getId();
         
-        c.enviarPedido(idPedido);
+        cPedidos.enviarPedido(idPedido);
     }//GEN-LAST:event_btnEnviarPedido
 
     private void btnRegistrarVentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarVentaActionPerformed
@@ -318,7 +325,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
         
         long idPedido = this.listPedidos.getSelectedValue().getId();
         
-        c.registrarVentaPedido(idPedido);
+        cPedidos.registrarVentaPedido(idPedido);
     }//GEN-LAST:event_btnRegistrarVentaActionPerformed
 
     private void listPedidosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_listPedidosMouseClicked
@@ -330,12 +337,18 @@ public class FrmPrincipal extends javax.swing.JFrame {
             this.btnRegistrarVenta.setEnabled(true);
         }
     }//GEN-LAST:event_listPedidosMouseClicked
+
+    private void btnRevisarVentasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRevisarVentasActionPerformed
+        dispose();
+        cVentas.mostrarRevisarVentas();
+    }//GEN-LAST:event_btnRevisarVentasActionPerformed
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnEnviarPedido;
     private javax.swing.JButton btnRealizarPedido;
     private javax.swing.JButton btnRegistrarVenta;
     private javax.swing.JButton btnRevisarPedido;
+    private javax.swing.JButton btnRevisarVentas;
     private javax.swing.JButton btn_cancelar;
     private javax.swing.JMenuItem clientesAgregar;
     private javax.swing.JMenuItem clientesEliminar;

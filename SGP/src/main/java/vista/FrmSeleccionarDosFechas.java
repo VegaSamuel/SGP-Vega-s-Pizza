@@ -3,7 +3,6 @@ package vista;
 import com.toedter.calendar.JDateChooser;
 import control.ControlPedidos;
 import java.util.Calendar;
-import java.util.Date;
 import javax.swing.JOptionPane;
 
 public class FrmSeleccionarDosFechas extends javax.swing.JFrame {
@@ -43,22 +42,22 @@ public class FrmSeleccionarDosFechas extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }
 
-private void confirmarFechas() {
-    Calendar fechaInicio = dateChooserInicio.getCalendar();
-    Calendar fechaFin = dateChooserFin.getCalendar();
+    private void confirmarFechas() {
+        Calendar fechaInicio = dateChooserInicio.getCalendar();
+        Calendar fechaFin = dateChooserFin.getCalendar();
 
-    if (fechaInicio != null && fechaFin != null) {
-        if (fechaInicio.before(fechaFin)) {
-            
-            c.actualizarPeriodoPedidos(fechaInicio, fechaFin);  // Convertir Calendar a Date
-            c.mostrarRevisarPedidos();
-            this.dispose();
+        if (fechaInicio != null && fechaFin != null) {
+            if (fechaInicio.before(fechaFin)) {
+
+                c.actualizarPeriodoPedidos(fechaInicio, fechaFin);  // Convertir Calendar a Date
+                c.mostrarRevisarPedidos();
+                this.dispose();
+            } else {
+                JOptionPane.showMessageDialog(this, "La fecha de inicio debe ser anterior a la fecha de fin. Por favor, selecciona fechas válidas.");
+            }
         } else {
-            JOptionPane.showMessageDialog(this, "La fecha de inicio debe ser anterior a la fecha de fin. Por favor, selecciona fechas válidas.");
+            JOptionPane.showMessageDialog(this, "Por favor, selecciona ambas fechas.");
         }
-    } else {
-        JOptionPane.showMessageDialog(this, "Por favor, selecciona ambas fechas.");
     }
-}
 
 }
