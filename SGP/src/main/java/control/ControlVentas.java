@@ -45,4 +45,20 @@ public class ControlVentas {
         
         JOptionPane.showMessageDialog(null, "Se registró correctamente la venta.", "Agregado exitoso.", JOptionPane.PLAIN_MESSAGE);
     }
+    
+    public void verificarVenta(List<Venta> lVentas) {
+        for (Venta venta : lVentas) {
+            IVentaDAO ventas = new VentaDAO(new DBConector().getEM());
+            
+            venta.setEstado(EstadoVentas.PAGADA);
+            ventas.modificarVenta(venta);
+        }
+    }
+    
+    public void eliminarVenta(List<Venta> lVentas) {
+        for (Venta venta : lVentas) {
+            IVentaDAO ventas = new VentaDAO(new DBConector().getEM());
+            ventas.eliminarVenta(venta.getId());
+        }
+    }
 }

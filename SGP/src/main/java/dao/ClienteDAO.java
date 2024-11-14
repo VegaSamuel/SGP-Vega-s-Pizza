@@ -110,6 +110,7 @@ public class ClienteDAO implements IClienteDAO {
             Cliente ECliente = em.find(Cliente.class, id);
             if(ECliente != null) {
                 em.remove(ECliente);
+                em.getTransaction().commit();
             }else {
                 System.out.println("No se encontró el cliente mencionado");
             }

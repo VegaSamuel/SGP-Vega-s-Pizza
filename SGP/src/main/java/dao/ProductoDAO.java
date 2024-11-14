@@ -85,6 +85,7 @@ public class ProductoDAO implements IProductoDAO {
             Producto EProducto = em.find(Producto.class, id);
             if(EProducto != null) {
                 em.remove(EProducto);
+                em.getTransaction().commit();
             }else {
                 System.out.println("No se encontró el producto mencionado");
             }

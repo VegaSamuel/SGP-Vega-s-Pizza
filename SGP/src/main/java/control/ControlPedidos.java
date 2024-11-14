@@ -4,6 +4,7 @@ import dao.ClienteDAO;
 import dao.IngredienteDAO;
 import dao.PedidoDAO;
 import dao.ProductoDAO;
+import dao.VentaDAO;
 import dominio.Cliente;
 import dominio.Ingrediente;
 import dominio.Pedido;
@@ -12,6 +13,7 @@ import interfaces.IClienteDAO;
 import interfaces.IIngredienteDAO;
 import interfaces.IPedidoDAO;
 import interfaces.IProductoDAO;
+import interfaces.IVentaDAO;
 import java.awt.Frame;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -260,6 +262,7 @@ public class ControlPedidos {
         int resp = JOptionPane.showOptionDialog(this.main, "¿Seguro que quiere registrar la venta del pedido " + id + "?", "Confirmación sobre registro de pedido", JOptionPane.YES_NO_OPTION, JOptionPane.PLAIN_MESSAGE, null, botones, botones[0]);
         
         if(resp == 1) {
+            IVentaDAO ventas = new VentaDAO(new DBConector().getEM());
             Pedido pedido = pedidos.obten(id);
             pedido.setEstado(EstadoPedidos.PAGADO);
             
@@ -267,9 +270,8 @@ public class ControlPedidos {
             
             pedidos.modificarPedido(pedido);
             
-            /*cVentas.registrarVenta(pedido);
-            Faltan algunos campos para que la venta pueda ser registrada.
-            */
+            // Modifica también las ventas que se relacionan con el pedido
+            cVentas.verificarVenta(ventas.obtenVentasPedido(pedido));
             this.mostrarVentanaPrincipal();
         }
     }
@@ -372,6 +374,12 @@ public class ControlPedidos {
         int resp = JOptionPane.showOptionDialog(this.main, "¿Seguro que quiere cancelar el pedido " + id + "?", "Confirmación sobre cancelación", JOptionPane.YES_NO_OPTION, JOptionPane.PLAIN_MESSAGE, null, botones, botones[0]);
         
         if(resp == 1) {
+            // Elimina también las ventas relacionadas al pedido
+            IVentaDAO ventas = new VentaDAO(new DBConector().getEM());
+            cVentas.eliminarVenta(ventas.obtenVentasPedido(pedidos.obten(id)));
+            
+            // Elimina el pedido en la base de datos
+            pedidos = new PedidoDAO(new DBConector().getEM());
             pedidos.eliminarPedido(id);
             this.mostrarVentanaPrincipal();
         }

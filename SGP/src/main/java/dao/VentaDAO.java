@@ -1,5 +1,6 @@
 package dao;
 
+import dominio.Pedido;
 import dominio.Venta;
 import excepciones.DAOException;
 import interfaces.IVentaDAO;
@@ -60,6 +61,7 @@ public class VentaDAO implements IVentaDAO {
                 EVenta.setCantidad(venta.getCantidad());
                 EVenta.setPrecio(venta.getPrecio());
                 EVenta.setImporte(venta.getImporte());
+                EVenta.setEstado(venta.getEstado());
                 
                 em.getTransaction().commit();
             }else {
@@ -83,6 +85,7 @@ public class VentaDAO implements IVentaDAO {
             Venta EVenta = em.find(Venta.class, id);
             if(EVenta != null) {
                 em.remove(EVenta);
+                em.getTransaction().commit();
             }else {
                 System.out.println("No se encontró la venta mencionada");
             }
@@ -109,6 +112,26 @@ public class VentaDAO implements IVentaDAO {
             ventas = em.createQuery(cq).getResultList();
         }catch(NoResultException nre) {
             System.out.println("No se encontraron ventas");
+        }finally {
+            em.close();
+        }
+        
+        return ventas;
+    }
+    
+    @Override
+    public List<Venta> obtenVentasPedido(Pedido pedido) throws DAOException {
+        List<Venta> ventas = null;
+        
+        try {
+            CriteriaBuilder cb = em.getCriteriaBuilder();
+            CriteriaQuery<Venta> cq = cb.createQuery(Venta.class);
+            Root<Venta> v = cq.from(Venta.class);
+            
+            cq.where(cb.equal(v.get("objetoPedido"), pedido));
+            ventas = em.createQuery(cq).getResultList();
+        }catch (DAOException e) {
+            System.out.println("No se pudo obtener la venta con el pedido: " + pedido.getId());
         }finally {
             em.close();
         }
