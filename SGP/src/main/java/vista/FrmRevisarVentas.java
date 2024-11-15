@@ -134,8 +134,10 @@ public class FrmRevisarVentas extends javax.swing.JFrame {
 
         this.tblVentas.setModel(tableModel);
 
-        long idVentaReal = 0;
         List<Venta> ventas = cVentas.obtenerVentas();
+        
+        long idVentaReal = 0;
+        float importePorVenta = 0.0f;
 
         for (Venta venta : ventas) {
             Calendar fecha = venta.getObjetoPedido().getFecha();
@@ -151,20 +153,58 @@ public class FrmRevisarVentas extends javax.swing.JFrame {
             
             int cantidad = Integer.parseInt(venta.getObjetoPedido().getDescripcion().substring(1, 2));
             
+            if(idVentaReal == 0) {
+                
+            }else {
+                if(idVentaReal != venta.getObjetoPedido().getId()) {
+                    tableModel.addRow(new Object[] {
+                        "Total: " + idVentaReal,
+                        "",
+                        "",
+                        fechaFormateada,
+                        "",
+                        "",
+                        "$ " + String.format("%.2f", importePorVenta),
+                        "$ " + String.format("%.2f", venta.getObjetoPedido().getEnvio()),
+                        venta.getObjetoPedido().getTipoPago()
+                    });
+                    importePorVenta = 0.0f;
+                }
+            }
+            
             tableModel.addRow(new Object[]{
                 (idVentaReal != venta.getObjetoPedido().getId()) ? venta.getObjetoPedido().getId() : "",
                 venta.getObjetoProducto().getNombre(),
-                nombreCliente,
-                fechaFormateada,
+                (idVentaReal != venta.getObjetoPedido().getId()) ? nombreCliente : "",
+                "", //(idVentaReal != venta.getObjetoPedido().getId()) ? fechaFormateada : "",
                 "$ " + String.format("%.2f", venta.getPrecio()),
                 cantidad,
                 "$ " + String.format("%.2f", venta.getPrecio() * cantidad),
-                "$ " + String.format("%.2f", venta.getObjetoPedido().getEnvio()),
-                venta.getObjetoPedido().getTipoPago()
+                "", //(idVentaReal != venta.getObjetoPedido().getId()) ? "$ " + String.format("%.2f", venta.getObjetoPedido().getEnvio()) : "",
+                "" //(idVentaReal != venta.getObjetoPedido().getId()) ? venta.getObjetoPedido().getTipoPago() : ""
             });
+            
+            importePorVenta += venta.getImporte();
+            
             
             if(idVentaReal != venta.getObjetoPedido().getId()) {
                 idVentaReal = venta.getObjetoPedido().getId();
+            }
+            
+            Venta uVenta = ventas.get(ventas.size()-1);
+
+            if(uVenta.equals(venta)) {
+                tableModel.addRow(new Object[] {
+                    "Total: " + idVentaReal,
+                    "",
+                    "",
+                    fechaFormateada,
+                    "",
+                    "",
+                    "$ " + String.format("%.2f", importePorVenta),
+                    "$ " + String.format("%.2f", venta.getObjetoPedido().getEnvio()),
+                    venta.getObjetoPedido().getTipoPago()
+                });
             }
         }
 
