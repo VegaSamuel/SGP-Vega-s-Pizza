@@ -26,7 +26,6 @@ public class FrmRevisarPedidos extends javax.swing.JFrame {
      * Creates new form FrmRevisarPedidos
      */
     public FrmRevisarPedidos() {
-
         initComponents();
         crearTabla();
     }
@@ -238,18 +237,18 @@ public class FrmRevisarPedidos extends javax.swing.JFrame {
 
     private void ajustarColumnas() {
        
-    TableColumnModel columnModel = tblPedidos.getColumnModel();
+        TableColumnModel columnModel = tblPedidos.getColumnModel();
 
-    columnModel.getColumn(7).setPreferredWidth(65);  
-    columnModel.getColumn(6).setPreferredWidth(50);  
-    columnModel.getColumn(5).setPreferredWidth(300);  
-    columnModel.getColumn(3).setPreferredWidth(35); 
-    columnModel.getColumn(2).setPreferredWidth(45); 
-    columnModel.getColumn(1).setPreferredWidth(150); 
-    columnModel.getColumn(0).setPreferredWidth(35); 
-    
-    tblPedidos.revalidate();
-    tblPedidos.repaint();
+        columnModel.getColumn(7).setPreferredWidth(65);  
+        columnModel.getColumn(6).setPreferredWidth(50);  
+        columnModel.getColumn(5).setPreferredWidth(300);  
+        columnModel.getColumn(3).setPreferredWidth(35); 
+        columnModel.getColumn(2).setPreferredWidth(45); 
+        columnModel.getColumn(1).setPreferredWidth(150); 
+        columnModel.getColumn(0).setPreferredWidth(35); 
+
+        tblPedidos.revalidate();
+        tblPedidos.repaint();
     }
 
 }

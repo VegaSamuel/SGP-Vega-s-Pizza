@@ -309,9 +309,13 @@ public class FrmPrincipal extends javax.swing.JFrame {
             return;
         }
 
-        long idPedido = this.listPedidos.getSelectedValue().getId();
+        Pedido pedido = this.listPedidos.getSelectedValue();
         
-        cPedidos.enviarPedido(idPedido);
+        cPedidos.enviarPedido(pedido.getId());
+        
+        if(pedido.getTipoPago().equals(TipoPago.TRANSFERENCIA)) {
+            cPedidos.registrarVentaPedido(pedido.getId());
+        }
     }//GEN-LAST:event_btnEnviarPedido
 
     private void btnRegistrarVentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarVentaActionPerformed
@@ -323,9 +327,15 @@ public class FrmPrincipal extends javax.swing.JFrame {
             return;
         }
         
-        long idPedido = this.listPedidos.getSelectedValue().getId();
+        Pedido pedido = this.listPedidos.getSelectedValue();
         
-        cPedidos.registrarVentaPedido(idPedido);
+        Object[] botones = {"Regresar", "Registar"};
+        
+        int resp = JOptionPane.showOptionDialog(this, "¿Seguro que quiere registrar la venta del pedido " + pedido.getId() + "?", "Confirmación sobre registro de pedido", JOptionPane.YES_NO_OPTION, JOptionPane.PLAIN_MESSAGE, null, botones, botones[0]);
+        
+        if(resp == 1) {
+            cPedidos.registrarVentaPedido(pedido.getId());
+        }
     }//GEN-LAST:event_btnRegistrarVentaActionPerformed
 
     private void listPedidosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_listPedidosMouseClicked

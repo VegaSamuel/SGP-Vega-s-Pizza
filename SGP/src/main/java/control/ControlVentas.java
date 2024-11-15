@@ -10,6 +10,7 @@ import java.util.List;
 import javax.swing.JOptionPane;
 import util.DBConector;
 import util.enums.EstadoVentas;
+import util.enums.TipoPago;
 import vista.FrmPrincipal;
 import vista.FrmRevisarVentas;
 import vista.FrmSeleccionarDosFechas;
@@ -41,7 +42,14 @@ public class ControlVentas {
         for (Producto producto : productos) {
             IVentaDAO ventas = new VentaDAO(new DBConector().getEM());
             int cantidad = cantidades.get(cantidad_index);
-            Venta nuevaVenta = new Venta(pedido, producto, cantidad, producto.getPrecio(), (cantidad * producto.getPrecio()), EstadoVentas.EN_PROCESO);
+            
+            Venta nuevaVenta = null;
+            
+            if(pedido.getTipoPago().equals(TipoPago.EFECTIVO)) {
+                nuevaVenta = new Venta(pedido, producto, cantidad, producto.getPrecio(), (cantidad * producto.getPrecio()), EstadoVentas.EN_PROCESO);
+            }else if(pedido.getTipoPago().equals(TipoPago.TRANSFERENCIA)) {
+                nuevaVenta = new Venta(pedido, producto, cantidad, producto.getPrecio(), (cantidad * producto.getPrecio()), EstadoVentas.PAGADA);
+            }
             
             ventas.agregarVenta(nuevaVenta);
             cantidad_index += 1;

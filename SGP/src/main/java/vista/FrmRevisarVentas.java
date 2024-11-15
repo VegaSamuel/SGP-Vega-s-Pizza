@@ -46,7 +46,7 @@ public class FrmRevisarVentas extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblVentas = new javax.swing.JTable();
-        jButton1 = new javax.swing.JButton();
+        btnRegresar = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -69,10 +69,10 @@ public class FrmRevisarVentas extends javax.swing.JFrame {
         tblVentas.setEnabled(false);
         jScrollPane1.setViewportView(tblVentas);
 
-        jButton1.setText("Regresar");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        btnRegresar.setText("Regresar");
+        btnRegresar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btnRegresarActionPerformed(evt);
             }
         });
 
@@ -87,7 +87,7 @@ public class FrmRevisarVentas extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jButton1)
+                        .addComponent(btnRegresar)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jButton2))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1164, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -102,7 +102,7 @@ public class FrmRevisarVentas extends javax.swing.JFrame {
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 395, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
+                    .addComponent(btnRegresar)
                     .addComponent(jButton2))
                 .addContainerGap(15, Short.MAX_VALUE))
         );
@@ -119,20 +119,22 @@ public class FrmRevisarVentas extends javax.swing.JFrame {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void btnRegresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegresarActionPerformed
         dispose();
         cPedidos.mostrarVentanaPrincipal();
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_btnRegresarActionPerformed
 
  public void crearTabla() {
 
         tableModel = new DefaultTableModel();
-        tableModel.setColumnIdentifiers(new String[]{"ID Venta", "Descripción", "Nombre Cliente", "Fecha", "Costo", "Envío", "Importe Total", "Tipo de Pago"});
+        tableModel.setColumnIdentifiers(new String[]{"ID Venta", "Descripción", "Nombre Cliente", "Fecha", "Costo", "Cantidad", "Importe Total", "Envío", "Tipo de Pago"});
 
         this.tblVentas.setModel(tableModel);
 
+        long idVentaReal = 0;
         List<Venta> ventas = cVentas.obtenerVentas();
 
         for (Venta venta : ventas) {
@@ -146,17 +148,24 @@ public class FrmRevisarVentas extends javax.swing.JFrame {
 
             Cliente cliente = venta.getObjetoPedido().getCliente();
             String nombreCliente = cliente.getNombres() + " " + cliente.getApellidoPaterno();
-
+            
+            int cantidad = Integer.parseInt(venta.getObjetoPedido().getDescripcion().substring(1, 2));
+            
             tableModel.addRow(new Object[]{
-                venta.getId(),
-                venta.getObjetoPedido().getDescripcion(),
+                (idVentaReal != venta.getObjetoPedido().getId()) ? venta.getObjetoPedido().getId() : "",
+                venta.getObjetoProducto().getNombre(),
                 nombreCliente,
                 fechaFormateada,
-                "$ " + String.format("%.2f", venta.getObjetoPedido().getCosto()),
+                "$ " + String.format("%.2f", venta.getPrecio()),
+                cantidad,
+                "$ " + String.format("%.2f", venta.getPrecio() * cantidad),
                 "$ " + String.format("%.2f", venta.getObjetoPedido().getEnvio()),
-                "$ " + String.format("%.2f", venta.getObjetoPedido().getCosto()),//PONER TOTAL
                 venta.getObjetoPedido().getTipoPago()
             });
+            
+            if(idVentaReal != venta.getObjetoPedido().getId()) {
+                idVentaReal = venta.getObjetoPedido().getId();
+            }
         }
 
         ajustarColumnas();
@@ -207,7 +216,7 @@ public class FrmRevisarVentas extends javax.swing.JFrame {
         tblVentas.repaint();
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
+    private javax.swing.JButton btnRegresar;
     private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
