@@ -16,7 +16,7 @@ public interface IIngredienteDAO {
     
     public void modificarIngrediente(Ingrediente ingrediente) throws DAOException;
     
-    public void eliminarIngrediente(Ingrediente ingrediente) throws DAOException;
+    public void eliminarIngrediente(Long id) throws DAOException;
     
     public List<Ingrediente> obtenerIngredientes() throws DAOException;
 }

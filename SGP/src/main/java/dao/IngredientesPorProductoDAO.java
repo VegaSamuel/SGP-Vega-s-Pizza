@@ -1,8 +1,8 @@
 package dao;
 
-import dominio.Ingrediente;
+import dominio.IngredientesPorProducto;
 import excepciones.DAOException;
-import interfaces.IIngredienteDAO;
+import interfaces.IIngredientesPorProductoDAO;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
@@ -11,57 +11,57 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 
 /**
- * 
+ *
  * @author Samuel Vega
  */
-public class IngredienteDAO implements IIngredienteDAO {
+public class IngredientesPorProductoDAO implements IIngredientesPorProductoDAO {
     private final EntityManager em;
     
-    public IngredienteDAO(EntityManager em) {
+    public IngredientesPorProductoDAO(EntityManager em) {
         this.em = em;
     }
 
     @Override
-    public Ingrediente obten(Long id) throws DAOException {
-        Ingrediente ingrediente = null;
+    public IngredientesPorProducto obten(Long id) throws DAOException {
+        IngredientesPorProducto ingredientes = null;
         
         try {
-            ingrediente = em.find(Ingrediente.class, id);
+            ingredientes = em.find(IngredientesPorProducto.class, id);
         } catch(DAOException e) {
             System.out.println("No se pudo obtener el ingrediente: " + id);
         } finally {
             em.close();
         }
         
-        return ingrediente;
+        return ingredientes;
     }
 
     @Override
-    public void agregarIngrediente(Ingrediente ingrediente) throws DAOException {
+    public void agregarIngredientesPorProducto(IngredientesPorProducto ingredientesPorProducto) throws DAOException {
         try {
             em.getTransaction().begin();
-            em.persist(ingrediente);
+            em.persist(ingredientesPorProducto);
             em.getTransaction().commit();
         } catch(DAOException e) {
             if(em.getTransaction().isActive()) {
                 em.getTransaction().rollback();
             }
-            System.out.println("No se pudo agregar el ingrediente");
+            System.out.println("No se pudo agregar los ingredientes del producto");
         } finally {
             em.close();
         }
     }
 
     @Override
-    public void modificarIngrediente(Ingrediente ingrediente) throws DAOException {
+    public void modificarIngredientesPorProducto(IngredientesPorProducto ingredientesPorProducto) throws DAOException {
         try {
             em.getTransaction().begin();
             
-            Ingrediente EIngrediente = em.find(Ingrediente.class, ingrediente.getId());
-            if(EIngrediente != null) {
-                EIngrediente.setNombre(ingrediente.getNombre());
-                EIngrediente.setCantidad(ingrediente.getCantidad());
-                EIngrediente.setUnidadMedida(ingrediente.getUnidadMedida());
+            IngredientesPorProducto EIngredientes = em.find(IngredientesPorProducto.class, ingredientesPorProducto.getId());
+            if(EIngredientes != null) {
+                EIngredientes.setObjetoProducto(ingredientesPorProducto.getObjetoProducto());
+                EIngredientes.setObjetoIngrediente(ingredientesPorProducto.getObjetoIngrediente());
+                EIngredientes.setCantidadPorProducto(ingredientesPorProducto.getCantidadPorProducto());
                 
                 em.getTransaction().commit();
             }else {
@@ -71,20 +71,20 @@ public class IngredienteDAO implements IIngredienteDAO {
             if(em.getTransaction().isActive()) {
                 em.getTransaction().rollback();
             }
-            System.out.println("No se pudo modificar el ingrediente");
+            System.out.println("No se pudo modificar el ingrediente del producto");
         } finally {
             em.close();
         }
     }
 
     @Override
-    public void eliminarIngrediente(Long id) throws DAOException {
+    public void eliminarIngredientesPorProducto(Long id) throws DAOException {
         try {
             em.getTransaction().begin();
             
-            Ingrediente EIngrediente = em.find(Ingrediente.class, id);
-            if(EIngrediente != null) {
-                em.remove(EIngrediente);
+            IngredientesPorProducto EIngredientes = em.find(IngredientesPorProducto.class, id);
+            if(EIngredientes != null) {
+                em.remove(EIngredientes);
                 em.getTransaction().commit();
             }else {
                 System.out.println("No se encontró el ingrediente que se quiere eliminar");
@@ -100,13 +100,13 @@ public class IngredienteDAO implements IIngredienteDAO {
     }
 
     @Override
-    public List<Ingrediente> obtenerIngredientes() throws DAOException {
-        List<Ingrediente> ingredientes = null;
+    public List<IngredientesPorProducto> obtenerIngredientesPorProducto() {
+        List<IngredientesPorProducto> ingredientes = null;
         
         try {
             CriteriaBuilder cb = em.getCriteriaBuilder();
-            CriteriaQuery cq = cb.createQuery(Ingrediente.class);
-            Root<Ingrediente> i = cq.from(Ingrediente.class);
+            CriteriaQuery cq = cb.createQuery(IngredientesPorProducto.class);
+            Root<IngredientesPorProducto> i = cq.from(IngredientesPorProducto.class);
             
             cq.select(i);
             ingredientes = em.createQuery(cq).getResultList();
@@ -116,5 +116,4 @@ public class IngredienteDAO implements IIngredienteDAO {
         
         return ingredientes;
     }
-    
 }
