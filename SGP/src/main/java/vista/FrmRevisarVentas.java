@@ -159,12 +159,8 @@ public class FrmRevisarVentas extends javax.swing.JFrame {
 
             Cliente cliente = venta.getObjetoPedido().getCliente();
             String nombreCliente = cliente.getNombres() + " " + cliente.getApellidoPaterno();
-            
-            int cantidad = Integer.parseInt(venta.getObjetoPedido().getDescripcion().substring(1, 2));
-            
-            if(idVentaReal == 0) {
-                
-            }else {
+                        
+            if(idVentaReal != 0) {
                 if(idVentaReal != venta.getObjetoPedido().getId()) {
                     tableModel.addRow(new Object[] {
                         "Total: " + idVentaReal,
@@ -185,12 +181,12 @@ public class FrmRevisarVentas extends javax.swing.JFrame {
                 (idVentaReal != venta.getObjetoPedido().getId()) ? venta.getObjetoPedido().getId() : "",
                 venta.getObjetoProducto().getNombre(),
                 (idVentaReal != venta.getObjetoPedido().getId()) ? nombreCliente : "",
-                "", //(idVentaReal != venta.getObjetoPedido().getId()) ? fechaFormateada : "",
+                "",
                 "$ " + String.format("%.2f", venta.getPrecio()),
                 venta.getCantidad(),
                 "$ " + String.format("%.2f", venta.getPrecio() * venta.getCantidad()),
-                "", //(idVentaReal != venta.getObjetoPedido().getId()) ? "$ " + String.format("%.2f", venta.getObjetoPedido().getEnvio()) : "",
-                "" //(idVentaReal != venta.getObjetoPedido().getId()) ? venta.getObjetoPedido().getTipoPago() : ""
+                "",
+                ""
             });
             
             importePorVenta += venta.getImporte();
@@ -229,21 +225,73 @@ public class FrmRevisarVentas extends javax.swing.JFrame {
         List<Venta> ventas = cVentas.obtenerVentasFiltro(fechaInicio, fechaFin);
 
         SimpleDateFormat formatoFecha = new SimpleDateFormat("yyyy-MM-dd");
+        
+        long idVentaReal = 0;
+        float importePorVenta = 0.0f;
 
         for (Venta venta : ventas) {
+            Calendar fecha = venta.getObjetoPedido().getFecha();
+
+            int anio = fecha.get(Calendar.YEAR);
+            int mes = fecha.get(Calendar.MONTH) + 1;
+            int dia = fecha.get(Calendar.DAY_OF_MONTH);
+
+            String fechaFormateada = anio + "-" + (mes < 10 ? "0" + mes : mes) + "-" + (dia < 10 ? "0" + dia : dia);
+
             Cliente cliente = venta.getObjetoPedido().getCliente();
             String nombreCliente = cliente.getNombres() + " " + cliente.getApellidoPaterno();
-
+                        
+            if(idVentaReal != 0) {
+                if(idVentaReal != venta.getObjetoPedido().getId()) {
+                    tableModel.addRow(new Object[] {
+                        "Total: " + idVentaReal,
+                        "",
+                        "",
+                        fechaFormateada,
+                        "",
+                        "",
+                        "$ " + String.format("%.2f", importePorVenta),
+                        "$ " + String.format("%.2f", venta.getObjetoPedido().getEnvio()),
+                        venta.getObjetoPedido().getTipoPago()
+                    });
+                    importePorVenta = 0.0f;
+                }
+            }
+            
             tableModel.addRow(new Object[]{
-                venta.getId(),
-                venta.getObjetoPedido().getDescripcion(),
-                nombreCliente,
-                formatoFecha.format(venta.getObjetoPedido().getFecha().getTime()),
-                "$ " + String.format("%.2f", venta.getObjetoPedido().getCosto()),
-                "$ " + String.format("%.2f", venta.getObjetoPedido().getEnvio()),
-                "$ " + String.format("%.2f", venta.getObjetoPedido().getCosto()),//PONER TOTAL
-                venta.getObjetoPedido().getTipoPago()
+                (idVentaReal != venta.getObjetoPedido().getId()) ? venta.getObjetoPedido().getId() : "",
+                venta.getObjetoProducto().getNombre(),
+                (idVentaReal != venta.getObjetoPedido().getId()) ? nombreCliente : "",
+                "",
+                "$ " + String.format("%.2f", venta.getPrecio()),
+                venta.getCantidad(),
+                "$ " + String.format("%.2f", venta.getPrecio() * venta.getCantidad()),
+                "",
+                ""
             });
+            
+            importePorVenta += venta.getImporte();
+            
+            
+            if(idVentaReal != venta.getObjetoPedido().getId()) {
+                idVentaReal = venta.getObjetoPedido().getId();
+            }
+            
+            Venta uVenta = ventas.get(ventas.size()-1);
+
+            if(uVenta.equals(venta)) {
+                tableModel.addRow(new Object[] {
+                    "Total: " + idVentaReal,
+                    "",
+                    "",
+                    fechaFormateada,
+                    "",
+                    "",
+                    "$ " + String.format("%.2f", importePorVenta),
+                    "$ " + String.format("%.2f", venta.getObjetoPedido().getEnvio()),
+                    venta.getObjetoPedido().getTipoPago()
+                });
+            }
         }
 
         ajustarColumnas();
