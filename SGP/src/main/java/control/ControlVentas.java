@@ -97,7 +97,8 @@ public class ControlVentas {
             this.frmRevisarVentas = new FrmRevisarVentas();
         }
         
-       frmRevisarVentas.setVisible(true);
+        frmRevisarVentas.crearTabla();
+        frmRevisarVentas.setVisible(true);
     }
 
     public void actualizarPeriodoVentas(Calendar fechaInicio, Calendar fechaFinal) {

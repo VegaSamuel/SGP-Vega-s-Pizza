@@ -49,7 +49,12 @@ public class FrmRevisarVentas extends javax.swing.JFrame {
         btnRegresar = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosed(java.awt.event.WindowEvent evt) {
+                formWindowClosed(evt);
+            }
+        });
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 20)); // NOI18N
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -127,6 +132,10 @@ public class FrmRevisarVentas extends javax.swing.JFrame {
         cPedidos.mostrarVentanaPrincipal();
     }//GEN-LAST:event_btnRegresarActionPerformed
 
+    private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
+        cPedidos.mostrarVentanaPrincipal();
+    }//GEN-LAST:event_formWindowClosed
+
  public void crearTabla() {
 
         tableModel = new DefaultTableModel();
@@ -178,8 +187,8 @@ public class FrmRevisarVentas extends javax.swing.JFrame {
                 (idVentaReal != venta.getObjetoPedido().getId()) ? nombreCliente : "",
                 "", //(idVentaReal != venta.getObjetoPedido().getId()) ? fechaFormateada : "",
                 "$ " + String.format("%.2f", venta.getPrecio()),
-                cantidad,
-                "$ " + String.format("%.2f", venta.getPrecio() * cantidad),
+                venta.getCantidad(),
+                "$ " + String.format("%.2f", venta.getPrecio() * venta.getCantidad()),
                 "", //(idVentaReal != venta.getObjetoPedido().getId()) ? "$ " + String.format("%.2f", venta.getObjetoPedido().getEnvio()) : "",
                 "" //(idVentaReal != venta.getObjetoPedido().getId()) ? venta.getObjetoPedido().getTipoPago() : ""
             });

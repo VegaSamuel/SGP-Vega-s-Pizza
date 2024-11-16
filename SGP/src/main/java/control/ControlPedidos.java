@@ -418,6 +418,7 @@ public class ControlPedidos {
             this.frmRevisarPedidos = new FrmRevisarPedidos();
         }
         
+        frmRevisarPedidos.crearTabla();
         frmRevisarPedidos.setVisible(true);
     }
     

@@ -188,15 +188,15 @@ public class FrmPrincipal extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(29, 29, 29)
                 .addComponent(btnRealizarPedido)
-                .addGap(66, 66, 66)
+                .addGap(49, 49, 49)
                 .addComponent(btn_cancelar)
-                .addGap(48, 48, 48)
+                .addGap(63, 63, 63)
                 .addComponent(btnRevisarPedido)
-                .addGap(51, 51, 51)
+                .addGap(53, 53, 53)
                 .addComponent(btnRevisarVentas)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(lblLogo)
-                .addGap(94, 94, 94))
+                .addGap(53, 53, 53))
         );
 
         menuClientes.setText("Clientes");
