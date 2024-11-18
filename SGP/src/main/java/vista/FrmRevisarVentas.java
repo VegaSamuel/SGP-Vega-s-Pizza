@@ -139,7 +139,7 @@ public class FrmRevisarVentas extends javax.swing.JFrame {
  public void crearTabla() {
 
         tableModel = new DefaultTableModel();
-        tableModel.setColumnIdentifiers(new String[]{"ID Venta", "Descripción", "Nombre Cliente", "Fecha", "Costo", "Cantidad", "Importe Total", "Envío", "Tipo de Pago"});
+        tableModel.setColumnIdentifiers(new String[]{"ID Venta", "Nombre Cliente", "Fecha", "Descripción", "Costo", "Cantidad", "Importe Total", "Envío", "Tipo de Pago"});
 
         this.tblVentas.setModel(tableModel);
 
@@ -166,7 +166,7 @@ public class FrmRevisarVentas extends javax.swing.JFrame {
                         "Total: " + idVentaReal,
                         "",
                         "",
-                        fechaFormateada,
+                        "",
                         "",
                         "",
                         "$ " + String.format("%.2f", importePorVenta),
@@ -179,9 +179,9 @@ public class FrmRevisarVentas extends javax.swing.JFrame {
             
             tableModel.addRow(new Object[]{
                 (idVentaReal != venta.getObjetoPedido().getId()) ? venta.getObjetoPedido().getId() : "",
-                venta.getObjetoProducto().getNombre(),
                 (idVentaReal != venta.getObjetoPedido().getId()) ? nombreCliente : "",
-                "",
+                (idVentaReal != venta.getObjetoPedido().getId()) ? fechaFormateada : "",
+                venta.getObjetoProducto().getNombre(),
                 "$ " + String.format("%.2f", venta.getPrecio()),
                 venta.getCantidad(),
                 "$ " + String.format("%.2f", venta.getPrecio() * venta.getCantidad()),
@@ -203,7 +203,7 @@ public class FrmRevisarVentas extends javax.swing.JFrame {
                     "Total: " + idVentaReal,
                     "",
                     "",
-                    fechaFormateada,
+                    "",
                     "",
                     "",
                     "$ " + String.format("%.2f", importePorVenta),
@@ -223,8 +223,6 @@ public class FrmRevisarVentas extends javax.swing.JFrame {
         this.tblVentas.setModel(tableModel);
 
         List<Venta> ventas = cVentas.obtenerVentasFiltro(fechaInicio, fechaFin);
-
-        SimpleDateFormat formatoFecha = new SimpleDateFormat("yyyy-MM-dd");
         
         long idVentaReal = 0;
         float importePorVenta = 0.0f;
@@ -247,7 +245,7 @@ public class FrmRevisarVentas extends javax.swing.JFrame {
                         "Total: " + idVentaReal,
                         "",
                         "",
-                        fechaFormateada,
+                        "",
                         "",
                         "",
                         "$ " + String.format("%.2f", importePorVenta),
@@ -260,9 +258,9 @@ public class FrmRevisarVentas extends javax.swing.JFrame {
             
             tableModel.addRow(new Object[]{
                 (idVentaReal != venta.getObjetoPedido().getId()) ? venta.getObjetoPedido().getId() : "",
-                venta.getObjetoProducto().getNombre(),
                 (idVentaReal != venta.getObjetoPedido().getId()) ? nombreCliente : "",
-                "",
+                (idVentaReal != venta.getObjetoPedido().getId()) ? fechaFormateada : "",
+                venta.getObjetoProducto().getNombre(),
                 "$ " + String.format("%.2f", venta.getPrecio()),
                 venta.getCantidad(),
                 "$ " + String.format("%.2f", venta.getPrecio() * venta.getCantidad()),
@@ -284,7 +282,7 @@ public class FrmRevisarVentas extends javax.swing.JFrame {
                     "Total: " + idVentaReal,
                     "",
                     "",
-                    fechaFormateada,
+                    "",
                     "",
                     "",
                     "$ " + String.format("%.2f", importePorVenta),
@@ -300,14 +298,14 @@ public class FrmRevisarVentas extends javax.swing.JFrame {
     private void ajustarColumnas() {
         TableColumnModel columnModel = tblVentas.getColumnModel();
 
-        columnModel.getColumn(7).setPreferredWidth(65);
-        columnModel.getColumn(6).setPreferredWidth(50);
-        columnModel.getColumn(5).setPreferredWidth(35);
+        columnModel.getColumn(7).setPreferredWidth(25);
+        columnModel.getColumn(6).setPreferredWidth(35);
+        columnModel.getColumn(5).setPreferredWidth(25);
         columnModel.getColumn(4).setPreferredWidth(35);
-        columnModel.getColumn(3).setPreferredWidth(50);
-        columnModel.getColumn(2).setPreferredWidth(150);
-        columnModel.getColumn(1).setPreferredWidth(150);
-        columnModel.getColumn(0).setPreferredWidth(35);
+        columnModel.getColumn(3).setPreferredWidth(180);
+        columnModel.getColumn(2).setPreferredWidth(25);
+        columnModel.getColumn(1).setPreferredWidth(120);
+        columnModel.getColumn(0).setPreferredWidth(25);
 
         tblVentas.revalidate();
         tblVentas.repaint();
