@@ -218,7 +218,7 @@ public class FrmRevisarVentas extends javax.swing.JFrame {
  
     public void crearTablaFiltro(Calendar fechaInicio, Calendar fechaFin) {
         tableModel = new DefaultTableModel();
-        tableModel.setColumnIdentifiers(new String[]{"ID Venta", "Descripción", "Nombre Cliente", "Fecha", "Costo", "Envío", "Importe Total", "Tipo de Pago"});
+        tableModel.setColumnIdentifiers(new String[]{"ID Venta", "Nombre Cliente", "Fecha", "Descripción", "Costo", "Cantidad", "Importe Total", "Envío", "Tipo de Pago"});
 
         this.tblVentas.setModel(tableModel);
 
