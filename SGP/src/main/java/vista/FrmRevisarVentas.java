@@ -178,7 +178,7 @@ public class FrmRevisarVentas extends javax.swing.JFrame {
             }
             
             tableModel.addRow(new Object[]{
-                (idVentaReal != venta.getObjetoPedido().getId()) ? venta.getObjetoPedido().getId() : "",
+                venta.getObjetoPedido().getId(),
                 (idVentaReal != venta.getObjetoPedido().getId()) ? nombreCliente : "",
                 (idVentaReal != venta.getObjetoPedido().getId()) ? fechaFormateada : "",
                 venta.getObjetoProducto().getNombre(),
@@ -257,7 +257,7 @@ public class FrmRevisarVentas extends javax.swing.JFrame {
             }
             
             tableModel.addRow(new Object[]{
-                (idVentaReal != venta.getObjetoPedido().getId()) ? venta.getObjetoPedido().getId() : "",
+                venta.getObjetoPedido().getId(),
                 (idVentaReal != venta.getObjetoPedido().getId()) ? nombreCliente : "",
                 (idVentaReal != venta.getObjetoPedido().getId()) ? fechaFormateada : "",
                 venta.getObjetoProducto().getNombre(),
