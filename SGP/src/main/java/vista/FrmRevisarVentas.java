@@ -26,11 +26,11 @@ public class FrmRevisarVentas extends javax.swing.JFrame {
 
     public FrmRevisarVentas(Calendar fechaInicio, Calendar fechaFinal) {
         initComponents();
-        crearTablaFiltro(fechaInicio, fechaFinal);
+        crearTabla(fechaInicio, fechaFinal);
     }
     
         public void setPeriodo(Calendar fechaInicio, Calendar fechaFinal) {
-        crearTablaFiltro(fechaInicio, fechaFinal);
+        crearTabla(fechaInicio, fechaFinal);
     }
 
     /**
@@ -47,7 +47,7 @@ public class FrmRevisarVentas extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         tblVentas = new javax.swing.JTable();
         btnRegresar = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        btnFiltros = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -81,7 +81,12 @@ public class FrmRevisarVentas extends javax.swing.JFrame {
             }
         });
 
-        jButton2.setText("Filtros");
+        btnFiltros.setText("Filtros");
+        btnFiltros.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnFiltrosActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -94,7 +99,7 @@ public class FrmRevisarVentas extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(btnRegresar)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton2))
+                        .addComponent(btnFiltros))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1164, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(19, 19, 19))
         );
@@ -108,7 +113,7 @@ public class FrmRevisarVentas extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnRegresar)
-                    .addComponent(jButton2))
+                    .addComponent(btnFiltros))
                 .addContainerGap(15, Short.MAX_VALUE))
         );
 
@@ -135,6 +140,10 @@ public class FrmRevisarVentas extends javax.swing.JFrame {
     private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
         cPedidos.mostrarVentanaPrincipal();
     }//GEN-LAST:event_formWindowClosed
+
+    private void btnFiltrosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFiltrosActionPerformed
+       cVentas.mostrarSelectorFechas();
+    }//GEN-LAST:event_btnFiltrosActionPerformed
 
  public void crearTabla() {
 
@@ -215,8 +224,8 @@ public class FrmRevisarVentas extends javax.swing.JFrame {
 
         ajustarColumnas();
     }
- 
-    public void crearTablaFiltro(Calendar fechaInicio, Calendar fechaFin) {
+    
+        public void crearTabla(Calendar fechaInicio, Calendar fechaFin) {
         tableModel = new DefaultTableModel();
         tableModel.setColumnIdentifiers(new String[]{"ID Venta", "Nombre Cliente", "Fecha", "Descripción", "Costo", "Cantidad", "Importe Total", "Envío", "Tipo de Pago"});
 
@@ -311,8 +320,8 @@ public class FrmRevisarVentas extends javax.swing.JFrame {
         tblVentas.repaint();
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnFiltros;
     private javax.swing.JButton btnRegresar;
-    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;

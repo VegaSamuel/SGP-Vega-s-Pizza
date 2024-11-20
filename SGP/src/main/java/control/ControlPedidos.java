@@ -404,10 +404,13 @@ public class ControlPedidos {
      */
     public void mostrarSelectorFechas(){
         if(this.frmSeleccionarFechas == null) {
-            this.frmSeleccionarFechas = new FrmSeleccionarDosFechas();
+            this.frmSeleccionarFechas = new FrmSeleccionarDosFechas(1);
+            
         }
         
+        
         this.frmSeleccionarFechas.setVisible(true);
+        
     }
     
     /**
@@ -421,6 +424,20 @@ public class ControlPedidos {
         frmRevisarPedidos.crearTabla();
         frmRevisarPedidos.setVisible(true);
     }
+    
+     /**
+     * Muestra la ventana de revisar pedidos con filtro.
+     * @param fechaInicio
+     * @param fechaFin
+     */
+    public void mostrarRevisarPedidos(Calendar fechaInicio, Calendar fechaFin){
+        if(this.frmRevisarPedidos == null) {
+            this.frmRevisarPedidos = new FrmRevisarPedidos();
+        }
+        
+        frmRevisarPedidos.crearTabla(fechaInicio, fechaFin);
+        frmRevisarPedidos.setVisible(true);
+    }   
     
     /**
      * Actualiza el periodo seleccionado para mostrar en la tabla de pedidos.

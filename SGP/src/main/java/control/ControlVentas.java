@@ -86,7 +86,7 @@ public class ControlVentas {
     
     public void mostrarSelectorFechas(){
         if(this.frmSeleccionarFechas == null) {
-            this.frmSeleccionarFechas = new FrmSeleccionarDosFechas();
+            this.frmSeleccionarFechas = new FrmSeleccionarDosFechas(2);
         }
         
         this.frmSeleccionarFechas.setVisible(true);
@@ -101,6 +101,15 @@ public class ControlVentas {
         frmRevisarVentas.setVisible(true);
     }
 
+    public void mostrarRevisarVentas(Calendar fechaInicio, Calendar fechaFin){
+        if(this.frmRevisarVentas == null) {
+            this.frmRevisarVentas = new FrmRevisarVentas();
+        }
+        
+        frmRevisarVentas.crearTabla(fechaInicio, fechaFin);
+        frmRevisarVentas.setVisible(true);
+    }
+    
     public void actualizarPeriodoVentas(Calendar fechaInicio, Calendar fechaFinal) {
         this.frmRevisarVentas.setPeriodo(fechaInicio, fechaFinal);
     }

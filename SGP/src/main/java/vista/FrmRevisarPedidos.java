@@ -32,11 +32,11 @@ public class FrmRevisarPedidos extends javax.swing.JFrame {
 
     public FrmRevisarPedidos(Calendar fechaInicio, Calendar fechaFinal) {
         initComponents();
-        crearTablaFiltro(fechaInicio, fechaFinal);
+        crearTabla(fechaInicio, fechaFinal);
     }
 
     public void setPeriodo(Calendar fechaInicio, Calendar fechaFinal) {
-        crearTablaFiltro(fechaInicio, fechaFinal);
+        crearTabla(fechaInicio, fechaFinal);
     }
 
     /**
@@ -205,7 +205,8 @@ public class FrmRevisarPedidos extends javax.swing.JFrame {
         ajustarColumnas();
     }
 
-    public void crearTablaFiltro(Calendar fechaInicio, Calendar fechaFin) {
+    
+    public void crearTabla(Calendar fechaInicio, Calendar fechaFin) {
         tableModel = new DefaultTableModel();
         tableModel.setColumnIdentifiers(new String[]{"ID", "Descripción", "Estado", "Costo", "Nombre del cliente", "Dirección", "Fecha Compra", "Tipo Pago"});
 
@@ -234,7 +235,6 @@ public class FrmRevisarPedidos extends javax.swing.JFrame {
         
         ajustarColumnas();
     }
-
     private void ajustarColumnas() {
        
         TableColumnModel columnModel = tblPedidos.getColumnModel();
