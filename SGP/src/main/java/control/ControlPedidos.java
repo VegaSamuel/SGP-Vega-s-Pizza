@@ -19,17 +19,13 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
-import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
 import util.CalculoEnvio;
 import util.CalculoMetrosEnvio;
-import util.Conversiones;
 import util.DBConector;
 import util.enums.EstadoPedidos;
 import vista.DlgAgregarProducto;
 import vista.DlgPersonalizarProducto;
-import vista.FrmPrincipal;
-import vista.FrmRealizarPedido;
 import vista.FrmRevisarPedidos;
 import vista.FrmSeleccionarDosFechas;
 
@@ -41,9 +37,6 @@ public class ControlPedidos {
     // Instancia única de la clase
     private static ControlPedidos instancia;
     
-    // Declaración de ventanas
-    private FrmPrincipal main;
-    private FrmRealizarPedido frmRealizarPedido;
     private DlgAgregarProducto dlgAgregarProducto;
     private DlgPersonalizarProducto dlgPersonalizarProducto;
     private FrmRevisarPedidos frmRevisarPedidos;
@@ -56,7 +49,7 @@ public class ControlPedidos {
     private float costoTotal;
     private float costoEnvio;
     
-    // Objeto de control de ventas
+    // Objetos de control
     private ControlVentas cVentas = ControlVentas.getInstance();
     
     /**
@@ -97,7 +90,7 @@ public class ControlPedidos {
         pedidos.agregarPedido(pedido);
         cVentas.registrarVenta(pedido, productosPedidos, cantidadPorProducto);
         
-        JOptionPane.showMessageDialog(frmRealizarPedido, "Se agregó correctamente el pedido.", "Agregado exitoso.", JOptionPane.PLAIN_MESSAGE);
+        JOptionPane.showMessageDialog(ControlVentanas.getInstance().getRealizarPedido(), "Se agregó correctamente el pedido.", "Agregado exitoso.", JOptionPane.PLAIN_MESSAGE);
     }
     
     /**
@@ -124,49 +117,57 @@ public class ControlPedidos {
         Object[] botones = {"Agregar", "Cancelar"};
         
         // Muestra el precio de envío y pregunta si el usuario quiere agregar el costo al pedido.
-        int resp = JOptionPane.showOptionDialog(frmRealizarPedido, "¿Desea agregar el envío? \n kilometros: " +  distancia + " \n envío: $ " + costoEnvio, "Costo de Envío Calculado", JOptionPane.YES_NO_OPTION, JOptionPane.PLAIN_MESSAGE, null, botones, botones[0]);
+        int resp = JOptionPane.showOptionDialog(ControlVentanas.getInstance().getRealizarPedido(), "¿Desea agregar el envío? \n kilometros: " +  distancia + " \n envío: $ " + costoEnvio, "Costo de Envío Calculado", JOptionPane.YES_NO_OPTION, JOptionPane.PLAIN_MESSAGE, null, botones, botones[0]);
         
         // Si se agrega el costo
         if(resp == 0) {
             // Se agrega al costo total del pedido.
             this.costoTotal += costoEnvio;
-            // Actualiza el precio de envío en la ventana de Realizar Pedido.
-            this.frmRealizarPedido.actualizarPrecioEnvio(costoEnvio);
-            // Actualiza el costo total en la ventana de Realizar Pedido, agregando el envío.
-            this.frmRealizarPedido.actualizaCostoTotal(costoTotal);
-            // Informa que el agregado fue exitoso.
-            JOptionPane.showMessageDialog(frmRealizarPedido, "Se agregó correctamente el costo de envío al pedido.", "Agregado exitoso", JOptionPane.PLAIN_MESSAGE);
+            // Agrega el envío a la ventana de realizar pedido.
+            ControlVentanas.getInstance().agregarCostoEnvio(costoEnvio, costoTotal);
         }
     }
     
     /**
-     * Muestra la ventana de realizar pedido.
+     * Limpia los datos del pedido cada que se cierra la ventana de realizar pedido.
      */
-    public void mostrarRealizarPedido() {
-        // Si no esta inicializada aún, la inicializa
-        if(this.frmRealizarPedido == null) {
-            this.frmRealizarPedido = new FrmRealizarPedido();
-        }
-        
-        // Cada que se abre la ventana, se resetean los valores
+    public void limpiarDatosPedido() {
+        this.costoTotal = 0.0f;
         this.costoEnvio = 0.0f;
         this.productosPedidos.clear();
-        this.actualizarRealizarPedido();
-        this.frmRealizarPedido.setVisible(true);
     }
     
     /**
-     * Actualiza la ventana actual de realizar pedido.
-     * Se usa normalmente cuando se realiza una operación que realiza cambios en esta ventana.
+     * Regresa la lista de productos presentes en el pedido.
+     * @return La lista de productos presentes en el pedido.
      */
-    public void actualizarRealizarPedido() {
-        Conversiones con = new Conversiones();
-        
-        this.frmRealizarPedido.despliegaTabla(con.productosPedidoModel(productosPedidos, cantidadPorProducto));
-        this.costoTotal += this.obtenerPrecioProductosTotal();
-        this.frmRealizarPedido.actualizarPrecioEnvio(this.costoEnvio);
-        this.frmRealizarPedido.actualizaCostoTotal(this.obtenerCostoTotal());
-        this.frmRealizarPedido.actualizarPrecioTotal(this.obtenerPrecioProductosTotal());
+    public List<Producto> obtenerProductosPedidos() {
+        return this.productosPedidos;
+    }
+    
+    /**
+     * Regresa la lista de cantidades que tiene cada producto del pedido.
+     * @return La lista de cantidades que tiene cada producto del pedido.
+     */
+    public List<Integer> obtenerCantidadesPorProducto() {
+        return this.cantidadPorProducto;
+    }
+    
+    // Getter & Setter: Costo Total
+    public float getCostoTotal() {
+        return costoTotal;
+    }
+    
+    public void setCostoTotal(float costoTotal) {
+        this.costoTotal = costoTotal;
+    }
+    
+    /**
+     * Regresa el costo de envío del pedido.
+     * @return El costo de envío del pedido.
+     */
+    public float obtenerCostoEnvio() {
+        return this.costoEnvio;
     }
     
     /**
@@ -191,11 +192,11 @@ public class ControlPedidos {
         
         // Si no hay ingredientes para agregar al pedido, se anuncia y se cancela la operación
         if(listaIngredientes.isEmpty()) {
-            JOptionPane.showMessageDialog(this.frmRealizarPedido, "No hay ingredientes que seleccionar.", "No hay ingredientes", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(ControlVentanas.getInstance().getRealizarPedido(), "No hay ingredientes que seleccionar.", "No hay ingredientes", JOptionPane.ERROR_MESSAGE);
             return;
         }
         
-        this.dlgPersonalizarProducto = new DlgPersonalizarProducto(this.frmRealizarPedido, false, listaIngredientes);
+        this.dlgPersonalizarProducto = new DlgPersonalizarProducto(ControlVentanas.getInstance().getRealizarPedido(), false, listaIngredientes);
         this.dlgPersonalizarProducto.setVisible(true);
     }
     
@@ -237,7 +238,7 @@ public class ControlPedidos {
         Object[] botones = {"Regresar", "Enviar"};
         
         // Pide confirmación
-        int resp = JOptionPane.showOptionDialog(this.main, "¿Seguro que quiere enviar el pedido " + id + "?", "Confirmación sobre envío de pedido", JOptionPane.YES_NO_OPTION, JOptionPane.PLAIN_MESSAGE, null, botones, botones[0]);
+        int resp = JOptionPane.showOptionDialog(ControlVentanas.getInstance().getMain(), "¿Seguro que quiere enviar el pedido " + id + "?", "Confirmación sobre envío de pedido", JOptionPane.YES_NO_OPTION, JOptionPane.PLAIN_MESSAGE, null, botones, botones[0]);
         
         if(resp == 1) {
             Pedido pedido = pedidos.obten(id);
@@ -246,7 +247,7 @@ public class ControlPedidos {
             pedidos = new PedidoDAO(new DBConector().getEM());
             
             pedidos.modificarPedido(pedido);
-            this.mostrarVentanaPrincipal();
+            ControlVentanas.getInstance().mostrarVentanaPrincipal();
         }
     }
     
@@ -267,30 +268,7 @@ public class ControlPedidos {
         
         // Modifica también las ventas que se relacionan con el pedido
         cVentas.verificarVenta(ventas.obtenVentasPedido(pedido));
-        this.mostrarVentanaPrincipal();
-    }
-
-    /**
-     * Muestra la ventana principal
-     */
-    public void mostrarVentanaPrincipal() {
-        DefaultListModel pedidosActuales = new DefaultListModel<>();
-        
-        // Obtiene los pedidos antes de mostrar la ventana principal
-        obtenerDatosPedidos();
-        
-        for (Pedido pedido : listaPedidos) {
-            if(pedido.esActual())
-                pedidosActuales.addElement(pedido);
-        }
-        
-        // Si no esta inicializada la ventana, la inicializa
-        if(this.main == null) {
-            this.main = new FrmPrincipal();
-        }
-        
-        this.main.setListPedidos(pedidosActuales);
-        this.main.setVisible(true);
+        ControlVentanas.getInstance().mostrarVentanaPrincipal();
     }
     
     /**
@@ -324,17 +302,15 @@ public class ControlPedidos {
      * Obtiene los pedidos desde la base de datos para la ventana principal.
      * @return Los pedidos desde la base de datos para la ventana principal.
      */
-    public boolean obtenerDatosPedidos() {
+    public List<Pedido> obtenerDatosPedidos() {
         IPedidoDAO pedidos = new PedidoDAO(new DBConector().getEM());
         
-        listaPedidos = pedidos.obtenerPedidos();
-        
-        if(listaPedidos.isEmpty()) {
-            System.out.println("No hay pedidos.");
-            return false;
+        if(!pedidos.obtenerPedidos().isEmpty()) {
+            pedidos = new PedidoDAO(new DBConector().getEM());
+            return pedidos.obtenerPedidos();
         }
         
-        return true;
+        return new ArrayList<>();
     }
     
     /**
@@ -348,7 +324,7 @@ public class ControlPedidos {
         Cliente cliente = clientes.obten(telefono);
         
         if(cliente == null) {
-            JOptionPane.showMessageDialog(this.frmRealizarPedido, "No se encontró un cliente con este teléfono: " + telefono + "\nUse el formulario para llenar sus datos y cuando realice el pedido se registrará en automático.", "No existe el cliente.", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(ControlVentanas.getInstance().getRealizarPedido(), "No se encontró un cliente con este teléfono: " + telefono + "\nUse el formulario para llenar sus datos y cuando realice el pedido se registrará en automático.", "No existe el cliente.", JOptionPane.ERROR_MESSAGE);
             return null;
         }
         
@@ -365,7 +341,7 @@ public class ControlPedidos {
         Object[] botones = {"Regresar", "Cancelar"};
         
         // Pide confirmación
-        int resp = JOptionPane.showOptionDialog(this.main, "¿Seguro que quiere cancelar el pedido " + id + "?", "Confirmación sobre cancelación", JOptionPane.YES_NO_OPTION, JOptionPane.PLAIN_MESSAGE, null, botones, botones[0]);
+        int resp = JOptionPane.showOptionDialog(ControlVentanas.getInstance().getMain(), "¿Seguro que quiere cancelar el pedido " + id + "?", "Confirmación sobre cancelación", JOptionPane.YES_NO_OPTION, JOptionPane.PLAIN_MESSAGE, null, botones, botones[0]);
         
         if(resp == 1) {
             // Elimina también las ventas relacionadas al pedido
@@ -375,7 +351,7 @@ public class ControlPedidos {
             // Elimina el pedido en la base de datos
             pedidos = new PedidoDAO(new DBConector().getEM());
             pedidos.eliminarPedido(id);
-            this.mostrarVentanaPrincipal();
+            ControlVentanas.getInstance().mostrarVentanaPrincipal();
         }
     }
     

@@ -1,6 +1,7 @@
 package vista;
 
 import control.ControlPedidos;
+import control.ControlVentanas;
 import dominio.Ingrediente;
 import java.awt.Dimension;
 import java.awt.Point;
@@ -13,7 +14,8 @@ import javax.swing.JOptionPane;
  * @author Samuel Vega
  */
 public class DlgPersonalizarProducto extends javax.swing.JDialog {
-    private ControlPedidos c = ControlPedidos.getInstance();
+    private ControlPedidos cPedidos = ControlPedidos.getInstance();
+    private ControlVentanas cVentanas = ControlVentanas.getInstance();
     private List<Ingrediente> ingredientes;
     private int fila;
     
@@ -155,8 +157,8 @@ public class DlgPersonalizarProducto extends javax.swing.JDialog {
         
         JOptionPane.showMessageDialog(this, "Extras agregados correctamente", "Extras agregados!!", JOptionPane.PLAIN_MESSAGE);
         
-        c.agregarIngredientes(nIngredientesSelec, extras.toString(), fila);
-        c.actualizarRealizarPedido();
+        cPedidos.agregarIngredientes(nIngredientesSelec, extras.toString(), fila);
+        cVentanas.actualizarRealizarPedido();
         
         dispose();
     }//GEN-LAST:event_btnAgregarActionPerformed

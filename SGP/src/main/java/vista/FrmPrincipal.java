@@ -1,6 +1,7 @@
 package vista;
 
 import control.ControlPedidos;
+import control.ControlVentanas;
 import control.ControlVentas;
 import dominio.Pedido;
 import java.awt.Dimension;
@@ -17,6 +18,7 @@ import util.enums.TipoPago;
  */
 public class FrmPrincipal extends javax.swing.JFrame {
 
+    ControlVentanas cVentanas = ControlVentanas.getInstance();
     ControlPedidos cPedidos = ControlPedidos.getInstance();
     ControlVentas cVentas = ControlVentas.getInstance();
 
@@ -211,11 +213,6 @@ public class FrmPrincipal extends javax.swing.JFrame {
         menuClientes.add(clientesEliminar);
 
         clientesRevisar.setText("Revisar");
-        clientesRevisar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                clientesRevisarActionPerformed(evt);
-            }
-        });
         menuClientes.add(clientesRevisar);
 
         menuBar.add(menuClientes);
@@ -275,12 +272,8 @@ public class FrmPrincipal extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void clientesRevisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clientesRevisarActionPerformed
-        System.exit(0);
-    }//GEN-LAST:event_clientesRevisarActionPerformed
-
     private void btnRealizarPedidoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRealizarPedidoActionPerformed
-        cPedidos.mostrarRealizarPedido();
+        cVentanas.mostrarRealizarPedido();
         dispose();
     }//GEN-LAST:event_btnRealizarPedidoActionPerformed
 

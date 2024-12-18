@@ -26,11 +26,11 @@ public class IngredientesPorProducto implements Serializable {
     @Column(name = "id", nullable = false)
     private Long id;
     
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_producto", nullable = false)
     private Producto objetoProducto;
     
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_ingrediente", nullable = false)
     private Ingrediente objetoIngrediente;
     

@@ -1,6 +1,7 @@
 package util.tablesButtons;
 
 import control.ControlPedidos;
+import control.ControlVentanas;
 import java.awt.Component;
 import java.awt.GridLayout;
 import javax.swing.AbstractCellEditor;
@@ -17,6 +18,7 @@ import javax.swing.table.TableCellEditor;
  */
 public class CantidadEditor extends AbstractCellEditor implements TableCellEditor {
     private ControlPedidos c = ControlPedidos.getInstance();
+    private ControlVentanas cv = ControlVentanas.getInstance();
     private JPanel panel = new JPanel(new GridLayout(1, 2));
     private JButton btnAumentar = new JButton("+");
     private JButton btnReducir = new JButton("-");
@@ -35,7 +37,7 @@ public class CantidadEditor extends AbstractCellEditor implements TableCellEdito
             cantidad++;
             lblCantidad.setText(String.valueOf(cantidad));
             c.actualizarCantidadPedido(+1, fila);
-            c.actualizarRealizarPedido();
+            cv.actualizarRealizarPedido();
             fireEditingStopped(); // Asegura que el editor termine de editar
         });
         
@@ -45,7 +47,7 @@ public class CantidadEditor extends AbstractCellEditor implements TableCellEdito
                 cantidad--;
                 lblCantidad.setText(String.valueOf(cantidad));
                 c.actualizarCantidadPedido(-1, fila);
-                c.actualizarRealizarPedido();
+                cv.actualizarRealizarPedido();
                 fireEditingStopped();
             }
         });

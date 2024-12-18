@@ -5,10 +5,10 @@
 package vista;
 
 import control.ControlPedidos;
+import control.ControlVentanas;
 import control.ControlVentas;
 import dominio.Cliente;
 import dominio.Venta;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
 import javax.swing.table.DefaultTableModel;
@@ -17,6 +17,7 @@ import javax.swing.table.TableColumnModel;
 public class FrmRevisarVentas extends javax.swing.JFrame {
     ControlVentas cVentas = ControlVentas.getInstance();
     ControlPedidos cPedidos = ControlPedidos.getInstance();
+    ControlVentanas cVentanas = ControlVentanas.getInstance();
     private DefaultTableModel tableModel;
 
     public FrmRevisarVentas() {
@@ -134,11 +135,11 @@ public class FrmRevisarVentas extends javax.swing.JFrame {
 
     private void btnRegresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegresarActionPerformed
         dispose();
-        cPedidos.mostrarVentanaPrincipal();
+        cVentanas.mostrarVentanaPrincipal();
     }//GEN-LAST:event_btnRegresarActionPerformed
 
     private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
-        cPedidos.mostrarVentanaPrincipal();
+        cVentanas.mostrarVentanaPrincipal();
     }//GEN-LAST:event_formWindowClosed
 
     private void btnFiltrosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFiltrosActionPerformed

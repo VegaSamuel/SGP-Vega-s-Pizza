@@ -1,6 +1,7 @@
 package vista;
 
 import control.ControlPedidos;
+import control.ControlVentanas;
 import dominio.Cliente;
 import dominio.Pedido;
 import java.awt.Dimension;
@@ -24,7 +25,8 @@ import util.tablesButtons.CantidadRenderer;
  * @author Samuel Vega
  */
 public class FrmRealizarPedido extends javax.swing.JFrame {
-    ControlPedidos c = ControlPedidos.getInstance();
+    ControlPedidos cPedidos = ControlPedidos.getInstance();
+    ControlVentanas cVentanas = ControlVentanas.getInstance();
     Cliente cliente;
     DefaultComboBoxModel<String> cbxPagos;
     
@@ -428,11 +430,11 @@ public class FrmRealizarPedido extends javax.swing.JFrame {
         this.btnBuscar.setEnabled(false);
         
         dispose();
-        c.mostrarVentanaPrincipal();
+        cVentanas.mostrarVentanaPrincipal();
     }//GEN-LAST:event_btnRegresarActionPerformed
 
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
-        cliente = c.buscarCliente(txtTelefono.getText());
+        cliente = cPedidos.buscarCliente(txtTelefono.getText());
         
         if(cliente != null) {
             this.txtNombre.setText(cliente.getNombres());
@@ -443,7 +445,7 @@ public class FrmRealizarPedido extends javax.swing.JFrame {
     }//GEN-LAST:event_btnBuscarActionPerformed
 
     private void btnAnhadirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAnhadirActionPerformed
-        c.mostrarAgregarProducto(this);
+        cPedidos.mostrarAgregarProducto(this);
     }//GEN-LAST:event_btnAnhadirActionPerformed
 
     private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
@@ -454,7 +456,7 @@ public class FrmRealizarPedido extends javax.swing.JFrame {
         this.txtDireccion.setText("");
         this.btnBuscar.setEnabled(false);
         
-        c.mostrarVentanaPrincipal();
+        cVentanas.mostrarVentanaPrincipal();
     }//GEN-LAST:event_formWindowClosed
 
     private void btnCalcularEnvioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCalcularEnvioActionPerformed
@@ -462,7 +464,7 @@ public class FrmRealizarPedido extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "No ha introducido ni una dirección para calcular el envío", "Error!!", JOptionPane.ERROR_MESSAGE);
         }else {
             try {
-                c.calcularCostoEnvio(this.txtDireccion.getText());
+                cPedidos.calcularCostoEnvio(this.txtDireccion.getText());
             } catch (IOException ioe) {
                 System.out.println(ioe.getMessage());
             } catch (InterruptedException ie) {
@@ -513,8 +515,8 @@ public class FrmRealizarPedido extends javax.swing.JFrame {
                 TipoPago.valueOf(this.cbxTipoPago.getSelectedItem().toString())
             );
         
-        c.realizarPedido(cliente, pedido);
-        c.mostrarVentanaPrincipal();
+        cPedidos.realizarPedido(cliente, pedido);
+        cVentanas.mostrarVentanaPrincipal();
         dispose();
     }//GEN-LAST:event_btnRealizarPedidoActionPerformed
 

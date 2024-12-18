@@ -1,6 +1,6 @@
 package main;
 
-import control.ControlPedidos;
+import control.ControlVentanas;
 
 /**
  * Clase principal del sistema SGP Vega's Pizza
@@ -9,7 +9,6 @@ import control.ControlPedidos;
 public class SGP {
 
     public static void main(String[] args) { 
-        ControlPedidos c = ControlPedidos.getInstance();
-        c.mostrarVentanaPrincipal();
+        ControlVentanas.getInstance().mostrarVentanaPrincipal();
     }
 }

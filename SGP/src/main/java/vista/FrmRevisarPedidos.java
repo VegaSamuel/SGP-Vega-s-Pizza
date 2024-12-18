@@ -5,6 +5,7 @@
 package vista;
 
 import control.ControlPedidos;
+import control.ControlVentanas;
 import dominio.Cliente;
 import dominio.Pedido;
 import java.text.SimpleDateFormat;
@@ -19,7 +20,8 @@ import javax.swing.table.TableColumnModel;
  */
 public class FrmRevisarPedidos extends javax.swing.JFrame {
 
-    ControlPedidos c = ControlPedidos.getInstance();
+    ControlPedidos cPedidos = ControlPedidos.getInstance();
+    ControlVentanas cVentanas = ControlVentanas.getInstance();
     private DefaultTableModel tableModel;
 
     /**
@@ -147,17 +149,17 @@ public class FrmRevisarPedidos extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnFiltroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFiltroActionPerformed
-        c.mostrarSelectorFechas();
+        cPedidos.mostrarSelectorFechas();
     }//GEN-LAST:event_btnFiltroActionPerformed
 
     private void btnRegresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegresarActionPerformed
         crearTabla();
-        c.mostrarVentanaPrincipal();
+        cVentanas.mostrarVentanaPrincipal();
         this.dispose();
     }//GEN-LAST:event_btnRegresarActionPerformed
 
     private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
-        c.mostrarVentanaPrincipal();
+        cVentanas.mostrarVentanaPrincipal();
     }//GEN-LAST:event_formWindowClosed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -175,7 +177,7 @@ public class FrmRevisarPedidos extends javax.swing.JFrame {
 
         this.tblPedidos.setModel(tableModel);
 
-        List<Pedido> pedidos = c.obtenerPedidos();
+        List<Pedido> pedidos = cPedidos.obtenerPedidos();
 
         for (Pedido pedido : pedidos) {
             Calendar fecha = pedido.getFecha();
@@ -212,7 +214,7 @@ public class FrmRevisarPedidos extends javax.swing.JFrame {
 
         this.tblPedidos.setModel(tableModel);
 
-        List<Pedido> pedidos = c.obtenerPedidosFiltro(fechaInicio, fechaFin);
+        List<Pedido> pedidos = cPedidos.obtenerPedidosFiltro(fechaInicio, fechaFin);
 
         SimpleDateFormat formatoFecha = new SimpleDateFormat("yyyy-MM-dd");
 

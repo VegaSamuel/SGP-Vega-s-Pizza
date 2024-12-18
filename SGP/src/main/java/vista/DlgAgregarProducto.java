@@ -1,6 +1,7 @@
 package vista;
 
 import control.ControlPedidos;
+import control.ControlVentanas;
 import dominio.Producto;
 import java.awt.Dimension;
 import java.awt.Point;
@@ -20,7 +21,8 @@ import javax.swing.JTextField;
 public class DlgAgregarProducto extends javax.swing.JDialog {
     private DefaultListModel<String> modeloLista;
     private List<Producto> productos;
-    private ControlPedidos c = ControlPedidos.getInstance();
+    private ControlPedidos cPedidos = ControlPedidos.getInstance();
+    private ControlVentanas cVentanas = ControlVentanas.getInstance();
     private JTextField txtActual;
     
     /**
@@ -252,8 +254,8 @@ public class DlgAgregarProducto extends javax.swing.JDialog {
             
             JOptionPane.showMessageDialog(this, "Se agregó correctamente el producto " + productoAgregado.getNombre() + " al pedido.", "Agregado exitoso", JOptionPane.PLAIN_MESSAGE);
 
-            c.agregarProducto(productoAgregado);
-            c.actualizarRealizarPedido();
+            cPedidos.agregarProducto(productoAgregado);
+            cVentanas.actualizarRealizarPedido();
             dispose();
         }else {
             JOptionPane.showMessageDialog(this, "No se encontró el producto: " + txtBuscar.getText() + "\nAsegurese de que el producto que eligió se haya puesto en la caja de texto.", "Error!!", JOptionPane.ERROR_MESSAGE);
