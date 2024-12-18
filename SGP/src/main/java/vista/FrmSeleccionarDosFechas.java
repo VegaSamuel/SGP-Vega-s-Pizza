@@ -2,11 +2,13 @@ package vista;
 
 import com.toedter.calendar.JDateChooser;
 import control.ControlPedidos;
+import control.ControlVentanas;
 import control.ControlVentas;
 import java.util.Calendar;
 import javax.swing.JOptionPane;
 
 public class FrmSeleccionarDosFechas extends javax.swing.JFrame {
+    private ControlVentanas cVentanas = ControlVentanas.getInstance();
     private ControlPedidos cPedidos = ControlPedidos.getInstance();
     private ControlVentas cVentas = ControlVentas.getInstance();
     private JDateChooser dateChooserInicio;
@@ -58,7 +60,7 @@ public class FrmSeleccionarDosFechas extends javax.swing.JFrame {
             if (fechaInicio.before(fechaFin)) {
 
                 if(this.redireccionVentana == 1){  
-                cPedidos.mostrarRevisarPedidos(fechaInicio, fechaFin);
+                cVentanas.mostrarRevisarPedidos(fechaInicio, fechaFin);
                 }
                 
                 else if(this.redireccionVentana == 2){ 

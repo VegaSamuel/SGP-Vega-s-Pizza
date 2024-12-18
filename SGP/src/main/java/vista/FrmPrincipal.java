@@ -279,7 +279,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
 
     private void btnRevisarPedidoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRevisarPedidoActionPerformed
         dispose();
-        cPedidos.mostrarRevisarPedidos();
+        cVentanas.mostrarRevisarPedidos();
     }//GEN-LAST:event_btnRevisarPedidoActionPerformed
 
     private void btn_cancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_cancelarActionPerformed

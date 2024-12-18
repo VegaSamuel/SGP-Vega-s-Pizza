@@ -14,7 +14,6 @@ import interfaces.IIngredienteDAO;
 import interfaces.IPedidoDAO;
 import interfaces.IProductoDAO;
 import interfaces.IVentaDAO;
-import java.awt.Frame;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -24,21 +23,17 @@ import util.CalculoEnvio;
 import util.CalculoMetrosEnvio;
 import util.DBConector;
 import util.enums.EstadoPedidos;
-import vista.DlgAgregarProducto;
-import vista.DlgPersonalizarProducto;
 import vista.FrmRevisarPedidos;
 import vista.FrmSeleccionarDosFechas;
 
 /**
- * Clase que lleva el control de la aplicación.
+ * Clase que lleva el control de los pedidos en la aplicación.
  * @author Samuel Vega & Pedro Moya & Juan Sánchez
  */
 public class ControlPedidos {
     // Instancia única de la clase
     private static ControlPedidos instancia;
     
-    private DlgAgregarProducto dlgAgregarProducto;
-    private DlgPersonalizarProducto dlgPersonalizarProducto;
     private FrmRevisarPedidos frmRevisarPedidos;
     private FrmSeleccionarDosFechas frmSeleccionarFechas;
     
@@ -171,33 +166,21 @@ public class ControlPedidos {
     }
     
     /**
-     * Muestra el cuadro de diálogo para agregar productos al pedido.
-     * @param frame Ventana que pide abrir el cuadro de diálogo.
+     * Regresa la lista de productos en la base de datos.
+     * @return La lista de productos en la base de datos.
      */
-    public void mostrarAgregarProducto(Frame frame) {
+    public List<Producto> obtenerListaProductos() {
         IProductoDAO productos = new ProductoDAO(new DBConector().getEM());
-        List<Producto> listaProductos = productos.obtenerProductos();
-        
-        this.dlgAgregarProducto = new DlgAgregarProducto(frame, false, listaProductos);
-        this.dlgAgregarProducto.setVisible(true);
+        return productos.obtenerProductos();
     }
     
     /**
-     * Muestra el cuadro de diálogo para personalizar un pedido.
+     * Regresa la lista de ingredientes en la base de datos.
+     * @return La lista de ingredientes en la base de datos.
      */
-    public void mostrarPersonalizarProducto() {
+    public List<Ingrediente> obtenerListaIngredientes() {
         IIngredienteDAO ingredientes = new IngredienteDAO(new DBConector().getEM());
-        
-        List<Ingrediente> listaIngredientes = ingredientes.obtenerIngredientes();
-        
-        // Si no hay ingredientes para agregar al pedido, se anuncia y se cancela la operación
-        if(listaIngredientes.isEmpty()) {
-            JOptionPane.showMessageDialog(ControlVentanas.getInstance().getRealizarPedido(), "No hay ingredientes que seleccionar.", "No hay ingredientes", JOptionPane.ERROR_MESSAGE);
-            return;
-        }
-        
-        this.dlgPersonalizarProducto = new DlgPersonalizarProducto(ControlVentanas.getInstance().getRealizarPedido(), false, listaIngredientes);
-        this.dlgPersonalizarProducto.setVisible(true);
+        return ingredientes.obtenerIngredientes();
     }
     
     /**
@@ -381,47 +364,9 @@ public class ControlPedidos {
     public void mostrarSelectorFechas(){
         if(this.frmSeleccionarFechas == null) {
             this.frmSeleccionarFechas = new FrmSeleccionarDosFechas(1);
-            
         }
-        
         
         this.frmSeleccionarFechas.setVisible(true);
-        
-    }
-    
-    /**
-     * Muestra la ventana de revisar pedidos.
-     */
-    public void mostrarRevisarPedidos(){
-        if(this.frmRevisarPedidos == null) {
-            this.frmRevisarPedidos = new FrmRevisarPedidos();
-        }
-        
-        frmRevisarPedidos.crearTabla();
-        frmRevisarPedidos.setVisible(true);
-    }
-    
-     /**
-     * Muestra la ventana de revisar pedidos con filtro.
-     * @param fechaInicio
-     * @param fechaFin
-     */
-    public void mostrarRevisarPedidos(Calendar fechaInicio, Calendar fechaFin){
-        if(this.frmRevisarPedidos == null) {
-            this.frmRevisarPedidos = new FrmRevisarPedidos();
-        }
-        
-        frmRevisarPedidos.crearTabla(fechaInicio, fechaFin);
-        frmRevisarPedidos.setVisible(true);
-    }   
-    
-    /**
-     * Actualiza el periodo seleccionado para mostrar en la tabla de pedidos.
-     * @param fechaInicio Fecha de inicio para buscar pedidos.
-     * @param fechaFinal Fecha final para buscar pedidos.
-     */
-    public void actualizarPeriodoPedidos(Calendar fechaInicio, Calendar fechaFinal) {
-        this.frmRevisarPedidos.setPeriodo(fechaInicio, fechaFinal);
     }
     
     /**
@@ -457,6 +402,6 @@ public class ControlPedidos {
      * @param fila Fila del producto que se quiere personalizar en la tabla.
      */
     public void setFilaPersonalizar(int fila) {
-        this.dlgPersonalizarProducto.setFila(fila);
+        ControlVentanas.getInstance().getPerzonalizarPedido().setFila(fila);
     }
 }

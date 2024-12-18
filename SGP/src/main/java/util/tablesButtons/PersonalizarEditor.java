@@ -1,19 +1,20 @@
 package util.tablesButtons;
 
 import control.ControlPedidos;
+import control.ControlVentanas;
 import java.awt.Component;
 import javax.swing.DefaultCellEditor;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JTable;
-import vista.DlgPersonalizarProducto;
 
 /**
  *
  * @author Samuel Vega
  */
 public class PersonalizarEditor extends DefaultCellEditor {
-    private ControlPedidos c = ControlPedidos.getInstance();
+    private ControlPedidos cPedidos = ControlPedidos.getInstance();
+    private ControlVentanas cVentanas = ControlVentanas.getInstance();
     private JButton boton;
     private String nombreBoton;
     private boolean clicked;
@@ -25,8 +26,8 @@ public class PersonalizarEditor extends DefaultCellEditor {
         boton.setOpaque(true);
         
         boton.addActionListener(e -> {
-            c.mostrarPersonalizarProducto();
-            c.setFilaPersonalizar(fila);
+            cVentanas.mostrarPersonalizarProducto();
+            cPedidos.setFilaPersonalizar(fila);
         });
     }
     

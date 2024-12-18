@@ -11,18 +11,16 @@ import javax.swing.JOptionPane;
 import util.DBConector;
 import util.enums.EstadoVentas;
 import util.enums.TipoPago;
-import vista.FrmPrincipal;
 import vista.FrmRevisarVentas;
 import vista.FrmSeleccionarDosFechas;
 
 /**
- *
+ * Clase que lleva el control de ventas en la aplicación.
  * @author Samuel Vega
  */
 public class ControlVentas {
     private static ControlVentas instancia;
     
-    private FrmPrincipal main;
     private FrmRevisarVentas frmRevisarVentas;
     private FrmSeleccionarDosFechas frmSeleccionarFechas;
     

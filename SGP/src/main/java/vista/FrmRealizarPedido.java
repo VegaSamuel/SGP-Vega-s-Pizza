@@ -445,7 +445,7 @@ public class FrmRealizarPedido extends javax.swing.JFrame {
     }//GEN-LAST:event_btnBuscarActionPerformed
 
     private void btnAnhadirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAnhadirActionPerformed
-        cPedidos.mostrarAgregarProducto(this);
+        cVentanas.mostrarAgregarProducto(this);
     }//GEN-LAST:event_btnAnhadirActionPerformed
 
     private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
