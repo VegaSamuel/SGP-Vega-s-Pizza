@@ -1,5 +1,6 @@
 package util;
 
+import dominio.Cliente;
 import dominio.Producto;
 import java.util.List;
 import javax.swing.table.DefaultTableModel;
@@ -9,7 +10,8 @@ import javax.swing.table.DefaultTableModel;
  * @author Samuel Vega
  */
 public class Conversiones {
-    private String columnasProductosPedido[] = {"Cantidad", "Producto", "Precio", ""};
+    private final String columnasProductosPedido[] = {"Cantidad", "Producto", "Precio", ""};
+    private final String columnasClientes[] = {"ID", "Nombres", "Apellido Paterno", "Apellido Materno", "Teléfono", "Dirección"};
     
     public DefaultTableModel productosPedidoModel(List<Producto> productos, List<Integer> cantidadProducto) {
         Object tabla[][];
@@ -23,6 +25,25 @@ public class Conversiones {
                 tabla[i][3] = "Personalizar";
             }
             return new DefaultTableModel(tabla, columnasProductosPedido);
+        }
+        
+        return null;
+    }
+    
+    public DefaultTableModel clientesModel(List<Cliente> clientes) {
+        Object tabla[][];
+        
+        if(clientes != null) {
+            tabla = new Object[clientes.size()][6];
+            for(int i = 0; i < clientes.size(); i++) {
+                tabla[i][0] = clientes.get(i).getId();
+                tabla[i][1] = clientes.get(i).getNombres();
+                tabla[i][2] = clientes.get(i).getApellidoPaterno();
+                tabla[i][3] = clientes.get(i).getApellidoMaterno();
+                tabla[i][4] = clientes.get(i).getTelefono();
+                tabla[i][5] = clientes.get(i).getDireccion();
+            }
+            return new DefaultTableModel(tabla, columnasClientes);
         }
         
         return null;

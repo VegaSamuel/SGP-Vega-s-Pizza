@@ -9,6 +9,7 @@ import java.awt.Toolkit;
 import javax.swing.JOptionPane;
 import javax.swing.ListModel;
 import util.enums.EstadoPedidos;
+import util.enums.Operaciones;
 import util.enums.TipoPago;
 
 /**
@@ -79,11 +80,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
         menuBar = new javax.swing.JMenuBar();
         menuClientes = new javax.swing.JMenu();
         clientesAgregar = new javax.swing.JMenuItem();
-        clientesModificar = new javax.swing.JMenuItem();
-        clientesEliminar = new javax.swing.JMenuItem();
         clientesRevisar = new javax.swing.JMenuItem();
-        menuInventario = new javax.swing.JMenu();
-        inventarioInventariar = new javax.swing.JMenuItem();
         menuProductos = new javax.swing.JMenu();
         productosAgregar = new javax.swing.JMenuItem();
         productosModificar = new javax.swing.JMenuItem();
@@ -94,6 +91,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
         promocionesModificar = new javax.swing.JMenuItem();
         promocionesEliminar = new javax.swing.JMenuItem();
         promocionesRevisar = new javax.swing.JMenuItem();
+        menuInventario = new javax.swing.JMenu();
 
         jLabel1.setText("jLabel1");
 
@@ -168,13 +166,13 @@ public class FrmPrincipal extends javax.swing.JFrame {
                     .addComponent(btnRealizarPedido, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnRevisarVentas, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnRevisarPedido, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 198, Short.MAX_VALUE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGap(36, 36, 36)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(btnRegistrarVenta)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnEnviarPedido))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 396, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 558, Short.MAX_VALUE))
                 .addGap(24, 24, 24))
         );
         jPanel1Layout.setVerticalGroup(
@@ -183,9 +181,9 @@ public class FrmPrincipal extends javax.swing.JFrame {
                 .addGap(12, 12, 12)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 455, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnRegistrarVenta)
-                    .addComponent(btnEnviarPedido))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnEnviarPedido)
+                    .addComponent(btnRegistrarVenta))
                 .addGap(20, 37, Short.MAX_VALUE))
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(29, 29, 29)
@@ -204,25 +202,22 @@ public class FrmPrincipal extends javax.swing.JFrame {
         menuClientes.setText("Clientes");
 
         clientesAgregar.setText("Agregar");
+        clientesAgregar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                clientesAgregarActionPerformed(evt);
+            }
+        });
         menuClientes.add(clientesAgregar);
 
-        clientesModificar.setText("Modificar");
-        menuClientes.add(clientesModificar);
-
-        clientesEliminar.setText("Eliminar");
-        menuClientes.add(clientesEliminar);
-
         clientesRevisar.setText("Revisar");
+        clientesRevisar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                clientesRevisarActionPerformed(evt);
+            }
+        });
         menuClientes.add(clientesRevisar);
 
         menuBar.add(menuClientes);
-
-        menuInventario.setText("Inventario");
-
-        inventarioInventariar.setText("Inventariar");
-        menuInventario.add(inventarioInventariar);
-
-        menuBar.add(menuInventario);
 
         menuProductos.setText("Productos");
 
@@ -255,6 +250,9 @@ public class FrmPrincipal extends javax.swing.JFrame {
         menuPromociones.add(promocionesRevisar);
 
         menuBar.add(menuPromociones);
+
+        menuInventario.setText("Inventario");
+        menuBar.add(menuInventario);
 
         setJMenuBar(menuBar);
 
@@ -345,6 +343,16 @@ public class FrmPrincipal extends javax.swing.JFrame {
         dispose();
         cVentas.mostrarRevisarVentas();
     }//GEN-LAST:event_btnRevisarVentasActionPerformed
+
+    private void clientesRevisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clientesRevisarActionPerformed
+        dispose();
+        cVentanas.mostrarRevisarClientes();
+    }//GEN-LAST:event_clientesRevisarActionPerformed
+
+    private void clientesAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clientesAgregarActionPerformed
+        dispose();
+        cVentanas.mostrarAgregarClientes(this, null, Operaciones.AGREGAR);
+    }//GEN-LAST:event_clientesAgregarActionPerformed
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnEnviarPedido;
@@ -354,10 +362,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
     private javax.swing.JButton btnRevisarVentas;
     private javax.swing.JButton btn_cancelar;
     private javax.swing.JMenuItem clientesAgregar;
-    private javax.swing.JMenuItem clientesEliminar;
-    private javax.swing.JMenuItem clientesModificar;
     private javax.swing.JMenuItem clientesRevisar;
-    private javax.swing.JMenuItem inventarioInventariar;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JPanel jPanel1;

@@ -1,16 +1,20 @@
 package control;
 
+import dominio.Cliente;
 import dominio.Pedido;
 import java.awt.Frame;
 import java.util.Calendar;
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
 import util.Conversiones;
+import util.enums.Operaciones;
 import vista.DlgAgregarProducto;
 import vista.DlgPersonalizarProducto;
 import vista.FrmPrincipal;
 import vista.FrmRealizarPedido;
 import vista.FrmRevisarPedidos;
+import vista.menu.DlgClientes;
+import vista.menu.FrmClientes;
 
 /**
  * Esta clase lleva el control de las ventanas del sistema.
@@ -26,6 +30,8 @@ public class ControlVentanas {
     private DlgAgregarProducto dlgAgregarProducto;
     private DlgPersonalizarProducto dlgPersonalizarProducto;
     private FrmRevisarPedidos frmRevisarPedidos;
+    private FrmClientes frmClientes;
+    private DlgClientes dlgClientes;
     
     private ControlVentanas() { }
     
@@ -137,8 +143,8 @@ public class ControlVentanas {
             this.frmRevisarPedidos = new FrmRevisarPedidos();
         }
         
-        frmRevisarPedidos.crearTabla();
-        frmRevisarPedidos.setVisible(true);
+        this.frmRevisarPedidos.crearTabla();
+        this.frmRevisarPedidos.setVisible(true);
     }
     
      /**
@@ -151,8 +157,8 @@ public class ControlVentanas {
             this.frmRevisarPedidos = new FrmRevisarPedidos();
         }
         
-        frmRevisarPedidos.crearTabla(fechaInicio, fechaFin);
-        frmRevisarPedidos.setVisible(true);
+        this.frmRevisarPedidos.crearTabla(fechaInicio, fechaFin);
+        this.frmRevisarPedidos.setVisible(true);
     }   
     
     /**
@@ -162,6 +168,23 @@ public class ControlVentanas {
      */
     public void actualizarPeriodoPedidos(Calendar fechaInicio, Calendar fechaFinal) {
         this.frmRevisarPedidos.setPeriodo(fechaInicio, fechaFinal);
+    }
+    
+    public void mostrarRevisarClientes() {
+        if(this.frmClientes == null) {
+            this.frmClientes = new FrmClientes();
+        }
+        
+        Conversiones con = new Conversiones();
+        
+        this.frmClientes.desplegarTabla(con.clientesModel(ControlClientes.getInstance().obtenerClientes()));
+        this.frmClientes.volverClientes();
+        this.frmClientes.setVisible(true);
+    }
+    
+    public void mostrarAgregarClientes(Frame frame, Cliente cliente, Operaciones operacion) {
+        this.dlgClientes = new DlgClientes(frame, false, operacion, cliente);
+        this.dlgClientes.setVisible(true);
     }
     
     //Getters
@@ -183,5 +206,13 @@ public class ControlVentanas {
     
     public FrmRevisarPedidos getRevisarPedidos() {
         return this.frmRevisarPedidos;
+    }
+    
+    public FrmClientes getFrmClientes() {
+        return this.frmClientes;
+    }
+    
+    public DlgClientes getDlgClientes() {
+        return this.dlgClientes;
     }
 }
